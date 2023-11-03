@@ -16,7 +16,7 @@
 <body>
     <h1 class="domiTit"><del>DO  MI </del> Nation </h1>
     <h2 class="fuentePrinc centrarEnPag">Ingresar con tus datos</h2>
-    <form name="form3" action="login" method="post" >
+    <form action="ingresar" method="post" >
         <div class= "centrarEnPag" >
 
             <label class="fuenteMin" for="user">Usuario:</label> <input type="text" id="user" name="user">

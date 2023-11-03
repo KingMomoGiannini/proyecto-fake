@@ -5,36 +5,57 @@
 package domination.mvc.servlets;
 
 
+import domination.mvc.model.Usuario;
+import domination.DAO.UsuarioDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
  *
  * @author giann
  */
-@WebServlet(name = "LoginServlet", value = "/ingresar")
 public class LoginServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ////        super.doPost(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-        //Error 405 - Generado por el objeto super.doPost
-        String email = req.getParameter("email");
-        String password = req.getParameter("pass");
-        System.out.println(email);
-        System.out.println(password);
-    }
-
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        super.doGet(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-        //Error 405 - Generado por el objeto super.doGet
 
-        req.getRequestDispatcher("pages/login.jsp").forward(req, resp);//redirige el servlet a el JSP del form.
-        //req.getRequestDispatcher("css/estiloReg.css").forward(req, resp); <-- no sirve.
+        try{
+           req.getRequestDispatcher("pages/login.jsp").forward(req, resp);//redirige el servlet a el JSP del form.        
+        }
+        catch (Exception ex){
+            resp.sendError(500,"no anda bien esto eh\n"+ ex.getMessage());
+        }
+
+    }    
+    
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String user = req.getParameter("user");
+        String password = req.getParameter("pass");
+        System.out.println(user);
+        System.out.println(password);
+        
+        Usuario elUser = new UsuarioDAO().userFake(user, password);
+        
+        if (elUser != null) {//Si el user existe
+            //Ligamos el user a la sesion
+            HttpSession laSesion = req.getSession(); //Creamos una sesion
+            laSesion.setMaxInactiveInterval(1000); //Le damos un maximo de tiempo en segundos
+            laSesion.setAttribute("userLogueado",elUser);//
+            resp.sendRedirect(req.getContextPath()+"/inicio");
+
+        } else { //Sino mostramos el mensaje de error
+            req.setAttribute("hayError", true);//Si hay un error
+            req.setAttribute("mensajeError", "Credenciales incorrectas pelotudo");//Este sera el mensaje de error 
+            doGet(req,resp);
+            
+        }
+        
     }
 }

@@ -16,8 +16,20 @@
         <servlet-name>registroServlet</servlet-name>
         <url-pattern>/registrarse</url-pattern> 
     </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>domination.mvc.servlets.LoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>registroServlet</servlet-name>
-        <url-pattern>/registrarse/felicitacion</url-pattern> 
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/ingresar</url-pattern> 
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>BienvenidaServlet</servlet-name>
+        <servlet-class>domination.mvc.servlets.BienvenidaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BienvenidaServlet</servlet-name>
+        <url-pattern>/inicio</url-pattern> 
     </servlet-mapping>
 </web-app>

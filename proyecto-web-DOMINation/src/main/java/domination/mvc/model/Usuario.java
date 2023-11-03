@@ -8,7 +8,7 @@ package domination.mvc.model;
  *
  * @author giann
  */
-public abstract class Usuario {
+public class Usuario {
     private int id;
     private String nomUsuario;
     private String nombre;
@@ -17,6 +17,10 @@ public abstract class Usuario {
     private String password;
     private String celular;
     private Domicilio dom;
+
+    public Usuario(String nomUsuario, String nombre, String apellido, String email, String password, String celular, Domicilio dom) {
+        this(0, nomUsuario, nombre, apellido, email, password, celular, dom);
+    }
 
     public Usuario(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular, Domicilio dom) {
         this.id = id;
@@ -48,5 +52,9 @@ public abstract class Usuario {
     public String getPassword() {
         return password;
     } 
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
 }

@@ -4,6 +4,7 @@
     Author     : giann
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,11 +14,13 @@
     <title>inicio</title>
 </head>
 <body>
+    <c:import url ="navbar.jsp" />
     <div class="elcontainer">
         <div class="container-inicial">
-            <h1>Bienvenido/a ${param.nomCliente}</h1>
+            <h1>Bienvenido/a ${userLogueado.nombre}</h1>
         </div>
-        <div><!--contenedor que mantendrá objetos de tipo salasDeEnsayo -->
+        <%-- <c:if test="${userLogueado}"> si el user logueado no es un admin --%>
+        <div><%--contenedor que mantendrá objetos de tipo salasDeEnsayo --%>
             
         </div>
     </div>

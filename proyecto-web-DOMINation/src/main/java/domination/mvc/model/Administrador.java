@@ -8,9 +8,9 @@ package domination.mvc.model;
  *
  * @author giann
  */
-public class UsuarioCliente extends Usuario {
+public class Administrador extends Usuario {
 
-    public UsuarioCliente(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular, Domicilio dom) {
+    public Administrador(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular, Domicilio dom) {
         super(id, nomUsuario, nombre, apellido, email, password, celular, dom);
         
     }
