@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="css/inicio.css">
     <title>inicio</title>
 </head>
+<c:import url ="../navbar.jsp" />
 <body>
-    <c:import url ="navbar.jsp" />
+
     <div class="elcontainer">
         <div class="container-inicial">
             <h1>Bienvenido/a ${userLogueado.nombre}</h1>
@@ -24,5 +25,7 @@
             
         </div>
     </div>
+
 </body>
+<c:import url ="../footer.jsp" />
 </html>

@@ -12,14 +12,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Domination</title>   
-        <link rel="stylesheet" href="css/navbar.css">
-        <link rel="stylesheet" href="css/slider.css">
-        <link rel="stylesheet" href="css/footer.css">
     </head>
     <c:import url ="navbar.jsp" />
     <body>
         <c:import url="pages/slider.html"/>
-        
     </body>
     <c:import url ="footer.jsp" /> 
 </html> <%-- --%>

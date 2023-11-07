@@ -17,6 +17,7 @@ public class Usuario {
     private String password;
     private String celular;
     private Domicilio dom;
+    private int idAdmin;
 
     public Usuario(String nomUsuario, String nombre, String apellido, String email, String password, String celular, Domicilio dom) {
         this(0, nomUsuario, nombre, apellido, email, password, celular, dom);
@@ -33,14 +34,6 @@ public class Usuario {
         this.dom = dom;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-    
-    public void setDomicilio(Domicilio elDom){
-        dom = elDom;
-    }
-
     public int getId() {
         return id;
     }
@@ -49,12 +42,31 @@ public class Usuario {
         return nomUsuario;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public String getPassword() {
         return password;
-    } 
+    }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getCelular() {
+        return celular;
+    }
+
+    public Domicilio getDom() {
+        return dom;
     }
     
+    public int getIdAdmin(){
+        return Administrador.getId();
+    }
 }

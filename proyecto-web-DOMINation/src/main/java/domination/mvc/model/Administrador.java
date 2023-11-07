@@ -4,15 +4,35 @@
  */
 package domination.mvc.model;
 
+
 /**
  *
  * @author giann
  */
-public class Administrador extends Usuario {
+public abstract class Administrador {
 
-    public Administrador(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular, Domicilio dom) {
-        super(id, nomUsuario, nombre, apellido, email, password, celular, dom);
-        
+    private static final int ID = 1;
+    private String nomUsuario;
+    private String password;
+    
+    public Administrador(int id, String nomUsuario, String password) {
+        this.nomUsuario = nomUsuario;
+        this.password = password;
+    }
+
+    public static int getId() {
+        return ID;
+    }
+
+    public String getNomUsuario() {
+        return nomUsuario;
+    }
+
+    @Override
+    public String toString() {
+        return "Administrador{" + "id=" + ID + ", nomUsuario=" + nomUsuario + '}';
     }
     
+    
+       
 }

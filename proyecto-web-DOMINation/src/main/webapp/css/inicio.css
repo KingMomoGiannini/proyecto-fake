@@ -1,15 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
 
-*{
+/**{
     box-sizing: border-box;
-}
+}*/
 
 body{
     max-width: 2000px;
     margin: auto;
     background-color: black;
-    display: flex;
 }
 
 .elcontainer{ 
@@ -37,21 +36,11 @@ body{
 
 } 
 
-/*.container-inicial h1{/*titulo de bienvenida con fondo
-    font-family: 'Bahiana', cursive;
-    font-size: 50px;
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}*/
-
 .container-inicial h1{/*titulo de bienvenida con fondo oscuro*/
     font-family: 'Bahiana', cursive;
     font-size: 50px;
     color: white;
     text-align: center;
-
     padding: 0;
     background-color: rgba(0, 0, 0, 0.8);
     width: 100%;

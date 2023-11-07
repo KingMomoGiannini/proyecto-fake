@@ -13,8 +13,7 @@ import java.util.List;
 public interface DAO<T, K> {
    List<T> getAll() throws Exception;
    void create(T elObjeto)throws Exception;
-   void add(T elObjeto)throws Exception;
    void update(T elObjeto)throws Exception;
    void delete(K elId)throws Exception;
-   //T getByID(K elId) throws Exception;
+   T getByID(K elId) throws Exception;
 }

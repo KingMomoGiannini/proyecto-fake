@@ -23,35 +23,39 @@
             </div><br>
     
             <div class="form-container"> 
-                <h2 class="fuentePrinc">Registrate completando los datos solicitados</h2>
-                <form action="registrarse" method="POST" >
-                    <h3 class="fuentePrincFondo">Datos Personales</h3><br>
+            <h2 class="fuentePrinc">Registrate completando los datos solicitados</h2>
+            <form action="registrarse" method="POST" >
+                <h3 class="fuentePrincFondo">Datos Personales</h3>
+                <div class="inter-texto">
                     <label class="fuenteMin" for="name">Nombre:</label> <input class="text-box-ajuste" type="text" name="nomCliente" id="nombre">
                     <label class="fuenteMin" for="last-name">Apellido:</label> <input class="text-box-ajuste" type="text" id="apellido" name="apeCliente">
                     <label class="fuenteMin" for="celular">Celular:</label> <input class="text-box-ajuste" type="text" id="cel" name="celular">
-                    <br><br>
-                    
-                    <h3 class="fuentePrincFondo">Domicilio</h3> <br><br>
+                </div>
+                <br>
+                
+                <h3 class="fuentePrincFondo">Domicilio</h3> 
+                <div class="inter-texto">
                     <label class="fuenteMin" for="calle">Calle:</label> <input class="text-box-ajuste" type="text" id="calle" name="calle">
                     <label class="fuenteMin" for="altura">altura:</label> <input class="text-box-ajuste" type="text" id="altura" name="altura">
-                    <label class="fuenteMin" for="localidad">Localidad:</label> <input class="text-box-ajuste" type="text" id="localidad" name="localidad">
-                    <br><br>        
-                    
+                    <label class="fuenteMin" for="localidad">Localidad:</label> <input class="text-box-ajuste" type="text" id="localidad" name="localidad">                       
                     <label class="fuenteMin" for="partido">Partido:</label> <input class="text-box-ajuste" type="text" id="partido" name="partido">        
                     <label class="fuenteMin" for="provincia">Provincia:</label> <input class="text-box-ajuste" type="text" id="provincia" name="provincia">
-                    <h3 class="fuentePrincFondo">Otros datos</h3><br>
+                </div>
+                <h3 class="fuentePrincFondo">Otros datos</h3>
+                <div class="inter-texto">
                     <label class="fuenteMin" for="email">Correo Electrónico</label> <input class="text-box-ajuste" type="text" id="email" name="email">        
                     <label class="fuenteMin" for="user">Nombre de usuario:</label> <input class="text-box-ajuste" type="text" id="user" name="user">
-                    <br><br>
+                    <br>
                     
                     <label class="fuenteMin" for="pass">Contraseña:</label> <input class="text-box-ajuste" type="password" id="pass" name="pass">
                     <label class="fuenteMin" for="pass">Confirme contraseña:</label> <input class="text-box-ajuste" type="password" id="pass" name="pass">
-                    <br><br><br><br>
-                
-                    <div class="centrarEnPag">
-                        <button class ="botoncin" type="submit" >Enviar</button>
-                        <button class ="botoncin" type="reset" >Limpiar Formulario</button>
-                    </div>  <br>
+                </div>
+                <br><br>
+            
+                <div class="centrarEnPag">
+                    <button class ="botoncin" type="submit" >Enviar</button>
+                    <button class ="botoncin" type="reset" >Limpiar Formulario</button>
+                </div>  <br>
                 </form> 
             </div>
         </div>    

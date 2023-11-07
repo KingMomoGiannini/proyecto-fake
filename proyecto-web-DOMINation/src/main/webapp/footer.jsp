@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="css/footer.css"/>
 <footer>
     <div class="cont-iconos-redes">
         <a href="#" class="icono-redes">Facebook</a>

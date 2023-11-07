@@ -4,6 +4,7 @@
     Author     : giann
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,10 +13,9 @@
         <title>Inicia Sesión</title>
         <link rel="stylesheet" href="css/estiloLog.css">
     </head>
-
+<c:import url ="../navbar.jsp" />
 <body>
-    <h1 class="domiTit"><del>DO  MI </del> Nation </h1>
-    <h2 class="fuentePrinc centrarEnPag">Ingresar con tus datos</h2>
+    
     <form action="ingresar" method="post" >
         <div class= "centrarEnPag" >
 
@@ -23,10 +23,10 @@
             <br/><br/>
             <label class="fuenteMin" for="pass">Clave:</label> <input type="password" id="pass" name="pass">
             <br/><br/>
-            <button type="submit" >Enviar</button>
-
+            <button class="botoncin" type="submit" >Enviar</button></a>
         </div>
     </form>
-
+    
 </body>
+<c:import url="../footer.jsp"/>
 </html>

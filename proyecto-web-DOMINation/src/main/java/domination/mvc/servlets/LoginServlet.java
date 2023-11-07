@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
            req.getRequestDispatcher("pages/login.jsp").forward(req, resp);//redirige el servlet a el JSP del form.        
         }
         catch (Exception ex){
-            resp.sendError(500,"no anda bien esto eh\n"+ ex.getMessage());
+            resp.sendError(500,"no anda bien esto en LoginServlet\n"+ ex.getMessage());
         }
 
     }    
@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
         if (elUser != null) {//Si el user existe
             //Ligamos el user a la sesion
             HttpSession laSesion = req.getSession(); //Creamos una sesion
-            laSesion.setMaxInactiveInterval(1000); //Le damos un maximo de tiempo en segundos
+            laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
             laSesion.setAttribute("userLogueado",elUser);//
             resp.sendRedirect(req.getContextPath()+"/inicio");
 
@@ -58,4 +58,7 @@ public class LoginServlet extends HttpServlet {
         }
         
     }
+    
+    
+    
 }

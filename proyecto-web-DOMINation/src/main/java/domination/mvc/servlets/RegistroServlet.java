@@ -4,6 +4,7 @@
  */
 package domination.mvc.servlets;
 import domination.DAO.DAO;
+import domination.DAO.DomicilioDAO;
 import domination.mvc.model.Domicilio;
 import domination.mvc.model.Usuario;
 import domination.DAO.UsuarioDAO;
@@ -24,6 +25,13 @@ import java.io.IOException;
 public class RegistroServlet extends HttpServlet  {
     
     private DAO<Usuario,Integer> userDAO;
+    private DAO<Domicilio,Integer>domUserDAO;
+    
+    @Override
+    public void init() throws ServletException{
+        userDAO = new UsuarioDAO();
+        domUserDAO = new DomicilioDAO();
+    }
     
     public Domicilio domUser(String calle, String alt, String partido, String provincia, String localidad){
         Domicilio dom = null;
@@ -65,14 +73,15 @@ public class RegistroServlet extends HttpServlet  {
             
             dom = domUser(calle,altura,partido,provincia,localidad);
             Usuario elUsuario = new Usuario(username, nombre, apellido, email, password, celular, dom);
-            
+            domUserDAO.create(dom);
+            userDAO.create(elUsuario);
             req.setAttribute("elUsuario", elUsuario);
             
             System.out.println(elUsuario.getNombre());
             req.getRequestDispatcher("pages/felicitacion.jsp").forward(req, resp);
             
         } catch (Exception ex){
-            resp.sendError(500,"no anda bien esto eh\n"+ ex.getMessage());
+            resp.sendError(500,"no anda bien esto en RegistroServlet\n"+ ex.getMessage());
         }
         
     }

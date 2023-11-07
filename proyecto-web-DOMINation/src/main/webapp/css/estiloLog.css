@@ -1,46 +1,111 @@
-body{
-    background-image: url("../img/login.jpg");
-    background-color: rgb(49, 49, 48);
-    font-family: Verdana;
-    height: 500px;
-    margin: 30px;
-    background-size: 1100px;
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Barlow+Condensed&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
+
+
+*{
+    box-sizing: border-box;
 }
-.domiTit{
-    background-color: rgba(133, 10, 10,0.8);
-    padding: 10px;
-    color: rgb(158, 153, 153);
+
+body{
+    background-color: black;
+    font-family: 'Bahiana', cursive;
+    margin: 30px;
+    background-size: cover;
+}
+
+.elcontainer {
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: static;
+    margin: auto;
 }
 
 .fuenteMin{
     background-color:  rgba(28, 28, 28,0.8);
     color: rgb(158, 153, 153);
-    font-style: bold;
+    font-size: 25px;
     padding: 5px;
+    border-radius: 2%;
 }
 
 .fuentePrinc{
-    background-color:  rgba(28, 28, 28,0.8);
-    border: 2px solid rgb(158, 153, 153);
+    color: black;
+    font-size: 30px;
     padding: 10px;
-    color: rgb(158, 153, 153);
-    margin: 100px;
-    margin-left: 200px;
-    margin-right: 200px;
+}
+
+.fuentePrincFondo{
+    background-color:  rgba(206, 5, 5, 0.8);
+    color: black;
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 2%;
+}
+
+.form-container{
+    display: flexbox;
+    background-color: grey;
+    border-style: double grey;
+    border-radius: 2%;
+    width: 1000px;
+    height: auto;
+    padding: 20px;
+    position: relative;
 }
 
 .centrarEnPag{
     text-align: center;
 }
 
-a.linkBoton{
-    color: rgb(158, 153, 153);
-    background-color:  rgba(28, 28, 28,0.8);
-    border: 2px solid rgb(158, 153, 153);
-    padding: 10px;
-    display: inline-block;
-  }
+.eltitulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: white;
+    align-items: center;
+}
 
-  a:hover,a:active{
-    background-color: black;
-  }
+.rojo{
+    color: red;
+}
+
+img.logo {
+    height: 60px;
+    width: auto;
+    transition: all 0.3s;
+}
+
+.centrarEnPag button.botoncin {
+    font-family: 'Bahiana', cursive;
+    font-size: 30px;
+    color: white;
+    padding: 9px 25px;
+    background: #212629;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.centrarEnPag button:hover.botoncin {
+    background-color: #3e4041;
+    color: #ff0e0e;
+    transform: scale(1.1);
+}
+
+.centrar-contenido{
+    align-items: center;
+    justify-content: center;
+}
+
+.text-box-ajuste{/*ajuste de tamaño de caja de texto acorde al fondo del label*/
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 5px;
+    border-radius: 5px;
+    width: auto;
+}

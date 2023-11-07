@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,16 +19,12 @@ import java.util.List;
  *
  * @author giann
  */
-public class UsuarioDAO implements DAO<Usuario,Integer>{
-
-    public UsuarioDAO() {
-        
-    }     
+public class UsuarioDAO implements DAO<Usuario,Integer>{ 
         
     @Override
     public List<Usuario> getAll() throws SQLException {
         List<Usuario> usuarios  = new LinkedList();
-        String query = "SELECT * FROM USUARIO"; //Creamos el SELECT * para la base de datos
+        String query = "SELECT * FROM usuario"; //Creamos el SELECT * para la base de datos
         try(Connection conexion =ConnectionPool.getInstance().getConnection();
             PreparedStatement ps = conexion.prepareStatement(query);//Transformamos la cadena guardada en query, en una sentencia SQL
             ResultSet rs = ps.executeQuery();)
@@ -46,30 +40,53 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
     }
 
     @Override
-    public void create(Usuario elObjeto) throws Exception {
-        
-    }
-    
-    @Override
-    public void add(Usuario elUser) throws Exception {
-        
+    public void create(Usuario elUser) throws Exception {
+        String query = "INSERT INTO usuario (nombre_usuario, nombre, apellido, email, password, celular, administrador_idadministrador) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, elUser.getNomUsuario());
+            preparedStatement.setString(2, elUser.getNombre());
+            preparedStatement.setString(3, elUser.getApellido());
+            preparedStatement.setString(4, elUser.getEmail());
+            preparedStatement.setString(5, elUser.getPassword());
+            preparedStatement.setString(6, elUser.getCelular());
+            preparedStatement.setInt(7, elUser.getIdAdmin());
+            
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al crear un nuevo usuario", ex);
+        }
     }
 
     @Override
     public void update(Usuario elUser) throws Exception {
-        
+        String query = "UPDATE usuario SET nombre_usuario = ?, nombre = ?, apellido = ?, email = ?, password = ?, celular = ? WHERE idusuario = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, elUser.getNomUsuario());
+            preparedStatement.setString(2, elUser.getNombre());
+            preparedStatement.setString(3, elUser.getApellido());
+            preparedStatement.setString(4, elUser.getEmail());
+            preparedStatement.setString(5, elUser.getPassword());
+            preparedStatement.setString(6, elUser.getCelular());
+            preparedStatement.setInt(7, elUser.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al actualizar el usuario", ex);
+        }
     }
 
     @Override
     public void delete(Integer elId) throws Exception {
-        
+        String query = "DELETE FROM usuario WHERE idusuario = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al eliminar un usuario", ex);
+        }
     }
-
-//    @Override
-//    public Usuario getByID(Integer elId) throws Exception {
-//        
-//        
-//    }
     
     public Usuario userFake(String username, String pass){
         Usuario usuarioFake = null;
@@ -96,6 +113,24 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
         Domicilio dom = null;
         
         return new Usuario(id,nomUsuario,nombre,apellido,email,password,celular,dom);
+    }
+
+    @Override
+    public Usuario getByID(Integer elId) throws Exception {
+        String query = "SELECT * FROM usuario WHERE idusuario = ?";
+        Usuario usuario = null;
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    usuario = rsRowToUsuario(resultSet);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Error al obtener un usuario por ID", ex);
+        }
+        return usuario;
     }
     
 }
