@@ -13,7 +13,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -69,11 +68,8 @@ public class RegistroServlet extends HttpServlet  {
             String email = req.getParameter("email");
             String username = req.getParameter("user");
             String password = req.getParameter("pass");
-            Domicilio dom;
             
-            dom = domUser(calle,altura,partido,provincia,localidad);
-            Usuario elUsuario = new Usuario(username, nombre, apellido, email, password, celular, dom);
-            domUserDAO.create(dom);
+            Usuario elUsuario = new Usuario(username, nombre, apellido, email, password, celular);
             userDAO.create(elUsuario);
             req.setAttribute("elUsuario", elUsuario);
             

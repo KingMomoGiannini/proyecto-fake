@@ -16,14 +16,13 @@ public class Usuario {
     private String email;
     private String password;
     private String celular;
-    private Domicilio dom;
     private int idAdmin;
 
-    public Usuario(String nomUsuario, String nombre, String apellido, String email, String password, String celular, Domicilio dom) {
-        this(0, nomUsuario, nombre, apellido, email, password, celular, dom);
+    public Usuario(String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
+        this(0, nomUsuario, nombre, apellido, email, password, celular);
     }
 
-    public Usuario(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular, Domicilio dom) {
+    public Usuario(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
         this.id = id;
         this.nomUsuario = nomUsuario;
         this.nombre = nombre;
@@ -31,7 +30,6 @@ public class Usuario {
         this.email = email;
         this.password = password;
         this.celular = celular;
-        this.dom = dom;
     }
 
     public int getId() {
@@ -60,10 +58,6 @@ public class Usuario {
 
     public String getCelular() {
         return celular;
-    }
-
-    public Domicilio getDom() {
-        return dom;
     }
     
     public int getIdAdmin(){

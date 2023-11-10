@@ -4,7 +4,6 @@
  */
 package domination.DAO;
 
-import domination.mvc.model.Domicilio;
 import domination.mvc.model.Usuario;
 import domination.mvc.model.UtilExceptions;
 import java.sql.SQLException;
@@ -87,33 +86,6 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
             throw new Exception("Error al eliminar un usuario", ex);
         }
     }
-    
-    public Usuario userFake(String username, String pass){
-        Usuario usuarioFake = null;
-        if (pass.equals("1234")) {
-            switch(username){
-                case "admin":
-                    usuarioFake = new Usuario(1,username,"Sebastian","Giannini","emailfake@elproyecto.com","1234","1169696969",new Domicilio("provincia falsa","localidad falsa","partido falso","calle falsa","123"));
-                    break;
-            }
-        }
-        
-        return usuarioFake;
-    }
-
-    private Usuario rsRowToUsuario(ResultSet rs) throws SQLException {
-
-        int id = rs.getInt("idusuario");
-        String nomUsuario = rs.getString("nombre_usuario");
-        String nombre = rs.getString("nombre");
-        String apellido = rs.getString("apellido");
-        String email = rs.getString("email");
-        String password = rs.getString("password");
-        String celular = rs.getString("celular");
-        Domicilio dom = null;
-        
-        return new Usuario(id,nomUsuario,nombre,apellido,email,password,celular,dom);
-    }
 
     @Override
     public Usuario getByID(Integer elId) throws Exception {
@@ -133,4 +105,47 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
         return usuario;
     }
     
+    private Usuario rsRowToUsuario(ResultSet rs) throws SQLException {
+
+        int id = rs.getInt("idusuario");
+        String nomUsuario = rs.getString("nombre_usuario");
+        String nombre = rs.getString("nombre");
+        String apellido = rs.getString("apellido");
+        String email = rs.getString("email");
+        String password = rs.getString("password");
+        String celular = rs.getString("celular");
+        
+        return new Usuario(id,nomUsuario,nombre,apellido,email,password,celular);
+    }
+    
+    public Usuario autenticar(String nomUsuario, String pass){
+        String query = "SELECT * FROM usuario WHERE nombre_usuario = ? AND password = ?";
+        Usuario elUser= null;
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement ps = con.prepareStatement(query)){
+            ps.setString(1, nomUsuario);
+            ps.setString(2,pass);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    elUser = rsRowToUsuario(resultSet);
+                }
+            } 
+        }catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return elUser;
+    }
+    
+    public Usuario userFake(String username, String pass){
+        Usuario usuarioFake = null;
+        if (pass.equals("1234")) {
+            switch(username){
+                case "admin":
+                    usuarioFake = new Usuario(1,username,"Sebastian","Giannini","emailfake@elproyecto.com","1234","1169696969");
+                    break;
+            }
+        }
+        
+        return usuarioFake;
+    }
 }

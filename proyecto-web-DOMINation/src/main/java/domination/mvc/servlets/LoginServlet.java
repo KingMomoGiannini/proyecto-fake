@@ -38,10 +38,8 @@ public class LoginServlet extends HttpServlet {
 
         String user = req.getParameter("user");
         String password = req.getParameter("pass");
-        System.out.println(user);
-        System.out.println(password);
         
-        Usuario elUser = new UsuarioDAO().userFake(user, password);
+        Usuario elUser = new UsuarioDAO().autenticar(user, password);
         
         if (elUser != null) {//Si el user existe
             //Ligamos el user a la sesion
