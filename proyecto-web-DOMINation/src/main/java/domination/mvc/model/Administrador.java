@@ -9,12 +9,16 @@ package domination.mvc.model;
  *
  * @author giann
  */
-public abstract class Administrador {
+public class Administrador {
 
     private static final int ID = 1;
     private String nomUsuario;
     private String password;
     
+    public Administrador(String nomUsuario, String password) {
+        this(ID,nomUsuario,password);
+    }
+
     public Administrador(int id, String nomUsuario, String password) {
         this.nomUsuario = nomUsuario;
         this.password = password;

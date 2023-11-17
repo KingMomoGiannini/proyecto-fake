@@ -5,8 +5,10 @@
 package domination.mvc.servlets;
 
 
+import domination.DAO.AdministradorDAO;
 import domination.mvc.model.Usuario;
 import domination.DAO.UsuarioDAO;
+import domination.mvc.model.Administrador;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,20 +37,36 @@ public class LoginServlet extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        Usuario elUser = null;
+        Administrador elAdmin = null;
         String user = req.getParameter("user");
         String password = req.getParameter("pass");
         
-        Usuario elUser = new UsuarioDAO().autenticar(user, password);
+        if(user.equals("admin")){
+            elAdmin = new AdministradorDAO().autenticar(user, password);
+        }
+        else{
+             elUser = new UsuarioDAO().autenticar(user, password);
+        }
+        
         
         if (elUser != null) {//Si el user existe
             //Ligamos el user a la sesion
             HttpSession laSesion = req.getSession(); //Creamos una sesion
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
             laSesion.setAttribute("userLogueado",elUser);//
-            resp.sendRedirect(req.getContextPath()+"/inicio");
+            resp.sendRedirect(req.getContextPath()+"/inicio");//redirigimos al usuario a su pagina de inicio
 
-        } else { //Sino mostramos el mensaje de error
+        }
+        else if (elAdmin != null) {//Si el admin existe
+            //Ligamos el user a la sesion
+            HttpSession laSesion = req.getSession(); //Creamos una sesion
+            laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
+            laSesion.setAttribute("userLogueado",elAdmin);//
+            resp.sendRedirect(req.getContextPath()+"/inicio");//redirigimos al usuario a su pagina de inicio
+
+        } 
+        else { //Sino mostramos el mensaje de error
             req.setAttribute("hayError", true);//Si hay un error
             req.setAttribute("mensajeError", "Credenciales incorrectas pelotudo");//Este sera el mensaje de error 
             doGet(req,resp);

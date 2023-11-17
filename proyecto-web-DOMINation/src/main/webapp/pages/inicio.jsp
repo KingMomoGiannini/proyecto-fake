@@ -18,7 +18,10 @@
 
     <div class="elcontainer">
         <div class="container-inicial">
-            <h1>Bienvenido/a ${userLogueado.nombre}</h1>
+            <%-- <c:if test ="${userLogueado.user=='admin'}">
+                <<h1>Bienvenido/a ${userLogueado.user}</h1>
+            </c:if> --%> 
+            <h1>Bienvenido/a ${userLogueado.nomUsuario}</h1>
         </div>
         <%-- <c:if test="${userLogueado}"> si el user logueado no es un admin --%>
         <div><%--contenedor que mantendrá objetos de tipo salasDeEnsayo --%>
