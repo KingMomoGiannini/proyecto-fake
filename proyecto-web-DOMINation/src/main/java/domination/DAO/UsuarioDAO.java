@@ -5,7 +5,6 @@
 package domination.DAO;
 
 import domination.mvc.model.Usuario;
-import domination.mvc.model.UtilExceptions;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -68,7 +67,7 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
             preparedStatement.setString(4, elUser.getEmail());
             preparedStatement.setString(5, elUser.getPassword());
             preparedStatement.setString(6, elUser.getCelular());
-            preparedStatement.setInt(7, elUser.getId());
+            preparedStatement.setInt(7, elUser.getIdUsuario());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new Exception("Error al actualizar el usuario", ex);
@@ -134,18 +133,5 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
             throw new RuntimeException(ex);
         }
         return elUser;
-    }
-    
-    public Usuario userFake(String username, String pass){
-        Usuario usuarioFake = null;
-        if (pass.equals("1234")) {
-            switch(username){
-                case "admin":
-                    usuarioFake = new Usuario(1,username,"Sebastian","Giannini","emailfake@elproyecto.com","1234","1169696969");
-                    break;
-            }
-        }
-        
-        return usuarioFake;
     }
 }

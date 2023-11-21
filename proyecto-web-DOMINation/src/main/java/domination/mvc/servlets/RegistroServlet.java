@@ -3,11 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package domination.mvc.servlets;
+import domination.DAO.ClienteDAO;
 import domination.DAO.DAO;
 import domination.DAO.DomicilioDAO;
+import domination.DAO.PrestadorDAO;
 import domination.mvc.model.Domicilio;
 import domination.mvc.model.Usuario;
 import domination.DAO.UsuarioDAO;
+import domination.mvc.model.UsuarioCliente;
+import domination.mvc.model.UsuarioPrestador;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -24,12 +28,14 @@ import java.io.IOException;
 public class RegistroServlet extends HttpServlet  {
     
     private DAO<Usuario,Integer> userDAO;
-    private DAO<Domicilio,Integer>domUserDAO;
+    private DAO<UsuarioPrestador,Integer> prestDAO;
+    private DAO<UsuarioCliente,Integer> cliDAO;
     
     @Override
     public void init() throws ServletException{
         userDAO = new UsuarioDAO();
-        domUserDAO = new DomicilioDAO();
+        prestDAO = new PrestadorDAO();
+        cliDAO = new ClienteDAO();
     }
     
     public Domicilio domUser(String calle, String alt, String partido, String provincia, String localidad){
@@ -63,12 +69,20 @@ public class RegistroServlet extends HttpServlet  {
             String email = req.getParameter("email");
             String username = req.getParameter("user");
             String password = req.getParameter("pass");
+            String tipoUsuario = req.getParameter("tipoUsuario");
             
-            Usuario elUsuario = new Usuario(username, nombre, apellido, email, password, celular);
-            userDAO.create(elUsuario);
-            req.setAttribute("elUsuario", elUsuario);
-            
-            System.out.println(elUsuario.getNombre());
+            if ("prestador".equals(tipoUsuario)) {
+                // Crea un usuario de tipo prestador
+                UsuarioPrestador elPrestador = new UsuarioPrestador(username, nombre, apellido, email, password, celular);
+                prestDAO.create(elPrestador);
+                req.setAttribute("elUsuario", elPrestador);
+            } else {
+                // Por defecto, crea un usuario de tipo cliente
+                UsuarioCliente elUsuario = new UsuarioCliente(username, nombre, apellido, email, password, celular);
+                cliDAO.create(elUsuario);
+                req.setAttribute("elUsuario", elUsuario);
+            }
+
             req.getRequestDispatcher("pages/felicitacion.jsp").forward(req, resp);
             
         } catch (Exception ex){

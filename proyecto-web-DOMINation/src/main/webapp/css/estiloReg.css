@@ -2,10 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Barlow+Condensed&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
 
-*{
-    box-sizing: border-box;
-}
-
 body{
     background-color: black;
     font-family: 'Bahiana', cursive;

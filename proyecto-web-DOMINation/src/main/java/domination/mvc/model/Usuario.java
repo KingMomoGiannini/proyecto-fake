@@ -9,7 +9,7 @@ package domination.mvc.model;
  * @author giann
  */
 public class Usuario {
-    private int id;
+    private int idUsuario;
     private String nomUsuario;
     private String nombre;
     private String apellido;
@@ -23,7 +23,7 @@ public class Usuario {
     }
 
     public Usuario(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
-        this.id = id;
+        this.idUsuario = id;
         this.nomUsuario = nomUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -32,8 +32,8 @@ public class Usuario {
         this.celular = celular;
     }
 
-    public int getId() {
-        return id;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
     public String getNomUsuario() {

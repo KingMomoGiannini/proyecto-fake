@@ -15,6 +15,7 @@ public class Domicilio {
     private String partido;
     private String calle;
     private String altura;
+    private int idSucursal;
 
     public Domicilio(String provincia, String localidad, String partido, String calle, String altura) {
         this(0,provincia, localidad, partido,calle,altura);
@@ -33,9 +34,28 @@ public class Domicilio {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Domicilio{" + "id=" + id + ", provincia=" + provincia + ", localidad=" + localidad + ", partido=" + partido + ", calle=" + calle + ", altura=" + altura + '}';
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public String getPartido() {
+        return partido;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public String getAltura() {
+        return altura;
+    }
+
+    public int getIdSucursal() {
+        return idSucursal;
     }
     
 }

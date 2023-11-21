@@ -39,7 +39,10 @@
                     
                     <label class="fuenteMin" for="pass">Contraseña:</label> <input class="text-box-ajuste" type="password" id="pass" name="pass">
                     <label class="fuenteMin" for="pass">Confirme contraseña:</label> <input class="text-box-ajuste" type="password" id="pass" name="pass">
+                    <br><br>
+                    <label class="fuenteMin" for="tipoUsuario">Tipo de usuario:<input type="checkbox" id="tipoUsuario" name="tipoUsuario" value="prestador"> Prestador</label>
                 </div>
+                
                 <br><br>
             
                 <div class="centrarEnPag">

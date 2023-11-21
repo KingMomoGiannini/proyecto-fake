@@ -38,13 +38,12 @@ public class AdministradorDAO implements DAO<Administrador,Integer>{
     }
 
     @Override
-    public void create(Administrador elObjeto) throws Exception {
+    public void create(Administrador elAdmin) throws Exception {
         String query = "INSERT INTO administrador (nombre_usuario, password) VALUES (?, ?)";
         try (Connection con = ConnectionPool.getInstance().getConnection();
             PreparedStatement preparedStatement = con.prepareStatement(query)) {
-            preparedStatement.setString(1, elObjeto.getNomUsuario());
-            preparedStatement.setInt(2, elObjeto.getId());
-
+            preparedStatement.setString(1, elAdmin.getNomUsuario());
+            preparedStatement.setInt(2, elAdmin.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new Exception("Error al crear un nuevo usuario", ex);

@@ -16,10 +16,7 @@ import java.util.List;
  *
  * @author giann
  */
-public class DomicilioDAO implements DAO<Domicilio,Integer> {
-    public DomicilioDAO() {
-        
-    }     
+public class DomicilioDAO implements DAO<Domicilio,Integer> {  
         
     @Override
     public List<Domicilio> getAll() throws SQLException {
@@ -69,7 +66,30 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
 
     @Override
     public Domicilio getByID(Integer elId) throws Exception {
-        return null;
+        String query = "SELECT * FROM domicilio WHERE iddomicilio = ?";
+        Domicilio domicilio = null;
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Utiliza el constructor de Domicilio para crear un objeto Domicilio
+                    domicilio = new Domicilio(
+                            resultSet.getInt("iddomicilio"),
+                            resultSet.getString("provincia"),
+                            resultSet.getString("localidad"),
+                            resultSet.getString("partido"),
+                            resultSet.getString("calle"),
+                            resultSet.getString("altura")
+                    );
+                }
+            }
+        }
+        return domicilio;
     }
-    
+//    
+//    public Domicilio obtenerDomicilio(int idDom) throws Exception{
+//        return getByID(idDom);
+//    }
 }
