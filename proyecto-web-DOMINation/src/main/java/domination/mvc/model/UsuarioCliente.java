@@ -12,17 +12,17 @@ public class UsuarioCliente extends Usuario {
     
     private int idCliente;
 
-    public UsuarioCliente(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
-        super(id, nomUsuario, nombre, apellido, email, password, celular);
+    public UsuarioCliente(int idCliente, String nomUsuario, String nombre, String apellido, String email, String password, String celular,String rol) {
+        super(nomUsuario, nombre, apellido, email, password, celular,"cliente");
+        this.idCliente = idCliente;
     }
+//
+//    public UsuarioCliente(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular,String rol) {
+//        super(id, nomUsuario, nombre, apellido, email, password, celular,rol);
+//    }
 
     public UsuarioCliente(String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
-        super(nomUsuario, nombre, apellido, email, password, celular);
-    }
-
-    public UsuarioCliente(int idCliente, int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
-        super(id, nomUsuario, nombre, apellido, email, password, celular);
-        this.idCliente = idCliente;
+        super(0,nomUsuario, nombre, apellido, email, password, celular,"cliente");
     }
 
     public int getIdCliente() {

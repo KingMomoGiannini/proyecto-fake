@@ -114,7 +114,7 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
         String password = rs.getString("password");
         String celular = rs.getString("celular");
         
-        return new Usuario(id,nomUsuario,nombre,apellido,email,password,celular);
+        return new Usuario(id,nomUsuario,nombre,apellido,email,password,celular,"prestador");
     }
     
     public Usuario autenticar(String nomUsuario, String pass){

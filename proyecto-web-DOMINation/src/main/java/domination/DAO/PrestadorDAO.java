@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  *
  * @author giann
@@ -52,13 +51,11 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
             preparedStatement.setInt(7, elPrestador.getIdAdmin());
 
             preparedStatement.executeUpdate();
-
-            // Obtener el ID generado para identificar como prestador
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+            
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {// Obtener el ID generado para identificar como prestador.
                 if (generatedKeys.next()) {
                     int idUsuarioGenerado = generatedKeys.getInt(1);
-                    // Ahora insertar en la tabla prestador
-                    insertarEnPrestador(idUsuarioGenerado);
+                    insertarEnPrestador(idUsuarioGenerado);// Ahora insertar en la tabla prestador - Metodo, mas abajo.
                 } else {
                     throw new SQLException("Error al obtener el ID del prestador generado.");
                 }
@@ -109,7 +106,7 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
 
     @Override
     public UsuarioPrestador getByID(Integer elId) throws Exception {
-        String query = "SELECT * FROM prestador WHERE idusuario = ?";
+        String query = "SELECT * FROM prestador WHERE idprestador = ?";
         UsuarioPrestador usuario = null;
         try (Connection con = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(query)) {
@@ -120,30 +117,25 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
                 }
             }
         } catch (SQLException ex) {
-            throw new Exception("Error al obtener un usuario por ID", ex);
+            throw new Exception("Error al obtener un prestador por ID", ex);
         }
         return usuario;
     }
     
    private UsuarioPrestador rsRowToPrestador(ResultSet rs) throws SQLException, Exception {
-        int id = rs.getInt("idusuario");
         String nomUsuario = rs.getString("nombre_usuario");
         String nombre = rs.getString("nombre");
         String apellido = rs.getString("apellido");
         String email = rs.getString("email");
         String password = rs.getString("password");
         String celular = rs.getString("celular");
-        int idPrestador = rs.getInt("idprestador");  // Ajustar el nombre de la columna según tu esquema
-        //int idSede = rs.getInt("prestador_idprestador");  // Ajustar el nombre de la columna según tu esquema
+        int idPrestador = rs.getInt("idprestador");
 
-        // Aquí necesitas lógica para obtener la Sede (Sucursal)
-        //Sede laSede = obtenerSedePorId(idSede);  // Debes implementar este método
-
-        return new UsuarioPrestador(idPrestador, nomUsuario, nombre, apellido, email, password, celular);
+        return new UsuarioPrestador(idPrestador, nomUsuario, nombre, apellido, email, password, celular,"prestador");
     }
     
     public UsuarioPrestador autenticar(String nomUsuario, String pass) throws Exception{
-        String query = "SELECT * FROM prestador WHERE nombre_usuario = ? AND password = ?";
+        String query = "SELECT * FROM usuario WHERE nombre_usuario = ? AND password = ?";
         UsuarioPrestador elUser= null;
         try (Connection con = ConnectionPool.getInstance().getConnection();
              PreparedStatement ps = con.prepareStatement(query)){
@@ -159,7 +151,8 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
         }
         return elUser;
     }
-    // Método para insertar en la tabla prestador después de insertar en usuario
+    
+    // Método para insertar el ID que se genera en la tabla prestador después de insertar en usuario
     private void insertarEnPrestador(int idUsuarioGenerado) throws SQLException {
         String query = "INSERT INTO prestador (usuario_idusuario) VALUES (?)";
         try (Connection con = ConnectionPool.getInstance().getConnection();
@@ -194,7 +187,7 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
                     Domicilio dom = elDAO.getByID(idSede);
 
                     // Crea una instancia de Sede con la información obtenida
-                    laSede = new Sede(idSedeDB, nombreSede, cantSalas, idPrestador, horaInicio, horaFin, telefono, dom);
+                    laSede = new Sede(idSedeDB, nombreSede, cantSalas, idPrestador, horaInicio, horaFin, telefono);
                     // Ajusta según los atributos reales de la clase Sede
                 }
             }

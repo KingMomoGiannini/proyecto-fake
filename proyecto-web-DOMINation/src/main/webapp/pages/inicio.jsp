@@ -18,14 +18,39 @@
 
     <div class="elcontainer">
         <div class="container-inicial">
-            <%-- <c:if test ="${userLogueado.user=='admin'}">
-                <<h1>Bienvenido/a ${userLogueado.user}</h1>
-            </c:if> --%> 
             <h1>Bienvenido/a ${userLogueado.nomUsuario}</h1>
         </div>
-        <%-- <c:if test="${userLogueado}"> si el user logueado no es un admin --%>
         <div><%--contenedor que mantendrá objetos de tipo salasDeEnsayo --%>
-            
+            <c:choose>
+                <c:when test="${userLogueado.getRol() == 'administrador'}">
+                    <br><br><br>
+                    <div class="centrarEnPag">
+                        
+                            <a class="botoncin" href="#"><button type="submit">Mostrar Usuarios</button></a>
+                            <a class="botoncin" href="#"><button type="submit">Mostrar Sedes</button></a>.
+                            
+                    </div>
+                    <br><br><br>
+                </c:when>
+                <c:when test="${userLogueado.getRol() == 'prestador'}">
+                    <br><br><br>
+                    <div class="centrarEnPag">
+                        <c:if test = "${Exito==true}">
+                            <br><br><br>
+                            <h1>${mensajeExito}</h1>
+                            <br><br><br>
+                        </c:if>
+                            <a class="botoncin" href="sedes"><button>Crear Sede</button></a>
+                            <a class="botoncin" href="#"><button>Editar Sede</button></a>.
+                            <a class="botoncin" href="#"><button>Eliminar Sede</button></a>.
+                            
+                    </div>
+                    <br><br><br>
+                </c:when> <%-- --%>   
+                <c:when test="${userLogueado.getRol() == 'cliente'}">
+                    <h1 style="color: white">Acá deberían mostrarse las sedes...</h1>
+                </c:when> <%-- --%>   
+            </c:choose>
         </div>
     </div>
 

@@ -4,6 +4,8 @@
  */
 package domination.mvc.model;
 
+import domination.DAO.AdministradorDAO;
+
 
 /**
  *
@@ -12,31 +14,31 @@ package domination.mvc.model;
 public class Administrador {
 
     private static final int ID = 1;
-    private String nomUsuario;
-    private String password;
-    
+    private static final String NOM_USUARIO="admin";
+    private static final String PASSWORD= "1234";
+    private static final String ROL= "administrador";
+
     public Administrador(String nomUsuario, String password) {
-        this(ID,nomUsuario,password);
+        this(ID,nomUsuario,password,ROL);
     }
 
-    public Administrador(int id, String nomUsuario, String password) {
-        this.nomUsuario = nomUsuario;
-        this.password = password;
+    public Administrador(int id, String nomUsuario, String password, String rol) {
     }
-
+    
     public static int getId() {
         return ID;
     }
 
     public String getNomUsuario() {
-        return nomUsuario;
+        return NOM_USUARIO;
+    } 
+
+    public String getPassword() {
+        return PASSWORD;
     }
 
-    @Override
-    public String toString() {
-        return "Administrador{" + "id=" + ID + ", nomUsuario=" + nomUsuario + '}';
+    public String getRol() {
+        return ROL;
     }
     
-    
-       
 }

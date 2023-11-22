@@ -37,10 +37,22 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
     }
 
     @Override
-    public void create(Domicilio elObjeto) throws Exception {
-        
+    public void create(Domicilio elDom) throws Exception {
+        String query = "INSERT INTO domicilio (calle, altura, localidad, partido, provincia, sucursal_idsucursal) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, elDom.getCalle());
+            preparedStatement.setString(2, elDom.getAltura());
+            preparedStatement.setString(3, elDom.getLocalidad());
+            preparedStatement.setString(4, elDom.getPartido());
+            preparedStatement.setString(5, elDom.getProvincia());
+            preparedStatement.setInt(6, elDom.getIdSucursal());
+            preparedStatement.executeUpdate();
+            
+        } catch (SQLException ex) {
+            throw new Exception("Error al crear un nuevo domicilio", ex);
+        }
     }
-    
 
     @Override
     public void update(Domicilio elUser) throws Exception {
@@ -60,8 +72,9 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
         String localidad = rs.getString("localidad");
         String partido = rs.getString("partido");
         String provincia = rs.getString("provincia");
+        int idSucursal = rs.getInt("sucursal_idsucursal");
         
-        return new Domicilio (id, provincia, localidad, partido, calle, altura);
+        return new Domicilio (id, provincia, localidad, partido, calle, altura,idSucursal);
     }
 
     @Override
@@ -81,15 +94,13 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
                             resultSet.getString("localidad"),
                             resultSet.getString("partido"),
                             resultSet.getString("calle"),
-                            resultSet.getString("altura")
+                            resultSet.getString("altura"),
+                            resultSet.getInt("sucursal_idsucursal")
                     );
                 }
             }
         }
         return domicilio;
     }
-//    
-//    public Domicilio obtenerDomicilio(int idDom) throws Exception{
-//        return getByID(idDom);
-//    }
+
 }

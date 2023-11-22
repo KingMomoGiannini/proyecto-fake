@@ -5,11 +5,7 @@
 package domination.mvc.servlets;
 import domination.DAO.ClienteDAO;
 import domination.DAO.DAO;
-import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
-import domination.mvc.model.Domicilio;
-import domination.mvc.model.Usuario;
-import domination.DAO.UsuarioDAO;
 import domination.mvc.model.UsuarioCliente;
 import domination.mvc.model.UsuarioPrestador;
 
@@ -27,23 +23,13 @@ import java.io.IOException;
 /*@WebServlet(name = "RegistroServlet", value = "/registrarse")*/
 public class RegistroServlet extends HttpServlet  {
     
-    private DAO<Usuario,Integer> userDAO;
     private DAO<UsuarioPrestador,Integer> prestDAO;
     private DAO<UsuarioCliente,Integer> cliDAO;
     
     @Override
     public void init() throws ServletException{
-        userDAO = new UsuarioDAO();
         prestDAO = new PrestadorDAO();
         cliDAO = new ClienteDAO();
-    }
-    
-    public Domicilio domUser(String calle, String alt, String partido, String provincia, String localidad){
-        Domicilio dom = null;
-        if (calle != null && alt != null && partido != null && provincia != null && localidad != null) {
-            dom = new Domicilio(provincia,partido,localidad,calle,alt);
-        }
-        return dom;
     }
     
     @Override
@@ -72,18 +58,18 @@ public class RegistroServlet extends HttpServlet  {
             String tipoUsuario = req.getParameter("tipoUsuario");
             
             if ("prestador".equals(tipoUsuario)) {
-                // Crea un usuario de tipo prestador
+                // Si el checkbox se encuentra tildado, crea un usuario de tipo prestador
                 UsuarioPrestador elPrestador = new UsuarioPrestador(username, nombre, apellido, email, password, celular);
                 prestDAO.create(elPrestador);
                 req.setAttribute("elUsuario", elPrestador);
             } else {
-                // Por defecto, crea un usuario de tipo cliente
+                // Por defecto, se crea un usuario de tipo cliente
                 UsuarioCliente elUsuario = new UsuarioCliente(username, nombre, apellido, email, password, celular);
                 cliDAO.create(elUsuario);
                 req.setAttribute("elUsuario", elUsuario);
             }
 
-            req.getRequestDispatcher("pages/felicitacion.jsp").forward(req, resp);
+            req.getRequestDispatcher("pages/felicitacion.jsp").forward(req, resp); //Sin iniciar sesión, muestra el nombre del usuario creado y lo felicita.
             
         } catch (Exception ex){
             resp.sendError(500,"no anda bien esto en RegistroServlet\n"+ ex.getMessage());

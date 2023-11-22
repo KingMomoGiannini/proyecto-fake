@@ -13,9 +13,18 @@
         <title>Inicia Sesión</title>
         <link rel="stylesheet" href="css/estiloLog.css">
     </head>
-<c:import url ="../navbar.jsp" />
+
 <body>
-    
+    <c:import url ="../navbar.jsp" />
+    <br><br><br>
+    <c:if test="${hayError == true }">
+        <div class="mensajeError">
+            
+            <h1>${mensajeError}</h1>
+            <br><br><br>
+        </div>
+    </c:if>
+
     <form action="ingresar" method="post" >
         <div class= "centrarEnPag" >
 
@@ -26,7 +35,8 @@
             <button class="botoncin" type="submit" >Enviar</button></a>
         </div>
     </form>
-    
+    <br><br><br>
+    <c:import url="../footer.jsp"/>
 </body>
-<c:import url="../footer.jsp"/>
+
 </html>

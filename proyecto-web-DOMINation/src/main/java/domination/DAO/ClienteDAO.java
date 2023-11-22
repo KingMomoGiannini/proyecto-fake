@@ -5,10 +5,12 @@
 package domination.DAO;
 
 import domination.mvc.model.UsuarioCliente;
+import domination.mvc.model.UsuarioPrestador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,7 +21,19 @@ public class ClienteDAO implements DAO<UsuarioCliente,Integer> {
 
     @Override
     public List<UsuarioCliente> getAll() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<UsuarioCliente> clientes = new LinkedList<>();
+        String query = "SELECT * FROM cliente p JOIN usuario u ON p.usuario_idusuario = u.idusuario";
+        try (Connection conexion = ConnectionPool.getInstance().getConnection();
+             PreparedStatement ps = conexion.prepareStatement(query);
+             ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                clientes.add(rsRowToCliente(rs));
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return clientes;
     }
 
     @Override
@@ -65,6 +79,18 @@ public class ClienteDAO implements DAO<UsuarioCliente,Integer> {
     @Override
     public UsuarioCliente getByID(Integer elId) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+     private UsuarioCliente rsRowToCliente(ResultSet rs) throws SQLException, Exception {
+        String nomUsuario = rs.getString("nombre_usuario");
+        String nombre = rs.getString("nombre");
+        String apellido = rs.getString("apellido");
+        String email = rs.getString("email");
+        String password = rs.getString("password");
+        String celular = rs.getString("celular");
+        int idCliente = rs.getInt("idcliente");
+
+        return new UsuarioCliente(idCliente, nomUsuario, nombre, apellido, email, password, celular,"cliente");
     }
     
     private void insertarEnCliente(int idUsuarioGenerado) throws SQLException {

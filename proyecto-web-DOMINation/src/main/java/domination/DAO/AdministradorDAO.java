@@ -5,7 +5,6 @@
 package domination.DAO;
 
 import domination.mvc.model.Administrador;
-import domination.mvc.model.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +42,7 @@ public class AdministradorDAO implements DAO<Administrador,Integer>{
         try (Connection con = ConnectionPool.getInstance().getConnection();
             PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setString(1, elAdmin.getNomUsuario());
-            preparedStatement.setInt(2, elAdmin.getId());
+            preparedStatement.setString(2, elAdmin.getPassword());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new Exception("Error al crear un nuevo usuario", ex);
@@ -62,7 +61,20 @@ public class AdministradorDAO implements DAO<Administrador,Integer>{
 
     @Override
     public Administrador getByID(Integer elId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "SELECT * FROM administrador WHERE idadministrador = ?";
+        Administrador elAdmin = null;
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    elAdmin = rsRowToAdmin(resultSet);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Error al obtener un prestador por ID", ex);
+        }
+        return elAdmin;
     }
     
     public Administrador autenticar(String nomUsuario, String pass){

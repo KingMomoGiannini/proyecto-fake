@@ -16,20 +16,22 @@ public class Usuario {
     private String email;
     private String password;
     private String celular;
+    private String rol;
     private int idAdmin;
 
-    public Usuario(String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
-        this(0, nomUsuario, nombre, apellido, email, password, celular);
+    public Usuario(String nomUsuario, String nombre, String apellido, String email, String password, String celular,String rol) {
+        this(0, nomUsuario, nombre, apellido, email, password, celular, rol);
     }
 
-    public Usuario(int id, String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
-        this.idUsuario = id;
+    public Usuario(int idUsuario, String nomUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
+        this.idUsuario = idUsuario;
         this.nomUsuario = nomUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.password = password;
         this.celular = celular;
+        this.rol = rol;
     }
 
     public int getIdUsuario() {
@@ -63,4 +65,9 @@ public class Usuario {
     public int getIdAdmin(){
         return Administrador.getId();
     }
+
+    public String getRol() {
+        return rol;
+    }
+    
 }

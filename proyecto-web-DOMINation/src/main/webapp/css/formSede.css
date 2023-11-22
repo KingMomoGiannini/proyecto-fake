@@ -2,22 +2,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Barlow+Condensed&family=Bebas+Neue&family=Permanent+Marker&family=Tilt+Prism&display=swap');
 
-
-
 body{
     background-color: black;
     font-family: 'Bahiana', cursive;
-    margin: auto;
+    margin:auto;
     background-size: cover;
 }
 
 .elcontainer {
-    max-width: 1000px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: static;
-    margin: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .fuenteMin{
@@ -25,7 +21,7 @@ body{
     color: rgb(158, 153, 153);
     font-size: 25px;
     padding: 5px;
-    border-radius: 2%;
+    border-radius: 5px;
 }
 
 .fuentePrinc{
@@ -39,18 +35,19 @@ body{
     color: black;
     font-size: 30px;
     padding: 10px;
-    border-radius: 2%;
+    /*border-radius: 10px;*/
 }
 
 .form-container{
-    display: flexbox;
+    display: flex;
     background-color: grey;
     border-style: double grey;
-    border-radius: 2%;
+    border-radius: 10px;
     width: 1000px;
     height: auto;
-    padding: 20px;
+    padding: 15px;
     position: relative;
+    flex-direction: column;
 }
 
 .centrarEnPag{
@@ -74,7 +71,7 @@ img.logo {
     transition: all 0.3s;
 }
 
-.centrarEnPag button.botoncin {
+ .centrarEnPag button.botoncin {
     font-family: 'Bahiana', cursive;
     font-size: 30px;
     color: white;
@@ -86,7 +83,7 @@ img.logo {
     transition: all 0.3s ease 0s;
 }
 
-.centrarEnPag button:hover.botoncin {
+.form-container .centrarEnPag button:hover.botoncin {
     background-color: #3e4041;
     color: #ff0e0e;
     transform: scale(1.1);
@@ -97,25 +94,43 @@ img.logo {
     justify-content: center;
 }
 
-.text-box-ajuste{/*ajuste de tamaño de caja de texto acorde al fondo del label*/
+.text-box-ajuste{/*ajuste de tamaño de caja de texto acorde al fondo del label y largo de la misma*/
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     font-size: 20px;
     font-family: 'Barlow Condensed', sans-serif;
-    padding: 5px;
+    padding: 2px;
     border-radius: 5px;
-    width: auto;
+    width:23%;
 }
 
-.mensajeError h1{/*Mensaje de error con recuadro rojo*/
-    background-color: rgba(206, 5, 5, 0.8);
+.inter-texto{/*interlineado de los textos*/
+    line-height: 1.7;
+}
+
+.container-inicial{/*container con banner horizontal y titulo de bienvenida*/
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+    background-image: url(../img/banner.jpg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-attachment: initial;
+
+} 
+
+.container-inicial h1{/*titulo de bienvenida con fondo oscuro*/
+    font-family: 'Bahiana', cursive;
+    font-size: 50px;
     color: white;
-    font-size: 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-    padding: 5px;
-    border-radius: 5px;
-    width: 20%;
-    margin: auto;
     text-align: center;
-    border: solid 2px white;
+
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    
 }

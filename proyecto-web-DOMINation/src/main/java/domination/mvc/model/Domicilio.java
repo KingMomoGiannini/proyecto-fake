@@ -17,17 +17,18 @@ public class Domicilio {
     private String altura;
     private int idSucursal;
 
-    public Domicilio(String provincia, String localidad, String partido, String calle, String altura) {
-        this(0,provincia, localidad, partido,calle,altura);
+    public Domicilio(String provincia, String localidad, String partido, String calle, String altura,int idSucursal) {
+        this(0,provincia, localidad, partido,calle,altura,idSucursal);
     }
     
-    public Domicilio(int id, String provincia, String localidad, String partido, String calle, String altura) {
+    public Domicilio(int id, String provincia, String localidad, String partido, String calle, String altura, int idSucursal) {
         this.id = id;
         this.provincia = provincia;
         this.localidad = localidad;
         this.partido = partido;
         this.calle = calle;
         this.altura = altura;
+        this.idSucursal = idSucursal;
     }
 
     public int getId() {

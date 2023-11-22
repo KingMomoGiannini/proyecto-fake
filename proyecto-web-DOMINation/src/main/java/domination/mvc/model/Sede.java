@@ -16,13 +16,16 @@ public class Sede {
     private int horaInicio;
     private int horaFin;
     private String telefono;
-    private Domicilio dom;
 
-    public Sede(String nombre, int cantSalas, int idPrestador, int horaInicio, int horaFin, String telefono, Domicilio dom) {
-        this(0,nombre,cantSalas, idPrestador, horaInicio, horaFin, telefono, dom);
+
+    public Sede() {
+    }
+    
+    public Sede(String nombre, int cantSalas, int idPrestador, int horaInicio, int horaFin, String telefono) {
+        this(0,nombre,cantSalas, idPrestador, horaInicio, horaFin, telefono);
     }
 
-    public Sede(int idSede, String nombre, int cantSalas, int idPrestador, int horaInicio, int horaFin, String telefono, Domicilio dom) {
+    public Sede(int idSede, String nombre, int cantSalas, int idPrestador, int horaInicio, int horaFin, String telefono) {
         this.idSede = idSede;
         this.nombre = nombre;
         this.cantSalas = cantSalas;
@@ -30,12 +33,9 @@ public class Sede {
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
         this.telefono = telefono;
-        this.dom = dom;
+
     }
-    
-    public Sede(Domicilio dom) {
-        this.dom = dom;
-    }
+
 
     public int getIdSede() {
         return idSede;
@@ -65,8 +65,8 @@ public class Sede {
         return telefono;
     }
 
-    public Domicilio getDom() {
-        return dom;
+    public void setIdSede(int idSede) {
+        this.idSede = idSede;
     }
-   
+    
 }

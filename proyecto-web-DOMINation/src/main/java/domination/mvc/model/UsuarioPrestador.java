@@ -10,22 +10,16 @@ package domination.mvc.model;
  */
 public class UsuarioPrestador extends Usuario {
     
-    private Sede laSede;
     private int idPrestador;
    
-    public UsuarioPrestador(int idPrestador, String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
-        super(nomUsuario, nombre, apellido, email, password, celular);
+    public UsuarioPrestador(int idPrestador, String nomUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
+        super(nomUsuario, nombre, apellido, email, password, celular,"prestador");
         this.idPrestador = idPrestador;
     }
     
     public UsuarioPrestador(String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
-        super(0,nomUsuario, nombre, apellido, email, password, celular);
+        super(0,nomUsuario, nombre, apellido, email, password, celular,"prestador");
        
-    }
-    
-
-    public Sede getLaSede() {
-        return laSede;
     }
 
     public int getIdPrestador() {
