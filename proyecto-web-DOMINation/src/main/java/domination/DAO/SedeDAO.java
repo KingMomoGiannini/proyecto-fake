@@ -51,25 +51,45 @@ public class SedeDAO implements DAO<Sede,Integer>{
             
             preparedStatement.executeUpdate();
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-            if (generatedKeys.next()) {
-                laSede.setIdSede(generatedKeys.getInt(1));// me sirve para obtener el ID generado y lo asigna a laSede
-            } else {
-                throw new SQLException("Fallo al obtener el ID de la sede, no se generó automáticamente.");
+                if (generatedKeys.next()) {
+                    laSede.setIdSede(generatedKeys.getInt(1));// me sirve para obtener el ID generado y lo asigna a laSede
+                } else {
+                    throw new SQLException("Fallo al obtener el ID de la sede, no se generó automáticamente.");
+                }
             }
-        }
         } catch (SQLException ex) {
             throw new Exception("Error al crear unaa nueva Sede por SQL", ex);
         }
     }
 
     @Override
-    public void update(Sede elObjeto) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(Sede laSede) throws Exception {
+        String query = "UPDATE sucursal SET nombre = ?, cant_salas = ?, prestador_idprestador = ?, hora_inicio = ?, hora_fin = ?, telefono = ? WHERE idsucursal = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1,laSede.getNombre());
+            preparedStatement.setInt(2,laSede.getCantSalas());
+            preparedStatement.setInt(3,laSede.getIdPrestador());
+            preparedStatement.setInt(4,laSede.getHoraInicio());
+            preparedStatement.setInt(5,laSede.getHoraFin());
+            preparedStatement.setString(6,laSede.getTelefono());
+            preparedStatement.setInt(7,laSede.getIdSede());
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al actualizar la sede", ex);
+        }
     }
 
     @Override
     public void delete(Integer elId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "DELETE FROM sucursal WHERE idsucursal = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al eliminar una sede", ex);
+        }
     }
 
     @Override
@@ -104,11 +124,5 @@ public class SedeDAO implements DAO<Sede,Integer>{
 
         return new Sede(idSede, nombre, cantSalas, idPrestador, horaInicio, horaFin, telefono);
     }
-    
-//    public int getIdSede()throws SQLException{
-//        int idSede;
-//        return idSede;
-//    }
-    
     
 }

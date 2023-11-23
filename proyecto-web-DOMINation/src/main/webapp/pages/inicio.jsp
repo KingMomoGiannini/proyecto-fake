@@ -15,12 +15,11 @@
 </head>
 <c:import url ="../navbar.jsp" />
 <body>
-
     <div class="elcontainer">
         <div class="container-inicial">
             <h1>Bienvenido/a ${userLogueado.nomUsuario}</h1>
         </div>
-        <div><%--contenedor que mantendrá objetos de tipo salasDeEnsayo --%>
+        <div>
             <c:choose>
                 <c:when test="${userLogueado.getRol() == 'administrador'}">
                     <br><br><br>
@@ -34,16 +33,19 @@
                 </c:when>
                 <c:when test="${userLogueado.getRol() == 'prestador'}">
                     <br><br><br>
-                    <div class="centrarEnPag">
+                    <div class="centrarEnPag ">
                         <c:if test = "${Exito==true}">
-                            <br><br><br>
-                            <h1>${mensajeExito}</h1>
-                            <br><br><br>
+                            <div class="mensaje">
+                                <h1>${mensajeExito}</h1>
+                                <br><br><br>
+                            </div>
                         </c:if>
+                        <div style="color:white">
+                            <c:import url="../pages/sedes.jsp" />
+                        </div>
                             <a class="botoncin" href="sedes"><button>Crear Sede</button></a>
-                            <a class="botoncin" href="#"><button>Editar Sede</button></a>.
+                            <a class="botoncin" href="sedes/edit"><button>Editar Sede</button></a>.
                             <a class="botoncin" href="#"><button>Eliminar Sede</button></a>.
-                            
                     </div>
                     <br><br><br>
                 </c:when> <%-- --%>   

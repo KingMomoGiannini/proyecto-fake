@@ -58,5 +58,9 @@ public class Domicilio {
     public int getIdSucursal() {
         return idSucursal;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
 }

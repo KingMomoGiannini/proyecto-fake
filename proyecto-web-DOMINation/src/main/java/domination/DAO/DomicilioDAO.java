@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
     public void create(Domicilio elDom) throws Exception {
         String query = "INSERT INTO domicilio (calle, altura, localidad, partido, provincia, sucursal_idsucursal) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection con = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+             PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, elDom.getCalle());
             preparedStatement.setString(2, elDom.getAltura());
             preparedStatement.setString(3, elDom.getLocalidad());
@@ -48,20 +49,47 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
             preparedStatement.setString(5, elDom.getProvincia());
             preparedStatement.setInt(6, elDom.getIdSucursal());
             preparedStatement.executeUpdate();
-            
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    elDom.setId(generatedKeys.getInt(1));// me sirve para obtener el ID generado y lo asigna a laSede
+                } else {
+                    throw new SQLException("Fallo al obtener el ID del domicilio, no se generó automáticamente.");
+                }
+            }
         } catch (SQLException ex) {
             throw new Exception("Error al crear un nuevo domicilio", ex);
         }
     }
 
     @Override
-    public void update(Domicilio elUser) throws Exception {
-        
+    public void update(Domicilio elDom) throws Exception {
+        String query = "UPDATE domicilio SET calle = ?, altura = ?, localidad = ?, partido = ?, provincia = ?, sucursal_idsucursal = ? WHERE iddomicilio = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setString(1, elDom.getCalle());
+            preparedStatement.setString(2, elDom.getAltura());
+            preparedStatement.setString(3, elDom.getLocalidad());
+            preparedStatement.setString(4, elDom.getPartido());
+            preparedStatement.setString(5, elDom.getProvincia());
+            preparedStatement.setInt(6, elDom.getIdSucursal());
+            preparedStatement.setInt(7, elDom.getId());
+            
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al actualizar el domicilio", ex);
+        }
     }
 
     @Override
     public void delete(Integer elId) throws Exception {
-        
+        String query = "DELETE FROM domicilio WHERE iddomicilio = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al eliminar un domicilio", ex);
+        }
     }
 
     private Domicilio rsRowToDomicilio(ResultSet rs) throws SQLException {
@@ -87,7 +115,6 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    // Utiliza el constructor de Domicilio para crear un objeto Domicilio
                     domicilio = new Domicilio(
                             resultSet.getInt("iddomicilio"),
                             resultSet.getString("provincia"),

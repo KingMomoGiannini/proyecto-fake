@@ -69,5 +69,9 @@ public class Usuario {
     public String getRol() {
         return rol;
     }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
     
 }

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
     public void create(Usuario elUser) throws Exception {
         String query = "INSERT INTO usuario (nombre_usuario, nombre, apellido, email, password, celular, administrador_idadministrador) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+             PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, elUser.getNomUsuario());
             preparedStatement.setString(2, elUser.getNombre());
             preparedStatement.setString(3, elUser.getApellido());
@@ -49,8 +50,14 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
             preparedStatement.setString(5, elUser.getPassword());
             preparedStatement.setString(6, elUser.getCelular());
             preparedStatement.setInt(7, elUser.getIdAdmin());
-            
             preparedStatement.executeUpdate();
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    elUser.setIdUsuario(generatedKeys.getInt(1));// me sirve para obtener el ID generado y lo asigna al usuario
+                } else {
+                    throw new SQLException("Fallo al obtener el ID del domicilio, no se generó automáticamente.");
+                }
+            }
         } catch (SQLException ex) {
             throw new Exception("Error al crear un nuevo usuario", ex);
         }

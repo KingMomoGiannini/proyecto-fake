@@ -7,7 +7,6 @@
     <div>
         <ul class="loenlace">
             <li><a href="${pageContext.request.contextPath}">Inicio</a></li>
-            <li><a href="#">Nosotros</a></li>
         </ul>
     </div>
     <div>

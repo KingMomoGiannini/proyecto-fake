@@ -10,24 +10,25 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registrar Sede</title>
+        <title>Registrar/Editar/Eliminar Sede</title>
         <<link rel="stylesheet" href="css/formSede.css"/>
     </head>
     <body>
         <c:import url="../navbar.jsp"/>
         <div class="elcontainer">
             <div class="container-inicial">
-                <h1>Registre su sede</h1>
+                <h1>Registro/Edición/Eliminación de Sede</h1>
             </div>
             <form action="sedes" method="post">
                 <input type="hidden" name="idPrestador" value="${userLogueado.getIdPrestador()}">
+                <input type="hidden" name="action" value="${action}">
                 <h3 class="fuentePrincFondo">Datos de la sede</h3>
                     <div class="inter-texto">
                         <label class="fuenteMin" for="nomSede">Nombre del local:</label> <input class="text-box-ajuste" type="text" name="nomSede" id="nombre" required>
                         <label class="fuenteMin" for="salas">Cantidad de salas:</label>
                             <select name="salas" id="salas">
                                 <option value="1">1</option>
-                                <%--<option value="2">2</option>
+                                <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
@@ -35,7 +36,7 @@
                                 <option value="7">7</option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
-                                <option value="10">10</option><--%>
+                                <option value="10">10</option>
                             </select>
                         <label class="fuenteMin" for="celular">Telefono/Celular:</label> <input class="text-box-ajuste" type="text" id="cel" name="celular" required>
                         <label class="fuenteMin" for="horaInicio">Apertura del local:</label>
@@ -107,7 +108,7 @@
                     <br><br>
 
                     <div class="centrarEnPag">
-                        <button class ="botoncin" type="submit" >Enviar</button>
+                        <button class ="botoncin" type="submit">Enviar</button>
                         <button class ="botoncin" type="reset" >Limpiar Formulario</button>
                     </div>  <br>
             </form>
