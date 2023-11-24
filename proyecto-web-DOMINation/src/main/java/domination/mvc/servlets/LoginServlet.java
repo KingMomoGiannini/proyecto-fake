@@ -11,6 +11,7 @@ import domination.DAO.DAO;
 import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
 import domination.DAO.SedeDAO;
+import domination.DAO.UsuarioDAO;
 import domination.mvc.model.Usuario;
 import domination.mvc.model.Administrador;
 import domination.mvc.model.Domicilio;
@@ -38,6 +39,8 @@ public class LoginServlet extends HttpServlet {
     private DAO<UsuarioCliente,Integer> cliDAO;
     private DAO<Sede,Integer> sedeDAO;
     private DAO<Domicilio,Integer> domDAO;
+    private DAO<Usuario,Integer> userDAO;
+    
    
     @Override
     public void init() throws ServletException{
@@ -45,6 +48,7 @@ public class LoginServlet extends HttpServlet {
         cliDAO = new ClienteDAO();
         sedeDAO = new SedeDAO();
         domDAO = new DomicilioDAO();
+        userDAO = new UsuarioDAO();
     }
 
     @Override
@@ -101,7 +105,7 @@ public class LoginServlet extends HttpServlet {
             List<Sede> lasSedesUsuario = new LinkedList();
             List<Domicilio> domiciliosSedes = new LinkedList();
             Domicilio dom = null;
-            Domicilio laSede = null;
+            Sede laSede = null;
             try {
                 for (Sede sede : sedeDAO.getAll()) {
                     if (sede.getIdPrestador() == elUserLog.getIdPrestador()) {
@@ -128,9 +132,15 @@ public class LoginServlet extends HttpServlet {
         
         else if ((elUser != null)&&(elUser instanceof UsuarioCliente)) {//Si el user existe lo ligamos a la sesion
             List<Sede> lasSedesUsuario = new LinkedList();
+            List<Domicilio> domiciliosSedes = new LinkedList();
+            Domicilio dom = null;
+            Sede laSede = null;
             try {
                 for (Sede sede : sedeDAO.getAll()) {
                     lasSedesUsuario.add(sede);
+                }
+                for (Domicilio domicilioSede : domDAO.getAll()) {
+                    domiciliosSedes.add(domicilioSede);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,15 +149,28 @@ public class LoginServlet extends HttpServlet {
             HttpSession laSesion = req.getSession(); //Creamos una sesion
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
             laSesion.setAttribute("sedesDelUsuario", lasSedesUsuario);
+            laSesion.setAttribute("domiciliosDeSedes", domiciliosSedes);
+            laSesion.setAttribute("elDom", dom);
+            laSesion.setAttribute("laSede", laSede);
             laSesion.setAttribute("userLogueado",elUserLog);//
             resp.sendRedirect(req.getContextPath()+"/inicio");//redirigimos al usuario a su pagina de inicio
         }
         
         else if (elAdmin != null) {//Si el admin existe
             List<Sede> lasSedesUsuario = new LinkedList();
+            List<Domicilio> domiciliosSedes = new LinkedList();
+            List<Usuario> usuarios = new LinkedList();
+            Domicilio dom = null;
+            Sede laSede = null;
             try {
                 for (Sede sede : sedeDAO.getAll()) {
                     lasSedesUsuario.add(sede);
+                }
+                for (Domicilio domicilioSede : domDAO.getAll()) {
+                    domiciliosSedes.add(domicilioSede);
+                }
+                for (Usuario usuario : userDAO.getAll()) {
+                    usuarios.add(usuario);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,7 +178,11 @@ public class LoginServlet extends HttpServlet {
             HttpSession laSesion = req.getSession(); //Creamos una sesion
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
             laSesion.setAttribute("sedesDelUsuario", lasSedesUsuario);
+            laSesion.setAttribute("domiciliosDeSedes", domiciliosSedes);
+            laSesion.setAttribute("usuarios", usuarios);
             laSesion.setAttribute("userLogueado",elAdmin);//
+            laSesion.setAttribute("elDom", dom);
+            laSesion.setAttribute("laSede", laSede);
             resp.sendRedirect(req.getContextPath()+"/inicio");//redirigimos al usuario a su pagina de inicio
         } 
         else { //Sino mostramos el mensaje de error

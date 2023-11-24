@@ -33,47 +33,47 @@ public class SedeServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
+    try {
+        String destino;
+        String pathInfo = req.getPathInfo(); // Obtiene la parte de la URL después de "/sedes"
+        pathInfo = pathInfo == null ? "" : pathInfo;
+        req.setAttribute("action", "create");
 
-            String destino;
-            String pathInfo = req.getPathInfo(); // Obtiene la parte de la URL después de "/sedes"
-            pathInfo = pathInfo == null ? "" : pathInfo;
-            req.setAttribute("action", "create");
-
-            switch (pathInfo) {
-                case "/edit":
-                    int idSedeEdit = Integer.parseInt(req.getParameter("id")); // Cambiado el nombre de la variable
-                    Sede laSedeEdit = laSedeDAO.getByID(idSedeEdit);
-                    req.setAttribute("laSede", laSedeEdit);
-                    req.setAttribute("action", "update");
-                    destino = "pages/formSedes.jsp"; // Utiliza el mismo formulario que el de creación
-                    break;
+        switch (pathInfo) {
+            case "/edit":
+                int idSedeEdit = Integer.parseInt(req.getParameter("id")); 
+                System.out.println("Valor de idParam: " + idSedeEdit);
+                Sede laSedeEdit = laSedeDAO.getByID(idSedeEdit);
+                System.out.println(laSedeEdit.getNombre());
+                req.setAttribute("laSede", laSedeEdit);
+                req.setAttribute("action", "update");
+                destino = "/pages/formSedes.jsp";
+                break;
             case "/delete":
-                    int idSedeDelete = Integer.parseInt(req.getParameter("id")); // Cambiado el nombre de la variable
-                    Sede laSedeDelete = laSedeDAO.getByID(idSedeDelete);
-                    req.setAttribute("laSede", laSedeDelete);
-                    req.setAttribute("action", "delete");
-                    destino = "pages/inicio.jsp"; // Utiliza el mismo formulario que el de creación
-                    break;
-                default:
-                    req.setAttribute("laSede", new Sede()); // Crea una nueva instancia de Sede para el formulario de creación
-                    destino = "pages/formSedes.jsp";
-                    break;
-            }
-
-            req.getRequestDispatcher(destino).forward(req, resp);
-        } catch (Exception ex) {
-            resp.sendError(500, "error en parseando en doGet SedeServlet /edit");
+                int idSedeDelete = Integer.parseInt(req.getParameter("id")); // Cambiado el nombre de la variable
+                Sede laSedeDelete = laSedeDAO.getByID(idSedeDelete);
+                req.setAttribute("laSede", laSedeDelete);
+                req.setAttribute("action", "delete");
+                destino = "pages/inicio.jsp"; // Utiliza el mismo formulario que el de creación
+                break;
+            default:
+                req.setAttribute("laSede", new Sede()); // Crea una nueva instancia de Sede para el formulario de creación
+                destino = "pages/formSedes.jsp";
+                break;
         }
 
+        req.getRequestDispatcher(destino).forward(req, resp);
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        resp.sendError(500, ex.getMessage());
     }
+}
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
             String action = req.getParameter("action");
-
             switch (action) {
                 case "create":
                     createSede(req);
@@ -85,7 +85,8 @@ public class SedeServlet extends HttpServlet {
                     deleteSede(req);
                     break;
             }
-        req.getRequestDispatcher("pages/inicio.jsp").forward(req, resp);
+        resp.sendRedirect(req.getContextPath()+"/inicio");
+//        req.getRequestDispatcher("pages/inicio.jsp").forward(req, resp);
         } catch (Exception ex) {
             resp.sendError(500, "error en parseando en doPost SedeServlet");
 
@@ -107,16 +108,12 @@ public class SedeServlet extends HttpServlet {
         laSedeDAO.update(laSede);
         Domicilio elDom = obtenerDomicilioDesdeRequest(req, idSede);
         elDomDAO.update(elDom);
-
         setAttributesForSuccess(req, "La sede ha sido actualizada exitosamente", laSede,elDom);
     }
 
     private void deleteSede(HttpServletRequest req) throws Exception {
         int idSede = Integer.parseInt(req.getParameter("idSede"));
-        int idDom = Integer.parseInt(req.getParameter("idSede"));
-        
         laSedeDAO.delete(idSede);
-
         setAttributesForSuccess(req, "La sede ha sido eliminada exitosamente", null,null);
     }
 
