@@ -82,6 +82,7 @@ public class ClienteDAO implements DAO<UsuarioCliente,Integer> {
     }
     
      private UsuarioCliente rsRowToCliente(ResultSet rs) throws SQLException, Exception {
+        int idUsuario = rs.getInt("usuario_idusuario");
         String nomUsuario = rs.getString("nombre_usuario");
         String nombre = rs.getString("nombre");
         String apellido = rs.getString("apellido");
@@ -90,7 +91,7 @@ public class ClienteDAO implements DAO<UsuarioCliente,Integer> {
         String celular = rs.getString("celular");
         int idCliente = rs.getInt("idcliente");
 
-        return new UsuarioCliente(idCliente, nomUsuario, nombre, apellido, email, password, celular,"cliente");
+        return new UsuarioCliente(idCliente,idUsuario, nomUsuario, nombre, apellido, email, password, celular,"cliente");
     }
     
     private void insertarEnCliente(int idUsuarioGenerado) throws SQLException {

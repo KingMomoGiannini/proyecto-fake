@@ -33,9 +33,7 @@ public class Sede {
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
         this.telefono = telefono;
-
     }
-
 
     public int getIdSede() {
         return idSede;

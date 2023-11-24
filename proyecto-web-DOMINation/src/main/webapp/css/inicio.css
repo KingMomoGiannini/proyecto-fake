@@ -78,3 +78,20 @@ body{
     border: solid 2px white;
 }
 
+.sede-container {
+    width: 40%; /* Ajusta el ancho de cada contenedor según tus preferencias */
+    margin: 10px; /* Espaciado entre cada contenedor de sede */
+    border: 1px solid #ddd; /* Borde alrededor de cada contenedor */
+    border-radius: 5px;
+    padding: 20px; /* Espaciado interno del contenedor */
+    text-align: center;
+}
+
+.sede-container:hover {
+    background-color: #f5f5f5; /* Cambia el fondo al pasar el mouse sobre el contenedor */
+}
+
+.sedes-row {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los contenedores se envuelvan en la siguiente línea */
+}

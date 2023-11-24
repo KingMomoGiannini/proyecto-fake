@@ -5,9 +5,18 @@
         <img src="img/logo.png" alt="LogoDomi">
     </div>
     <div>
-        <ul class="loenlace">
-            <li><a href="${pageContext.request.contextPath}">Inicio</a></li>
-        </ul>
+        <c:choose>
+            <c:when test="${userLogueado==null}">
+                <ul class="loenlace">
+                    <li><a href="${pageContext.request.contextPath}">Inicio</a></li>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                <ul class="loenlace">
+                    <li><a href="inicio">Inicio</a></li>
+                </ul>
+            </c:otherwise>
+        </c:choose>
     </div>
     <div>
         <del class="eltitulo">DO MI</del><b class="eltitulo color"> Nation</b>

@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="css/inicio.css">
     <title>inicio</title>
 </head>
-<c:import url ="../navbar.jsp" />
+
 <body>
+    <c:import url ="../navbar.jsp" />
     <div class="elcontainer">
         <div class="container-inicial">
             <h1>Bienvenido/a ${userLogueado.nomUsuario}</h1>
@@ -33,19 +34,66 @@
                 </c:when>
                 <c:when test="${userLogueado.getRol() == 'prestador'}">
                     <br><br><br>
-                    <div class="centrarEnPag ">
+                    <div>
                         <c:if test = "${Exito==true}">
                             <div class="mensaje">
                                 <h1>${mensajeExito}</h1>
                                 <br><br><br>
                             </div>
                         </c:if>
-                        <div style="color:white">
-                            <c:import url="../pages/sedes.jsp" />
-                        </div>
-                            <a class="botoncin" href="sedes"><button>Crear Sede</button></a>
-                            <a class="botoncin" href="sedes/edit"><button>Editar Sede</button></a>.
-                            <a class="botoncin" href="#"><button>Eliminar Sede</button></a>.
+                        <c:if test = "${not empty sedesDelUsuario}">
+                            <div class="sedes-row">
+                                <c:forEach items ="${sedesDelUsuario}" var="sede">
+                                    <c:choose>
+                                        <c:when test= "${sede.getIdPrestador() == userLogueado.getIdPrestador()}">
+                                            <div class="sede-container">
+                                                <div style="color:white">
+                                                    <h1 style = "font-size:30px">Sucursal</h1>
+                                                    <h2 style = "color:red;font-size:20px ">${sede.nombre}</h2>
+                                                    <p><strong style = "font-size:14px;text-decoration:underline">ID de Sede:</strong> ${sede.getIdSede()}</p>
+                                                    <p><strong style = "font-size:14px;text-decoration:underline">Cantidad de Salas:</strong> ${sede.cantSalas}</p>
+                                                    <p><strong style = "font-size:14px;text-decoration:underline">Hora de Inicio:</strong> ${sede.horaInicio} hs</p>
+                                                    <p><strong style = "font-size:14px;text-decoration:underline">Hora de Fin:</strong> ${sede.horaFin} hs</p>
+                                                    <p><strong style = "font-size:14px;text-decoration:underline">Teléfono:</strong> ${sede.telefono}</p>
+
+                                                    <c:if test = "${not empty domiciliosDeSedes}">
+                                                        <c:forEach items ="${domiciliosDeSedes}" var="dom">
+                                                            <c:choose>
+                                                                <c:when test= "${dom.getIdSucursal() == sede.getIdSede()}">
+                                                                    <div style="color:white">
+                                                                        <h1 style = "font-size:30px">Dirección</h1>
+                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Provincia:</strong> ${dom.provincia}</p>
+                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Localidad:</strong> ${dom.localidad}</p>
+                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Partido:</strong> ${dom.partido}</p>
+                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Calle:</strong> ${dom.calle}</p>
+                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Altura:</strong> ${dom.altura}</p>
+                                                                        <br><br><br>
+                                                                    </div>
+                                                                   
+                                                                </c:when>
+                                                            </c:choose>
+                                                        </c:forEach> 
+                                                    </c:if>
+                                                    <a class="botoncin" href="sedes/edit?id=${sede.getIdSede()}"><button>Editar Sede</button></a>
+                                                    <a class="botoncin" href="sedes/delete"><button>Eliminar Sede</button></a>
+                                                </div>
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
+                                        <c:if test = "${domiciliosDeSedes == null}">
+                                            <p>No hay domicilios disponibles registrados </p>
+                                        </c:if>
+                                </c:forEach> 
+                                <br><br><br>
+                            </div>
+                        </c:if>
+                        <%--<div style="color:white">
+                            <c:when test = "${sedesDelUsuario == null}">
+                                 <p>No hay sedes disponibles registradas </p>
+                            </c:when>
+                        </div>--%>
+                            <a class="botoncin centrarEnPag" href="sedes"><button>Crear Sede</button></a>
+                            class="centrarEnPag "
                     </div>
                     <br><br><br>
                 </c:when> <%-- --%>   
@@ -55,7 +103,6 @@
             </c:choose>
         </div>
     </div>
-
+    <c:import url ="../footer.jsp" />
 </body>
-<c:import url ="../footer.jsp" />
 </html>

@@ -8,9 +8,13 @@ package domination.mvc.servlets;
 import domination.DAO.AdministradorDAO;
 import domination.DAO.ClienteDAO;
 import domination.DAO.DAO;
+import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
+import domination.DAO.SedeDAO;
 import domination.mvc.model.Usuario;
 import domination.mvc.model.Administrador;
+import domination.mvc.model.Domicilio;
+import domination.mvc.model.Sede;
 import domination.mvc.model.UsuarioCliente;
 import domination.mvc.model.UsuarioPrestador;
 import jakarta.servlet.ServletException;
@@ -32,11 +36,15 @@ public class LoginServlet extends HttpServlet {
     
     private DAO<UsuarioPrestador,Integer> prestDAO;
     private DAO<UsuarioCliente,Integer> cliDAO;
+    private DAO<Sede,Integer> sedeDAO;
+    private DAO<Domicilio,Integer> domDAO;
    
     @Override
     public void init() throws ServletException{
         prestDAO = new PrestadorDAO();
         cliDAO = new ClienteDAO();
+        sedeDAO = new SedeDAO();
+        domDAO = new DomicilioDAO();
     }
 
     @Override
@@ -66,9 +74,11 @@ public class LoginServlet extends HttpServlet {
             List<Usuario> listaUsers = new LinkedList();
             try {
                 for (UsuarioPrestador prestador : prestDAO.getAll()) {
+                    System.out.println(prestador.getIdUsuario());
                     listaUsers.add(prestador);
                 }
                 for (UsuarioCliente cliente : cliDAO.getAll()) {
+                    System.out.println(cliente.getIdUsuario());
                     listaUsers.add(cliente);
                 }
             } catch (Exception ex) {
@@ -86,38 +96,74 @@ public class LoginServlet extends HttpServlet {
         }
         
         if ((elUser != null)&&(elUser instanceof UsuarioPrestador)) {//Si el user existe
-            //Ligamos el user a la sesion
+            
             UsuarioPrestador elUserLog = (UsuarioPrestador) elUser;
+            List<Sede> lasSedesUsuario = new LinkedList();
+            List<Domicilio> domiciliosSedes = new LinkedList();
+            Domicilio dom = null;
+            Domicilio laSede = null;
+            try {
+                for (Sede sede : sedeDAO.getAll()) {
+                    if (sede.getIdPrestador() == elUserLog.getIdPrestador()) {
+                        lasSedesUsuario.add(sede);
+                        for (Domicilio domicilioSede : domDAO.getAll()) {
+                            if (domicilioSede.getIdSucursal() == sede.getIdSede()) {
+                                domiciliosSedes.add(domicilioSede);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             HttpSession laSesion = req.getSession(); //Creamos una sesion
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
+            laSesion.setAttribute("sedesDelUsuario", lasSedesUsuario);
+            laSesion.setAttribute("domiciliosDeSedes", domiciliosSedes);
             laSesion.setAttribute("userLogueado",elUserLog);//
+            laSesion.setAttribute("elDom", dom);
+            laSesion.setAttribute("laSede", laSede);
             resp.sendRedirect(req.getContextPath()+"/inicio");//redirigimos al usuario a su pagina de inicio
         }
-        else if ((elUser != null)&&(elUser instanceof UsuarioCliente)) {//Si el user existe
-            //Ligamos el user a la sesion
+        
+        else if ((elUser != null)&&(elUser instanceof UsuarioCliente)) {//Si el user existe lo ligamos a la sesion
+            List<Sede> lasSedesUsuario = new LinkedList();
+            try {
+                for (Sede sede : sedeDAO.getAll()) {
+                    lasSedesUsuario.add(sede);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             UsuarioCliente elUserLog = (UsuarioCliente) elUser;
             HttpSession laSesion = req.getSession(); //Creamos una sesion
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
+            laSesion.setAttribute("sedesDelUsuario", lasSedesUsuario);
             laSesion.setAttribute("userLogueado",elUserLog);//
             resp.sendRedirect(req.getContextPath()+"/inicio");//redirigimos al usuario a su pagina de inicio
         }
+        
         else if (elAdmin != null) {//Si el admin existe
-            //Ligamos el user a la sesion
+            List<Sede> lasSedesUsuario = new LinkedList();
+            try {
+                for (Sede sede : sedeDAO.getAll()) {
+                    lasSedesUsuario.add(sede);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             HttpSession laSesion = req.getSession(); //Creamos una sesion
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
+            laSesion.setAttribute("sedesDelUsuario", lasSedesUsuario);
             laSesion.setAttribute("userLogueado",elAdmin);//
             resp.sendRedirect(req.getContextPath()+"/inicio");//redirigimos al usuario a su pagina de inicio
-
         } 
         else { //Sino mostramos el mensaje de error
             req.setAttribute("hayError", true);//Si hay un error
             req.setAttribute("mensajeError", "Usuario o contraseña incorrectos.");//Este sera el mensaje de error 
             doGet(req,resp);
-            
         }
         
     }
-    
-    
-    
+
 }

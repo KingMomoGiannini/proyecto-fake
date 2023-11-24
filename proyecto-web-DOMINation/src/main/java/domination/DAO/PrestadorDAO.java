@@ -60,15 +60,6 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
                     throw new SQLException("Error al obtener el ID del prestador generado.");
                 }
             }
-//    public void create(UsuarioPrestador elPrestador) throws Exception {
-//        String query = "INSERT INTO prestador (usuario_idusuario) VALUES ( ?)";
-//        try (Connection con = ConnectionPool.getInstance().getConnection();
-//             PreparedStatement preparedStatement = con.prepareStatement(query)) {
-//            preparedStatement.setInt(1, elPrestador.getIdUsuario());
-////            preparedStatement.setInt(2, elPrestador.getIdUsuario());
-//
-//            preparedStatement.executeUpdate();
-
         } catch (SQLException ex) {
             throw new Exception("Error al crear un nuevo prestador", ex);
         }
@@ -123,6 +114,7 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
     }
     
    private UsuarioPrestador rsRowToPrestador(ResultSet rs) throws SQLException, Exception {
+        int idUsuario = rs.getInt("usuario_idusuario");
         String nomUsuario = rs.getString("nombre_usuario");
         String nombre = rs.getString("nombre");
         String apellido = rs.getString("apellido");
@@ -131,7 +123,7 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
         String celular = rs.getString("celular");
         int idPrestador = rs.getInt("idprestador");
 
-        return new UsuarioPrestador(idPrestador, nomUsuario, nombre, apellido, email, password, celular,"prestador");
+        return new UsuarioPrestador(idPrestador,idUsuario, nomUsuario, nombre, apellido, email, password, celular,"prestador");
     }
     
     public UsuarioPrestador autenticar(String nomUsuario, String pass) throws Exception{
@@ -152,7 +144,7 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
         return elUser;
     }
     
-    // Método para insertar el ID que se genera en la tabla prestador después de insertar en usuario
+    // para insertar el ID que se genera en la tabla prestador después de insertar en usuario
     private void insertarEnPrestador(int idUsuarioGenerado) throws SQLException {
         String query = "INSERT INTO prestador (usuario_idusuario) VALUES (?)";
         try (Connection con = ConnectionPool.getInstance().getConnection();
@@ -160,40 +152,6 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
             preparedStatement.setInt(1, idUsuarioGenerado);
             preparedStatement.executeUpdate();
         }
-    }
-    
-    private Sede obtenerSedePorId(int idSede) throws SQLException, Exception {
-        String query = "SELECT * FROM sucursal WHERE idsucursal = ?";
-        Sede laSede = null;
-
-        try (Connection con = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = con.prepareStatement(query)) {
-
-            preparedStatement.setInt(1, idSede);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    // Ajusta los nombres de las columnas según tu esquema
-                    int idSedeDB = resultSet.getInt("idsucursal");
-                    String nombreSede = resultSet.getString("nombre");
-                    int cantSalas = resultSet.getInt("cant_salas");
-                    int idPrestador = resultSet.getInt("prestador_idprestador");
-                    int horaInicio = resultSet.getInt("hora_inicio");
-                    int horaFin = resultSet.getInt("hora_fin");
-                    String telefono = resultSet.getString("telefono");
-
-                    // Obtén el domicilio asociado a través del DAO de Domicilio (debes tener un método getById en tu DAO)
-                    DomicilioDAO elDAO = new DomicilioDAO();
-                    Domicilio dom = elDAO.getByID(idSede);
-
-                    // Crea una instancia de Sede con la información obtenida
-                    laSede = new Sede(idSedeDB, nombreSede, cantSalas, idPrestador, horaInicio, horaFin, telefono);
-                    // Ajusta según los atributos reales de la clase Sede
-                }
-            }
-        }
-
-        return laSede;
     }
 
 }

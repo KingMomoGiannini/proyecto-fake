@@ -55,7 +55,7 @@ public class UsuarioDAO implements DAO<Usuario,Integer>{
                 if (generatedKeys.next()) {
                     elUser.setIdUsuario(generatedKeys.getInt(1));// me sirve para obtener el ID generado y lo asigna al usuario
                 } else {
-                    throw new SQLException("Fallo al obtener el ID del domicilio, no se generó automáticamente.");
+                    throw new SQLException("Fallo al obtener el ID del Usuario, no se generó automáticamente.");
                 }
             }
         } catch (SQLException ex) {

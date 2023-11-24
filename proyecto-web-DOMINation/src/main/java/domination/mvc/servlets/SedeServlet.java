@@ -21,6 +21,7 @@ import java.io.IOException;
  */
 public class SedeServlet extends HttpServlet {
     
+    
     private DAO<Sede, Integer> laSedeDAO;
     private DAO<Domicilio, Integer> elDomDAO;
 
@@ -33,7 +34,7 @@ public class SedeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            //eq.getRequestDispatcher("pages/formSedes.jsp").forward(req, resp);//redirige el servlet primero a el JSP del form de registro.
+
             String destino;
             String pathInfo = req.getPathInfo(); // Obtiene la parte de la URL después de "/sedes"
             pathInfo = pathInfo == null ? "" : pathInfo;
@@ -41,16 +42,16 @@ public class SedeServlet extends HttpServlet {
 
             switch (pathInfo) {
                 case "/edit":
-                    int idSede = Integer.parseInt(req.getParameter("id"));
-                    Sede laSede = laSedeDAO.getByID(idSede);
-                    req.setAttribute("laSede", laSede);
+                    int idSedeEdit = Integer.parseInt(req.getParameter("id")); // Cambiado el nombre de la variable
+                    Sede laSedeEdit = laSedeDAO.getByID(idSedeEdit);
+                    req.setAttribute("laSede", laSedeEdit);
                     req.setAttribute("action", "update");
                     destino = "pages/formSedes.jsp"; // Utiliza el mismo formulario que el de creación
                     break;
-                case "/delete":
-                   // int idSede = Integer.parseInt(req.getParameter("id"));
-                   // Sede laSede = laSedeDAO.getByID(idSede);
-                   // req.setAttribute("laSede", laSede);
+            case "/delete":
+                    int idSedeDelete = Integer.parseInt(req.getParameter("id")); // Cambiado el nombre de la variable
+                    Sede laSedeDelete = laSedeDAO.getByID(idSedeDelete);
+                    req.setAttribute("laSede", laSedeDelete);
                     req.setAttribute("action", "delete");
                     destino = "pages/inicio.jsp"; // Utiliza el mismo formulario que el de creación
                     break;
@@ -62,7 +63,7 @@ public class SedeServlet extends HttpServlet {
 
             req.getRequestDispatcher(destino).forward(req, resp);
         } catch (Exception ex) {
-            resp.sendError(500, ex.getMessage());
+            resp.sendError(500, "error en parseando en doGet SedeServlet /edit");
         }
 
     }
@@ -86,7 +87,7 @@ public class SedeServlet extends HttpServlet {
             }
         req.getRequestDispatcher("pages/inicio.jsp").forward(req, resp);
         } catch (Exception ex) {
-            resp.sendError(500, ex.getMessage());
+            resp.sendError(500, "error en parseando en doPost SedeServlet");
 
         }
     }
@@ -96,7 +97,6 @@ public class SedeServlet extends HttpServlet {
         laSedeDAO.create(laSede);
         Domicilio elDom = obtenerDomicilioDesdeRequest(req, laSede.getIdSede());
         elDomDAO.create(elDom);
-
         setAttributesForSuccess(req, "La sede ha sido creada exitosamente", laSede,elDom);
     }
 
@@ -149,32 +149,5 @@ public class SedeServlet extends HttpServlet {
         req.setAttribute("domicilio", elDom);
     }
     
+    
 }
-
-//            Sede laSede;
-//            Domicilio elDom;
-//            
-//            String nomSede = req.getParameter("nomSede");
-//            int cantSalas = Integer.parseInt(req.getParameter("salas"));
-//            String telefono = req.getParameter("celular");
-//            int horaInicio = Integer.parseInt(req.getParameter("horaInicio"));
-//            int horaCierre = Integer.parseInt(req.getParameter("horaCierre"));
-//            String calle = req.getParameter("calle");
-//            String altura = req.getParameter("altura");
-//            String localidad = req.getParameter("localidad");
-//            String partido = req.getParameter("partido");
-//            String provincia = req.getParameter("provincia");
-//
-//            int idPrestador = Integer.parseInt(req.getParameter("idPrestador"));//Recupero el ID del prestador.
-//
-//            laSede = new Sede(nomSede,cantSalas,idPrestador,horaInicio,horaCierre,telefono);
-//            laSedeDAO.create(laSede);
-//            elDom = new Domicilio(provincia,localidad,partido,calle,altura,laSede.getIdSede());
-//            elDomDAO.create(elDom);
-//
-//            if ((laSede!=null) && (elDom!=null)) {
-//                req.setAttribute("Exito", true);
-//                req.setAttribute("mensajeExito","La sede ha sido creada exitosamente");
-//                req.setAttribute("HaySede",true);
-//                req.setAttribute("sede",laSede);
-//            }

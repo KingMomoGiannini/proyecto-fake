@@ -125,4 +125,23 @@ public class SedeDAO implements DAO<Sede,Integer>{
         return new Sede(idSede, nombre, cantSalas, idPrestador, horaInicio, horaFin, telefono);
     }
     
+    public Sede getByIdPrestador(Integer elId) throws SQLException, Exception {
+        String query = "SELECT * FROM sucursal WHERE prestador_idprestador= ?";
+        Sede sede = null;
+
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    sede = rsRowToSede(resultSet);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Error al obtener una sede por ID", ex);
+        }
+
+        return sede;
+    }
 }

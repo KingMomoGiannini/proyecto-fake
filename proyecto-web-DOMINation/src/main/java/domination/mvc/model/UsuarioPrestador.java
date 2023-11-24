@@ -12,14 +12,15 @@ public class UsuarioPrestador extends Usuario {
     
     private int idPrestador;
    
-    public UsuarioPrestador(int idPrestador, String nomUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
-        super(nomUsuario, nombre, apellido, email, password, celular,"prestador");
-        this.idPrestador = idPrestador;
-    }
     
     public UsuarioPrestador(String nomUsuario, String nombre, String apellido, String email, String password, String celular) {
         super(0,nomUsuario, nombre, apellido, email, password, celular,"prestador");
        
+    }
+
+    public UsuarioPrestador(int idPrestador, int idUsuario, String nomUsuario, String nombre, String apellido, String email, String password, String celular, String rol) {
+        super(idUsuario, nomUsuario, nombre, apellido, email, password, celular, rol);
+        this.idPrestador = idPrestador;
     }
 
     public int getIdPrestador() {
