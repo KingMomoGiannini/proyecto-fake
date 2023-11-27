@@ -16,4 +16,5 @@ public interface DAO<T, K> {
    void update(T elObjeto)throws Exception;
    void delete(K elId)throws Exception;
    T getByID(K elId) throws Exception;
+
 }

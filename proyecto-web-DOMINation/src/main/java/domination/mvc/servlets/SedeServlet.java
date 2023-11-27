@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -30,16 +31,22 @@ public class SedeServlet extends HttpServlet {
          laSedeDAO = new SedeDAO();
          elDomDAO = new DomicilioDAO();
     }
-    
+    //http://localhost:8080/proyecto-web-DOMINation/sedes/edit?id=2
+    //http://localhost:8080/proyecto-web-DOMINation/sedes/create
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     try {
-        String destino;
-        String pathInfo = req.getPathInfo(); // Obtiene la parte de la URL después de "/sedes"
-        pathInfo = pathInfo == null ? "" : pathInfo;
-        req.setAttribute("action", "create");
-
+            System.out.println("hola");
+            String destino="/";
+            String pathInfo = req.getPathInfo(); // Obtiene la parte de la URL después de "/sedes"
+            pathInfo = pathInfo == null ? "" : pathInfo;
+            System.out.println("pathinfo: " + pathInfo);
         switch (pathInfo) {
+            case "/create":
+                req.setAttribute("action", "create");
+                req.setAttribute("laSede", new Sede()); // Crea una nueva instancia de Sede para el formulario de creación
+                destino += "pages/formSedes.jsp";
+                break;
             case "/edit":
                 int idSedeEdit = Integer.parseInt(req.getParameter("id")); 
                 System.out.println("Valor de idParam: " + idSedeEdit);
@@ -47,18 +54,19 @@ public class SedeServlet extends HttpServlet {
                 System.out.println(laSedeEdit.getNombre());
                 req.setAttribute("laSede", laSedeEdit);
                 req.setAttribute("action", "update");
-                destino = "/pages/formSedes.jsp";
+                destino += "pages/formSedes.jsp";
                 break;
             case "/delete":
-                int idSedeDelete = Integer.parseInt(req.getParameter("id")); // Cambiado el nombre de la variable
+                int idSedeDelete = Integer.parseInt(req.getParameter("id")); 
                 Sede laSedeDelete = laSedeDAO.getByID(idSedeDelete);
                 req.setAttribute("laSede", laSedeDelete);
                 req.setAttribute("action", "delete");
-                destino = "pages/inicio.jsp"; // Utiliza el mismo formulario que el de creación
+                destino += "pages/inicio.jsp"; // Utiliza el mismo formulario que el de creación
                 break;
             default:
-                req.setAttribute("laSede", new Sede()); // Crea una nueva instancia de Sede para el formulario de creación
-                destino = "pages/formSedes.jsp";
+                List<Sede> sedes = laSedeDAO.getAll();
+                req.setAttribute("sedesDelUsuario", sedes);
+                destino += "pages/inicio.jsp";
                 break;
         }
 
@@ -88,8 +96,7 @@ public class SedeServlet extends HttpServlet {
         resp.sendRedirect(req.getContextPath()+"/inicio");
 //        req.getRequestDispatcher("pages/inicio.jsp").forward(req, resp);
         } catch (Exception ex) {
-            resp.sendError(500, "error en parseando en doPost SedeServlet");
-
+            resp.sendError(500, "error en doPost SedeServlet");
         }
     }
     
@@ -103,16 +110,19 @@ public class SedeServlet extends HttpServlet {
 
     private void updateSede(HttpServletRequest req) throws Exception {
         int idSede = Integer.parseInt(req.getParameter("idSede"));
+        int idDom = Integer.parseInt(req.getParameter("idDom"));
         Sede laSede = obtenerSedeDesdeRequest(req);
         laSede.setIdSede(idSede);
         laSedeDAO.update(laSede);
         Domicilio elDom = obtenerDomicilioDesdeRequest(req, idSede);
+        elDom.setId(idDom);
         elDomDAO.update(elDom);
         setAttributesForSuccess(req, "La sede ha sido actualizada exitosamente", laSede,elDom);
     }
 
     private void deleteSede(HttpServletRequest req) throws Exception {
         int idSede = Integer.parseInt(req.getParameter("idSede"));
+        elDomDAO.delete(idSede);
         laSedeDAO.delete(idSede);
         setAttributesForSuccess(req, "La sede ha sido eliminada exitosamente", null,null);
     }

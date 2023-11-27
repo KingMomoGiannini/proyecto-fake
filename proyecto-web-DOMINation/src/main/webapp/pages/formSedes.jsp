@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Registrar/Editar/Eliminar Sede</title>
-        <<link rel="stylesheet" href="css/formSede.css"/>
+        <<link rel="stylesheet" href="../css/formSede.css"/>
     </head>
     <body>
         <c:import url="../navbar.jsp"/>
@@ -21,6 +21,8 @@
             </div>
             <form action="sedes" method="post">
                 <input type="hidden" name="idPrestador" value="${userLogueado.getIdPrestador()}">
+                <input type="hidden" name="idSede" value="${laSede.getIdSede()}">
+                <input type="hidden" name="idDom" value="${elDom.getId()}">
                 <input type="hidden" name="action" value="${action}">
                 <h3 class="fuentePrincFondo">Datos de la sede</h3>
                     <div class="inter-texto">

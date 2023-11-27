@@ -82,7 +82,7 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
 
     @Override
     public void delete(Integer elId) throws Exception {
-        String query = "DELETE FROM domicilio WHERE iddomicilio = ?";
+        String query = "DELETE FROM domicilio WHERE sucursal_idsucursal = ?";
         try (Connection con = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setInt(1, elId);
@@ -129,5 +129,44 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
         }
         return domicilio;
     }
+    
+    public Domicilio getByIdSede(Integer elId) throws Exception {
+        String query = "SELECT * FROM domicilio WHERE sucursal_idsucursal= ?";
+        Domicilio domicilio = null;
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
 
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    domicilio = new Domicilio(
+                            resultSet.getInt("iddomicilio"),
+                            resultSet.getString("provincia"),
+                            resultSet.getString("localidad"),
+                            resultSet.getString("partido"),
+                            resultSet.getString("calle"),
+                            resultSet.getString("altura"),
+                            resultSet.getInt("sucursal_idsucursal")
+                    );
+                }
+            }
+        }
+        return domicilio;
+    }
+    
+    /**
+     *
+     * @param elId
+     * @throws Exception
+     */
+    public void deleteByIdSede(Integer elId) throws Exception {
+        String query = "DELETE FROM domicilio WHERE sucursal_idsucursal = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al eliminar un domicilio", ex);
+        }
+    }
 }

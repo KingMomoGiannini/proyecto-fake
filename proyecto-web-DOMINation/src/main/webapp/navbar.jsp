@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" href="css/navbar.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css"/>
 <nav class="header">
     <div class="logo">
         <img src="img/logo.png" alt="LogoDomi">
