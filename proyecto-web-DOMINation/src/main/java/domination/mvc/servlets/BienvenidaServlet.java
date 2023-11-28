@@ -26,7 +26,7 @@ public class BienvenidaServlet extends HttpServlet{
 //                req.setAttribute("mensajeExito", req.getParameter("mensajeExito"));
 //            }
             req.getRequestDispatcher("pages/inicio.jsp").forward(req, resp);
-
+            req.getSession().setAttribute("Exito", false);
         }catch(Exception ex){
             resp.sendError(500,"En BienvenidaServlet hay un error");
         }

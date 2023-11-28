@@ -20,6 +20,7 @@ body{
 
 .fuenteMin{
     background-color:  rgba(28, 28, 28,0.8);
+    font-family: 'Bahiana', cursive;
     color: rgb(158, 153, 153);
     font-size: 25px;
     padding: 5px;
@@ -28,6 +29,8 @@ body{
 
 .fuentePrinc{
     color: black;
+    font-family: 'Bahiana', cursive;
+
     font-size: 30px;
     padding: 10px;
 }

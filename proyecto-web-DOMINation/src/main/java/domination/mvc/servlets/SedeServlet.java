@@ -65,7 +65,7 @@ public class SedeServlet extends HttpServlet {
                 req.setAttribute("laSede", laSedeDelete);
                 req.setAttribute("elDom", elDomDelete);
                 req.setAttribute("action", "delete");
-                destino += "pages/inicio.jsp"; // Utiliza el mismo formulario que el de creación
+                destino += "pages/formSedes.jsp"; // Utiliza el mismo formulario que el de creación
                 break;
             default:
                 List<Sede> sedes = laSedeDAO.getAll();
@@ -85,20 +85,39 @@ public class SedeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
-
+            String cancelar = null;
             String action = req.getParameter("action");
             System.out.println(action);
             switch (action) {
                 case "create":
-                    createSede(req);
+                    cancelar = req.getParameter("cancelDelete");
+                    if (cancelar != null && cancelar.equals("true")) {
+                        req.getSession().setAttribute("Exito", false);
+                        break;
+                    }
+                    else{
+                        createSede(req);
+                    }
                     break;
                 case "update":
-                    System.out.println("Acá todavía no se cargó nada.");
-                    updateSede(req);
-                    System.out.println("Se cargaron los datos.");
+                    cancelar = req.getParameter("cancelDelete");
+                    if (cancelar != null && cancelar.equals("true")) {
+                        req.getSession().setAttribute("Exito", false);
+                        break;
+                    }
+                    else{
+                        updateSede(req);
+                    }
                     break;
                 case "delete":
-                    deleteSede(req);
+                    cancelar = req.getParameter("cancelDelete");
+                    if (cancelar != null && cancelar.equals("true")) {
+                        req.getSession().setAttribute("Exito", false);
+                        break;
+                    }
+                    else{
+                        deleteSede(req);                    
+                    }
                     break;
             }
 
