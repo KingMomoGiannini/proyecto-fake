@@ -65,7 +65,7 @@ body{
     transform: scale(1.1);
 }
 
-.centrarEnPag .mensaje h1{/*Mensaje de error con recuadro rojo*/
+.elcontainer .mensaje h1{/*Mensaje de error con recuadro rojo*/
     background-color: rgba(206, 5, 5, 0.8);
     color: white;
     font-size: 20px;
@@ -79,7 +79,7 @@ body{
 }
 
 .sede-container {
-    width: 40%; /* Ajusta el ancho de cada contenedor según tus preferencias */
+    width: 30%; /* Ajusta el ancho de cada contenedor según tus preferencias */
     margin: 10px; /* Espaciado entre cada contenedor de sede */
     border: 1px solid #ddd; /* Borde alrededor de cada contenedor */
     border-radius: 5px;

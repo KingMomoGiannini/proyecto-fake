@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,8 +32,7 @@ public class SedeServlet extends HttpServlet {
          laSedeDAO = new SedeDAO();
          elDomDAO = new DomicilioDAO();
     }
-    //http://localhost:8080/proyecto-web-DOMINation/sedes/edit?id=2
-    //http://localhost:8080/proyecto-web-DOMINation/sedes/create
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     try {
@@ -49,17 +49,21 @@ public class SedeServlet extends HttpServlet {
                 break;
             case "/edit":
                 int idSedeEdit = Integer.parseInt(req.getParameter("id")); 
-                System.out.println("Valor de idParam: " + idSedeEdit);
+                int idDomEdit =  Integer.parseInt(req.getParameter("idDom"));
                 Sede laSedeEdit = laSedeDAO.getByID(idSedeEdit);
-                System.out.println(laSedeEdit.getNombre());
+                Domicilio elDomEdit = elDomDAO.getByID(idDomEdit);
                 req.setAttribute("laSede", laSedeEdit);
+                req.setAttribute("elDom", elDomEdit);
                 req.setAttribute("action", "update");
                 destino += "pages/formSedes.jsp";
                 break;
             case "/delete":
                 int idSedeDelete = Integer.parseInt(req.getParameter("id")); 
+                int idDomDelete =  Integer.parseInt(req.getParameter("idDom"));
                 Sede laSedeDelete = laSedeDAO.getByID(idSedeDelete);
+                Domicilio elDomDelete = elDomDAO.getByID(idDomDelete);
                 req.setAttribute("laSede", laSedeDelete);
+                req.setAttribute("elDom", elDomDelete);
                 req.setAttribute("action", "delete");
                 destino += "pages/inicio.jsp"; // Utiliza el mismo formulario que el de creación
                 break;
@@ -81,20 +85,25 @@ public class SedeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
+
             String action = req.getParameter("action");
+            System.out.println(action);
             switch (action) {
                 case "create":
                     createSede(req);
                     break;
                 case "update":
+                    System.out.println("Acá todavía no se cargó nada.");
                     updateSede(req);
+                    System.out.println("Se cargaron los datos.");
                     break;
                 case "delete":
                     deleteSede(req);
                     break;
             }
-        resp.sendRedirect(req.getContextPath()+"/inicio");
-//        req.getRequestDispatcher("pages/inicio.jsp").forward(req, resp);
+
+            resp.sendRedirect(req.getServletContext().getContextPath()+"/inicio");
+
         } catch (Exception ex) {
             resp.sendError(500, "error en doPost SedeServlet");
         }
@@ -109,10 +118,10 @@ public class SedeServlet extends HttpServlet {
     }
 
     private void updateSede(HttpServletRequest req) throws Exception {
-        int idSede = Integer.parseInt(req.getParameter("idSede"));
-        int idDom = Integer.parseInt(req.getParameter("idDom"));
-        Sede laSede = obtenerSedeDesdeRequest(req);
-        laSede.setIdSede(idSede);
+        int idSede = Integer.parseInt(req.getParameter("idSede"));//Obtengo el id de la sede en el formulario
+        int idDom = Integer.parseInt(req.getParameter("idDom"));//Obtengo el id del domicilio en el formulario
+        Sede laSede = obtenerSedeDesdeRequest(req); // obtengo la sede desde el formulario de edicion
+        laSede.setIdSede(idSede); //Seteamos el id de la sede obtenida
         laSedeDAO.update(laSede);
         Domicilio elDom = obtenerDomicilioDesdeRequest(req, idSede);
         elDom.setId(idDom);
@@ -121,8 +130,9 @@ public class SedeServlet extends HttpServlet {
     }
 
     private void deleteSede(HttpServletRequest req) throws Exception {
-        int idSede = Integer.parseInt(req.getParameter("idSede"));
-        elDomDAO.delete(idSede);
+        int idSede = Integer.parseInt(req.getParameter("idSede"));//Obtengo el id de la sede en el formulario
+        int idDom = Integer.parseInt(req.getParameter("idDom"));//Obtengo el id del domicilio en el formulario
+        elDomDAO.delete(idDom);
         laSedeDAO.delete(idSede);
         setAttributesForSuccess(req, "La sede ha sido eliminada exitosamente", null,null);
     }
@@ -148,13 +158,32 @@ public class SedeServlet extends HttpServlet {
         return new Domicilio(provincia, localidad, partido, calle, altura, idSede);
     }
     
-    private void setAttributesForSuccess(HttpServletRequest req, String mensaje, Sede laSede, Domicilio elDom) {
+    private void setAttributesForSuccess(HttpServletRequest req, String mensaje, Sede laSede, Domicilio elDom) throws Exception {
+        List<Sede> lasSedesUsuario = new LinkedList();
+        List<Domicilio> domiciliosSedes = new LinkedList();
+        req.getSession().setAttribute("Exito", true);
+        req.getSession().setAttribute("mensajeExito", mensaje);
+        req.getSession().setAttribute("HaySede", true);
+        req.getSession().setAttribute("sede", laSede);
+        req.getSession().setAttribute("domicilio", elDom);
+        for (Sede sede : laSedeDAO.getAll()) {
+            lasSedesUsuario.add(sede);
+        }
+        for (Domicilio domicilioSede : elDomDAO.getAll()) {
+            domiciliosSedes.add(domicilioSede);
+        }
+        req.getSession().setAttribute("sedesDelUsuario",lasSedesUsuario);
+        req.getSession().setAttribute("domiciliosDeSedes",domiciliosSedes);
+        
+    }
+    
+    /*private void setAttributesForSuccess(HttpServletRequest req, String mensaje, Sede laSede, Domicilio elDom) {
         req.setAttribute("Exito", true);
         req.setAttribute("mensajeExito", mensaje);
         req.setAttribute("HaySede", true);
         req.setAttribute("sede", laSede);
         req.setAttribute("domicilio", elDom);
-    }
+    }*/
     
     
 }

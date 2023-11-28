@@ -19,6 +19,12 @@ public class BienvenidaServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
+//            String exitoParam = req.getParameter("Exito");
+//            
+//            if (exitoParam != null && exitoParam.equals("true")) {
+//                req.setAttribute("Exito", true);
+//                req.setAttribute("mensajeExito", req.getParameter("mensajeExito"));
+//            }
             req.getRequestDispatcher("pages/inicio.jsp").forward(req, resp);
 
         }catch(Exception ex){

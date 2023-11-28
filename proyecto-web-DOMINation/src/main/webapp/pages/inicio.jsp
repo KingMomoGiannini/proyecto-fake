@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="domination.mvc.model.Domicilio"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -114,7 +115,7 @@
                                                     <p><strong style = "font-size:14px;text-decoration:underline">Hora de Inicio:</strong> ${sede.horaInicio} hs</p>
                                                     <p><strong style = "font-size:14px;text-decoration:underline">Hora de Fin:</strong> ${sede.horaFin} hs</p>
                                                     <p><strong style = "font-size:14px;text-decoration:underline">Teléfono:</strong> ${sede.telefono}</p>
-
+                                                    <c:set var="elDomPag" value="${null}" />
                                                     <c:if test = "${not empty domiciliosDeSedes}">
                                                         <c:forEach items ="${domiciliosDeSedes}" var="dom">
                                                             <c:choose>
@@ -127,13 +128,14 @@
                                                                         <p><strong style = "font-size:14px;text-decoration:underline">Calle:</strong> ${dom.calle}</p>
                                                                         <p><strong style = "font-size:14px;text-decoration:underline">Altura:</strong> ${dom.altura}</p>
                                                                         <br><br><br>
+                                                                        <c:set var="elDomPag" value="${dom}" />
                                                                     </div>
                                                                 </c:when>
                                                             </c:choose>
                                                         </c:forEach> 
                                                     </c:if>
-                                                    <a class="botoncin" href="sedes/edit?id=${sede.getIdSede()}"><button>Editar Sede</button></a>
-                                                    <a class="botoncin" href="sedes/delete?id=${sede.getIdSede()}"><button>Eliminar Sede</button></a>
+                                                    <a class="botoncin" href="sedes/edit?id=${sede.getIdSede()}&idDom=${elDomPag.getId()}"><button>Editar Sede</button></a>
+                                                    <a class="botoncin" href="sedes/delete?id=${sede.getIdSede()}&idDom=${elDomPag.getId()}"><button>Eliminar Sede</button></a>
                                                 </div>
                                             </div>
                                         </c:when>
