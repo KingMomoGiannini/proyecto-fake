@@ -176,14 +176,4 @@ public class SedeServlet extends HttpServlet {
         req.getSession().setAttribute("domiciliosDeSedes",domiciliosSedes);
         
     }
-    
-    /*private void setAttributesForSuccess(HttpServletRequest req, String mensaje, Sede laSede, Domicilio elDom) {
-        req.setAttribute("Exito", true);
-        req.setAttribute("mensajeExito", mensaje);
-        req.setAttribute("HaySede", true);
-        req.setAttribute("sede", laSede);
-        req.setAttribute("domicilio", elDom);
-    }*/
-    
-    
 }
