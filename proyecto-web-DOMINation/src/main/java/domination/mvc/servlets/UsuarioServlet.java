@@ -140,11 +140,15 @@ public class UsuarioServlet extends HttpServlet  {
     private void deleteUsuario(HttpServletRequest req) throws Exception {
         int idUser = Integer.parseInt(req.getParameter("idUser"));//Obtengo el id del usuario
         String rolUser = req.getParameter("rolUser");
+        System.out.println(rolUser);
         if (rolUser.equals("prestador")) {
-            int idPrestador = Integer.parseInt(req.getParameter("idPrestador"));//Para borrar a un prestador, hay que conseguir sus sedes, y los domicilios de las mismas
-            UsuarioPrestador elPrestador = prestDAO.getByID(idPrestador);//Primero hay que borrar los domicilios y luego todas las sedes que el prestador posea
+            int idPrestador = Integer.parseInt(req.getParameter("idPrestador"));
+            System.out.println(idPrestador);
+            /*Para borrar a un prestador, hay que conseguir sus sedes, y los domicilios de las mismas
+            Primero hay que borrar los domicilios y luego todas las sedes que el prestador posea*/
             for (Sede sede : sedeDAO.getAll()) {
-                if (sede.getIdPrestador() == elPrestador.getIdPrestador()) {
+                System.out.println(sede.getIdSede());
+                if (sede.getIdPrestador() == idPrestador) {
                     for (Domicilio dom : domDAO.getAll()) {
                         if (dom.getIdSucursal()==sede.getIdSede()) {
                             domDAO.delete(dom.getId());
