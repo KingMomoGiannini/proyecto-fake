@@ -48,96 +48,98 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <h3 class="fuentePrincFondo">Datos de la sede</h3>
-                            <div class="inter-texto">
-                                <label class="fuenteMin" for="nomSede">Nombre del local:</label> <input class="text-box-ajuste" type="text" name="nomSede" id="nombre">
-                                <label class="fuenteMin" for="salas">Cantidad de salas:</label>
-                                    <select name="salas" id="salas">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                <label class="fuenteMin" for="celular">Telefono/Celular:</label> <input class="text-box-ajuste" type="text" id="cel" name="celular">
-                                <label class="fuenteMin" for="horaInicio">Apertura del local:</label>
-                                    <select name="horaInicio" id="horaInicio">
-                                        <option value="1">1hs</option>
-                                        <option value="2">2hs</option>
-                                        <option value="3">3hs</option>
-                                        <option value="4">4hs</option>
-                                        <option value="5">5hs</option>
-                                        <option value="6">6hs</option>
-                                        <option value="7">7hs</option>
-                                        <option value="8">8hs</option>
-                                        <option value="9">9hs</option>
-                                        <option value="10">10hs</option>
-                                        <option value="11">11hs</option>
-                                        <option value="12">12hs</option>
-                                        <option value="13">13hs</option>
-                                        <option value="14">14hs</option>
-                                        <option value="15">15hs</option>
-                                        <option value="16">16hs</option>
-                                        <option value="17">17hs</option>
-                                        <option value="18">18hs</option>
-                                        <option value="19">19hs</option>
-                                        <option value="20">20hs</option>
-                                        <option value="21">21hs</option>
-                                        <option value="22">22hs</option>
-                                        <option value="23">23hs</option>
-                                        <option value="24">24hs</option>
-                                    </select>
-                                <label class="fuenteMin" for="horaCierre">Cierre del local:</label>
-                                    <select name="horaCierre" id="horaFin">
-                                        <option value="1">1hs</option>
-                                        <option value="2">2hs</option>
-                                        <option value="3">3hs</option>
-                                        <option value="4">4hs</option>
-                                        <option value="5">5hs</option>
-                                        <option value="6">6hs</option>
-                                        <option value="7">7hs</option>
-                                        <option value="8">8hs</option>
-                                        <option value="9">9hs</option>
-                                        <option value="10">10hs</option>
-                                        <option value="11">11hs</option>
-                                        <option value="12">12hs</option>
-                                        <option value="13">13hs</option>
-                                        <option value="14">14hs</option>
-                                        <option value="15">15hs</option>
-                                        <option value="16">16hs</option>
-                                        <option value="17">17hs</option>
-                                        <option value="18">18hs</option>
-                                        <option value="19">19hs</option>
-                                        <option value="20">20hs</option>
-                                        <option value="21">21hs</option>
-                                        <option value="22">22hs</option>
-                                        <option value="23">23hs</option>
-                                        <option value="24">24hs</option>
-                                    </select>
-                            </div>
-                            <br>
+                        <c:if test = "${not empty laSede}">
+                            <h3 class="fuentePrincFondo">Datos de la sede</h3>
+                                <div class="inter-texto">
+                                    <label class="fuenteMin" for="nomSede">Nombre del local:</label> <input class="text-box-ajuste" type="text" name="nomSede" id="nombre" value="${laSede.nombre}">
+                                    <label class="fuenteMin" for="salas">Cantidad de salas:</label>
+                                        <select name="salas" id="salas" value =value="${laSede.cantSalas}">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    <label class="fuenteMin" for="celular">Telefono/Celular:</label> <input class="text-box-ajuste" type="text" id="cel" name="celular" value="${laSede.telefono}">
+                                    <label class="fuenteMin" for="horaInicio">Apertura del local:</label>
+                                        <select name="horaInicio" id="horaInicio" value="${laSede.horaInicio}">
+                                            <option value="1">1hs</option>
+                                            <option value="2">2hs</option>
+                                            <option value="3">3hs</option>
+                                            <option value="4">4hs</option>
+                                            <option value="5">5hs</option>
+                                            <option value="6">6hs</option>
+                                            <option value="7">7hs</option>
+                                            <option value="8">8hs</option>
+                                            <option value="9">9hs</option>
+                                            <option value="10">10hs</option>
+                                            <option value="11">11hs</option>
+                                            <option value="12">12hs</option>
+                                            <option value="13">13hs</option>
+                                            <option value="14">14hs</option>
+                                            <option value="15">15hs</option>
+                                            <option value="16">16hs</option>
+                                            <option value="17">17hs</option>
+                                            <option value="18">18hs</option>
+                                            <option value="19">19hs</option>
+                                            <option value="20">20hs</option>
+                                            <option value="21">21hs</option>
+                                            <option value="22">22hs</option>
+                                            <option value="23">23hs</option>
+                                            <option value="24">24hs</option>
+                                        </select>
+                                    <label class="fuenteMin" for="horaCierre">Cierre del local:</label>
+                                        <select name="horaCierre" id="horaFin" value="${laSede.horaFin}">
+                                            <option value="1">1hs</option>
+                                            <option value="2">2hs</option>
+                                            <option value="3">3hs</option>
+                                            <option value="4">4hs</option>
+                                            <option value="5">5hs</option>
+                                            <option value="6">6hs</option>
+                                            <option value="7">7hs</option>
+                                            <option value="8">8hs</option>
+                                            <option value="9">9hs</option>
+                                            <option value="10">10hs</option>
+                                            <option value="11">11hs</option>
+                                            <option value="12">12hs</option>
+                                            <option value="13">13hs</option>
+                                            <option value="14">14hs</option>
+                                            <option value="15">15hs</option>
+                                            <option value="16">16hs</option>
+                                            <option value="17">17hs</option>
+                                            <option value="18">18hs</option>
+                                            <option value="19">19hs</option>
+                                            <option value="20">20hs</option>
+                                            <option value="21">21hs</option>
+                                            <option value="22">22hs</option>
+                                            <option value="23">23hs</option>
+                                            <option value="24">24hs</option>
+                                        </select>
+                                </div>
+                                <br>
 
-                            <h3 class="fuentePrincFondo">Domicilio de la misma</h3> 
-                            <div class="inter-texto">
-                                <label class="fuenteMin" for="calle">Calle:</label> <input class="text-box-ajuste" type="text" id="calle" name="calle">
-                                <label class="fuenteMin" for="altura">altura:</label> <input class="text-box-ajuste" type="text" id="altura" name="altura">
-                                <label class="fuenteMin" for="localidad">Localidad:</label> <input class="text-box-ajuste" type="text" id="localidad" name="localidad">                       
-                                <label class="fuenteMin" for="partido">Partido:</label> <input class="text-box-ajuste" type="text" id="partido" name="partido">        
-                                <label class="fuenteMin" for="provincia">Provincia:</label> <input class="text-box-ajuste" type="text" id="provincia" name="provincia">
-                            </div>
+                                <h3 class="fuentePrincFondo">Domicilio de la misma</h3> 
+                                <div class="inter-texto">
+                                    <label class="fuenteMin" for="calle">Calle:</label> <input class="text-box-ajuste" type="text" id="calle" name="calle" value="${elDom.calle}">
+                                    <label class="fuenteMin" for="altura">altura:</label> <input class="text-box-ajuste" type="text" id="altura" name="altura" value="${elDom.altura}">
+                                    <label class="fuenteMin" for="localidad">Localidad:</label> <input class="text-box-ajuste" type="text" id="localidad" name="localidad" value="${elDom.localidad}">                       
+                                    <label class="fuenteMin" for="partido">Partido:</label> <input class="text-box-ajuste" type="text" id="partido" name="partido" value="${elDom.partido}">        
+                                    <label class="fuenteMin" for="provincia">Provincia:</label> <input class="text-box-ajuste" type="text" id="provincia" name="provincia" value="${elDom.provincia}">
+                                </div>
 
-                            <br><br>
+                                <br><br>
 
-                            <div class="centrarEnPag">
-                                <button class ="botoncin" type="submit">Enviar</button>
-                                <button class ="botoncin" type="reset" >Limpiar Formulario</button>
-                                <button class ="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
-                            </div>  <br>
+                                <div class="centrarEnPag">
+                                    <button class ="botoncin" type="submit">Enviar</button>
+                                    <button class ="botoncin" type="reset" >Limpiar Formulario</button>
+                                    <button class ="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                                </div>  <br>
+                            </c:if>
                     </c:otherwise>    
                 </c:choose>
             </form>
