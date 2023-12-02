@@ -27,6 +27,9 @@
                     <br><br><br>
                     
                         <c:if test = "${not empty sedesDelUsuario}">
+                            <div class="seccion">
+                                <h1 >Sucursales</h1>
+                            </div>
                             <div class="sedes-row">
                                 <c:forEach items ="${sedesDelUsuario}" var="sede">
                                    
@@ -71,6 +74,10 @@
                             </div>
                         </c:if>
                     <c:if test = "${not empty usuarios}">
+                        <div class="seccion">
+                            <h1 >Usuarios</h1>
+                        </div>
+                        
                         <div class="sedes-row">
                             <c:set var="elUserPag" value="${null}" />
                             <c:forEach items ="${usuarios}" var="user" >
@@ -88,7 +95,7 @@
                                             <p><strong style = "font-size:14px;text-decoration:underline">Rol:</strong> ${elUserPag.getRol()}</p>
                                             <br><br>
 
-                                            <a class="botoncin" href="#"><button>Eliminar Usuario</button></a>
+                                            <a class="botoncin" href="usuarios/delete?id=${elUserPag.getIdUsuario()}"><button>Eliminar Usuario</button></a>
                                         </div>
                                     </div>
 

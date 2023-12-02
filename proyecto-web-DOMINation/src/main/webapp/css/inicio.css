@@ -95,3 +95,11 @@ body{
     display: flex;
     flex-wrap: wrap; /* Permite que los contenedores se envuelvan en la siguiente línea */
 }
+
+.elcontainer .seccion h1{
+    font-family: 'Bahiana', cursive;
+    background-color:  rgba(206, 5, 5, 0.8);
+    color: black;
+    font-size: 30px;
+    padding: 10px;
+}

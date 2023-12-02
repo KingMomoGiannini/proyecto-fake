@@ -21,7 +21,14 @@
             </div>
             <br><br><br>
             <form action="sedes" method="post">
-                <input type="hidden" name="idPrestador" value="${userLogueado.getIdPrestador()}">
+                <c:choose>
+                    <c:when test="${userLogueado.rol eq 'prestador'}">
+                        <input type="hidden" name="idPrestador" value="${userLogueado.getIdPrestador()}">
+                    </c:when>
+                    <c:otherwise>
+                        <input type="hidden" name="idPrestador" value="${elPrestador.getIdPrestador()}">
+                    </c:otherwise>
+                </c:choose>
                 <input type="hidden" name="idSede" value="${laSede.getIdSede()}">
                 <input type="hidden" name="idDom" value="${elDom.getId()}">
                 <input type="hidden" name="action" value="${action}">
@@ -34,9 +41,9 @@
                             <input class="text-box-ajuste" type="text" value="${laSede.nombre}" readonly>
                             <input class="text-box-ajuste" type="text" value="${laSede.getIdSede()}" readonly>
                             <label class="fuenteMin" for="sede">Usuario al que le pertenece:</label>
-                            <input class="text-box-ajuste" type="text" value="id de Prestador: ${userLogueado.getIdPrestador()}" readonly>
-                            <input class="text-box-ajuste" type="text" value="id de Usuario: ${userLogueado.getIdUsuario()}" readonly>
-                            <input class="text-box-ajuste" type="text" value="Nombre y apellido: ${userLogueado.getNombre()} ${userLogueado.getApellido()}" readonly>
+                            <input class="text-box-ajuste" type="text" value="id de Prestador: ${elPrestador.getIdPrestador()}" readonly>
+                            <input class="text-box-ajuste" type="text" value="id de Usuario: ${elPrestador.getIdUsuario()}" readonly>
+                            <input class="text-box-ajuste" type="text" value="Nombre y apellido: ${elPrestador.getNombre()} ${elPrestador.getApellido()}" readonly>
                             <br>
                             <h3 class="fuentePrincFondo">¿Está seguro que desea eliminar esta sede?</p>
                             
@@ -48,7 +55,7 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <c:if test = "${not empty laSede}">
+                        
                             <h3 class="fuentePrincFondo">Datos de la sede</h3>
                                 <div class="inter-texto">
                                     <label class="fuenteMin" for="nomSede">Nombre del local:</label> <input class="text-box-ajuste" type="text" name="nomSede" id="nombre" value="${laSede.nombre}">
@@ -139,7 +146,7 @@
                                     <button class ="botoncin" type="reset" >Limpiar Formulario</button>
                                     <button class ="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
                                 </div>  <br>
-                            </c:if>
+                            
                     </c:otherwise>    
                 </c:choose>
             </form>

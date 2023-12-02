@@ -30,6 +30,8 @@ public class UsuarioServlet extends HttpServlet  {
     private DAO<UsuarioPrestador,Integer> prestDAO;
     private DAO<UsuarioCliente,Integer> cliDAO;
     private DAO<Usuario,Integer> userDAO;
+    private DAO<Sede,Integer> sedeDAO;
+    private DAO<Domicilio,Integer> domDAO;
     
     @Override
     public void init() throws ServletException{
@@ -57,11 +59,17 @@ public class UsuarioServlet extends HttpServlet  {
                 break;
             case "/delete":
                 int idUserDelete = Integer.parseInt(req.getParameter("id"));
-//                String rolUserDelete= req.getParameter("rol");
                 Usuario elUserDelete = userDAO.getByID(idUserDelete);
-//                if (rolUserDelete.equals("prestador")) {
-//                    UsuarioPrestador prestDelete = prestDAO.getByID(idUserEdit)
-//                }
+                for (UsuarioCliente cliente : cliDAO.getAll()) {
+                    if (cliente.getIdUsuario()==elUserDelete.getIdUsuario()) {
+                        elUserDelete = cliente;
+                    }
+                }
+                for (UsuarioPrestador prestador : prestDAO.getAll()) {
+                    if (prestador.getIdUsuario()==elUserDelete.getIdUsuario()) {
+                        elUserDelete = prestador;
+                    }
+                }
                 req.setAttribute("elUser", elUserDelete);
                 req.setAttribute("action", "delete");
                 destino += "pages/formUser.jsp";
@@ -127,15 +135,28 @@ public class UsuarioServlet extends HttpServlet  {
         setAttributesForSuccess(req, "El usuario ha sido editado exitosamente", elUsuario);
     }
 
+    
+    //FALTA CORREGIR BORRADO DE USUARIO PRESTADOR
     private void deleteUsuario(HttpServletRequest req) throws Exception {
-        int idUser = Integer.parseInt(req.getParameter("idUser"));//Obtengo el id de la sede en el formulario
+        int idUser = Integer.parseInt(req.getParameter("idUser"));//Obtengo el id del usuario
         String rolUser = req.getParameter("rolUser");
         if (rolUser.equals("prestador")) {
-            int idPrestador = Integer.parseInt(req.getParameter("idPrestador"));
+            int idPrestador = Integer.parseInt(req.getParameter("idPrestador"));//Para borrar a un prestador, hay que conseguir sus sedes, y los domicilios de las mismas
+            UsuarioPrestador elPrestador = prestDAO.getByID(idPrestador);//Primero hay que borrar los domicilios y luego todas las sedes que el prestador posea
+            for (Sede sede : sedeDAO.getAll()) {
+                if (sede.getIdPrestador() == elPrestador.getIdPrestador()) {
+                    for (Domicilio dom : domDAO.getAll()) {
+                        if (dom.getIdSucursal()==sede.getIdSede()) {
+                            domDAO.delete(dom.getId());
+                        }
+                    }
+                    sedeDAO.delete(sede.getIdSede());
+                }
+            }
             prestDAO.delete(idPrestador);
         }
         else{
-            int idCliente = Integer.parseInt(req.getParameter("idCliente"));
+            int idCliente = Integer.parseInt(req.getParameter("idCliente"));// Si el cliente tiene una reserva de sala, primero hay que eliminar la reserva, luego al cliente.
             cliDAO.delete(idCliente);
         }
         userDAO.delete(idUser);

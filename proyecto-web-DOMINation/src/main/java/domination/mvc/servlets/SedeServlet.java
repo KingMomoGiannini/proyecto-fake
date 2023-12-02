@@ -6,9 +6,13 @@ package domination.mvc.servlets;
 
 import domination.DAO.DAO;
 import domination.DAO.DomicilioDAO;
+import domination.DAO.PrestadorDAO;
 import domination.DAO.SedeDAO;
+import domination.DAO.UsuarioDAO;
 import domination.mvc.model.Domicilio;
 import domination.mvc.model.Sede;
+import domination.mvc.model.Usuario;
+import domination.mvc.model.UsuarioPrestador;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,11 +30,17 @@ public class SedeServlet extends HttpServlet {
     
     private DAO<Sede, Integer> laSedeDAO;
     private DAO<Domicilio, Integer> elDomDAO;
+    //ACA TAMBIEN
+    private DAO<Usuario, Integer> userDAO;
+    private DAO<UsuarioPrestador, Integer> prestDAO;
 
     @Override
     public void init() throws ServletException {
          laSedeDAO = new SedeDAO();
          elDomDAO = new DomicilioDAO();
+         //ACA TAMBIEN
+         userDAO = new UsuarioDAO();
+         prestDAO = new PrestadorDAO();
     }
 
     @Override
@@ -62,6 +72,17 @@ public class SedeServlet extends HttpServlet {
                 int idDomDelete =  Integer.parseInt(req.getParameter("idDom"));
                 Sede laSedeDelete = laSedeDAO.getByID(idSedeDelete);
                 Domicilio elDomDelete = elDomDAO.getByID(idDomDelete);
+                //A PARTIR DE AHORA ARRANCAN LOS CAMBIOS.
+                Usuario elPrestador = null;
+                for (Usuario usuario : userDAO.getAll()) {
+                    for (UsuarioPrestador prestador : prestDAO.getAll()) {
+                        if (prestador.getIdUsuario() == usuario.getIdUsuario()) {
+                            elPrestador = prestador;
+                        }
+                    }
+                }
+                req.setAttribute("elPrestador", elPrestador);
+                //HASTA ACÁ SON LOS CAMBIOS
                 req.setAttribute("laSede", laSedeDelete);
                 req.setAttribute("elDom", elDomDelete);
                 req.setAttribute("action", "delete");

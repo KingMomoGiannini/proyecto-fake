@@ -82,7 +82,7 @@ public class DomicilioDAO implements DAO<Domicilio,Integer> {
 
     @Override
     public void delete(Integer elId) throws Exception {
-        String query = "DELETE FROM domicilio WHERE sucursal_idsucursal = ?";
+        String query = "DELETE FROM domicilio WHERE iddomicilio = ?";
         try (Connection con = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setInt(1, elId);

@@ -73,12 +73,32 @@ public class ClienteDAO implements DAO<UsuarioCliente,Integer> {
 
     @Override
     public void delete(Integer elId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "DELETE FROM cliente WHERE idcliente = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al eliminar un cliente", ex);
+        }
     }
 
     @Override
     public UsuarioCliente getByID(Integer elId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "SELECT * FROM cliente WHERE idcliente = ?";
+        UsuarioCliente usuario = null;
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    usuario = rsRowToCliente(resultSet);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Error al obtener un prestador por ID", ex);
+        }
+        return usuario;
     }
     
      private UsuarioCliente rsRowToCliente(ResultSet rs) throws SQLException, Exception {

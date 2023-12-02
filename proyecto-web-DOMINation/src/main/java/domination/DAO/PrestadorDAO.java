@@ -85,13 +85,13 @@ public class PrestadorDAO implements DAO<UsuarioPrestador,Integer>{
 
     @Override
     public void delete(Integer elId) throws Exception {
-        String query = "DELETE FROM prestador WHERE idusuario = ?";
+        String query = "DELETE FROM prestador WHERE idprestador = ?";
         try (Connection con = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(query)) {
             preparedStatement.setInt(1, elId);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            throw new Exception("Error al eliminar un usuario", ex);
+            throw new Exception("Error al eliminar un prestador", ex);
         }
     }
 
