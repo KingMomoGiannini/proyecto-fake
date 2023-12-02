@@ -40,7 +40,7 @@
                                                     <p><strong style = "font-size:14px;text-decoration:underline">Hora de Inicio:</strong> ${sede.horaInicio} hs</p>
                                                     <p><strong style = "font-size:14px;text-decoration:underline">Hora de Fin:</strong> ${sede.horaFin} hs</p>
                                                     <p><strong style = "font-size:14px;text-decoration:underline">Teléfono:</strong> ${sede.telefono}</p>
-
+                                                    <c:set var="elDomPag" value="${null}" />
                                                     <c:if test = "${not empty domiciliosDeSedes}">
                                                         <c:forEach items ="${domiciliosDeSedes}" var="dom">
                                                             <c:choose>
@@ -53,8 +53,8 @@
                                                                         <p><strong style = "font-size:14px;text-decoration:underline">Calle:</strong> ${dom.calle}</p>
                                                                         <p><strong style = "font-size:14px;text-decoration:underline">Altura:</strong> ${dom.altura}</p>
                                                                         <br><br><br>
+                                                                        <c:set var="elDomPag" value="${dom}" />
                                                                     </div>
-                                                                   
                                                                 </c:when>
                                                             </c:choose>
                                                         </c:forEach> 
@@ -72,22 +72,27 @@
                         </c:if>
                     <c:if test = "${not empty usuarios}">
                         <div class="sedes-row">
-                        <c:forEach items ="${usuarios}" var="user" >
-                            
-                                <div class="sede-container">
-                                    <div style="color:white">
-                                        <h1 style = "font-size:30px">Datos del usuario</h1>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">ID de usuario:</strong> ${user.getIdUsuario()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Nombre de usuario:</strong> ${user.getNomUsuario()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Nombre:</strong> ${user.getNombre()}</p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Apellido:</strong> ${user.getApellido()} </p>
-                                        <p><strong style = "font-size:14px;text-decoration:underline">Email:</strong> ${user.getEmail()}</p>
-                                        <br><br>
-                                        <a class="botoncin" href="#"><button>Eliminar Usuario</button></a>
+                            <c:set var="elUserPag" value="${null}" />
+                            <c:forEach items ="${usuarios}" var="user" >
+
+                                    <div class="sede-container">
+                                        <div style="color:white">
+                                            <h1 style = "font-size:30px">Datos del usuario</h1>
+                                            <p><strong style = "font-size:14px;text-decoration:underline">ID de usuario:</strong> ${user.getIdUsuario()}</p>
+                                            <p><strong style = "font-size:14px;text-decoration:underline">Nombre de usuario:</strong> ${user.getNomUsuario()}</p>
+                                            <p><strong style = "font-size:14px;text-decoration:underline">Nombre:</strong> ${user.getNombre()}</p>
+                                            <p><strong style = "font-size:14px;text-decoration:underline">Apellido:</strong> ${user.getApellido()} </p>
+                                            <p><strong style = "font-size:14px;text-decoration:underline">Email:</strong> ${user.getEmail()}</p>
+                                            
+                                            <c:set var="elUserPag" value="${user}" />
+                                            <p><strong style = "font-size:14px;text-decoration:underline">Rol:</strong> ${elUserPag.getRol()}</p>
+                                            <br><br>
+
+                                            <a class="botoncin" href="#"><button>Eliminar Usuario</button></a>
+                                        </div>
                                     </div>
-                                </div>
-                            
-                        </c:forEach>
+
+                            </c:forEach>
                         </div>
                     </c:if>
                     

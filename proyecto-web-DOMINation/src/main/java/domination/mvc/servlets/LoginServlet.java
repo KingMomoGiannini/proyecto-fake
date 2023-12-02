@@ -91,6 +91,7 @@ public class LoginServlet extends HttpServlet {
             for (Usuario elUsuario : listaUsers) {
                 if (((elUsuario.getNomUsuario().equals(user))&&(elUsuario.getPassword().equals(password))) && (elUsuario instanceof UsuarioPrestador)) {
                     elUser = (UsuarioPrestador)elUsuario;
+                   
                 }
                 else if(((elUsuario.getNomUsuario().equals(user))&&(elUsuario.getPassword().equals(password)))&& (elUsuario instanceof UsuarioCliente)){
                     elUser = (UsuarioCliente) elUsuario;
@@ -159,7 +160,10 @@ public class LoginServlet extends HttpServlet {
         else if (elAdmin != null) {//Si el admin existe
             List<Sede> lasSedesUsuario = new LinkedList();
             List<Domicilio> domiciliosSedes = new LinkedList();
+            
             List<Usuario> usuarios = new LinkedList();
+            List<UsuarioPrestador> prestadores = new LinkedList();
+            List<UsuarioCliente> clientes = new LinkedList();
             Domicilio dom = null;
             Sede laSede = null;
             try {
@@ -170,7 +174,19 @@ public class LoginServlet extends HttpServlet {
                     domiciliosSedes.add(domicilioSede);
                 }
                 for (Usuario usuario : userDAO.getAll()) {
-                    usuarios.add(usuario);
+                    for (UsuarioCliente cliente : cliDAO.getAll()) {
+                        if (usuario.getIdUsuario()==cliente.getIdUsuario()) {
+                            usuarios.add(cliente);
+                        }
+                    }
+                    for (UsuarioPrestador prestador : prestDAO.getAll()) {
+                        if (usuario.getIdUsuario()==prestador.getIdUsuario()) {
+                            usuarios.add(prestador);
+                        }
+                    }
+                }
+                for (Usuario usuario : usuarios) {
+                    System.out.println(usuario.getRol());
                 }
             } catch (Exception ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
