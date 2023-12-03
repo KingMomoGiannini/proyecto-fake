@@ -50,20 +50,14 @@ public class BienvenidaServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
-//            String exitoParam = req.getParameter("Exito");
-//            
-//            if (exitoParam != null && exitoParam.equals("true")) {
-//                req.setAttribute("Exito", true);
-//                req.setAttribute("mensajeExito", req.getParameter("mensajeExito"));
-//            }
+
             req.getRequestDispatcher("pages/inicio.jsp").forward(req, resp);
             req.getSession().setAttribute("Exito", false);
             List<Sede> lasSedesUsuario = new LinkedList();
             List<Domicilio> domiciliosSedes = new LinkedList();
-            
             List<Usuario> usuarios = new LinkedList();
-            Domicilio dom = null;
-            Sede laSede = null;
+//            Domicilio dom = null;
+//            Sede laSede = null;
             try {
                 for (Sede sede : sedeDAO.getAll()) {
                     lasSedesUsuario.add(sede);
@@ -89,8 +83,8 @@ public class BienvenidaServlet extends HttpServlet{
             req.getSession().setAttribute("sedesDelUsuario", lasSedesUsuario);
             req.getSession().setAttribute("domiciliosDeSedes", domiciliosSedes);
             req.getSession().setAttribute("usuarios", usuarios);
-            req.getSession().setAttribute("elDom", dom);
-            req.getSession().setAttribute("laSede", laSede);
+//            req.getSession().setAttribute("elDom", dom);
+//            req.getSession().setAttribute("laSede", laSede);
         }catch(Exception ex){
             resp.sendError(500,"En BienvenidaServlet hay un error");
         }

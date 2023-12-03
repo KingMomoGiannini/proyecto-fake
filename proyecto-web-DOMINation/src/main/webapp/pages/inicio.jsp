@@ -164,7 +164,9 @@
                                 <br><br><br>
                             </div>
                         </c:if>
+                        <div class="centrarEnPag">
                             <a class="botoncin centrarEnPag" href="sedes/create"><button>Crear Sede</button></a>
+                        </div>      
                     </div>
                     <br><br><br>
                 </c:when> <%-- --%>   

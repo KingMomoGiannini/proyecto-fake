@@ -6,7 +6,9 @@ package domination.mvc.servlets;
 
 import domination.DAO.ClienteDAO;
 import domination.DAO.DAO;
+import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
+import domination.DAO.SedeDAO;
 import domination.DAO.UsuarioDAO;
 import domination.mvc.model.Domicilio;
 import domination.mvc.model.Sede;
@@ -38,6 +40,8 @@ public class UsuarioServlet extends HttpServlet  {
         prestDAO = new PrestadorDAO();
         cliDAO = new ClienteDAO();
         userDAO = new UsuarioDAO();
+        sedeDAO = new SedeDAO();
+        domDAO = new DomicilioDAO();
     }
     
     @Override
@@ -93,7 +97,6 @@ public class UsuarioServlet extends HttpServlet  {
         try {
             String cancelar = null;
             String action = req.getParameter("action");
-            System.out.println(action);
             switch (action) {
 
                 case "update":
@@ -140,14 +143,11 @@ public class UsuarioServlet extends HttpServlet  {
     private void deleteUsuario(HttpServletRequest req) throws Exception {
         int idUser = Integer.parseInt(req.getParameter("idUser"));//Obtengo el id del usuario
         String rolUser = req.getParameter("rolUser");
-        System.out.println(rolUser);
         if (rolUser.equals("prestador")) {
             int idPrestador = Integer.parseInt(req.getParameter("idPrestador"));
-            System.out.println(idPrestador);
             /*Para borrar a un prestador, hay que conseguir sus sedes, y los domicilios de las mismas
             Primero hay que borrar los domicilios y luego todas las sedes que el prestador posea*/
             for (Sede sede : sedeDAO.getAll()) {
-                System.out.println(sede.getIdSede());
                 if (sede.getIdPrestador() == idPrestador) {
                     for (Domicilio dom : domDAO.getAll()) {
                         if (dom.getIdSucursal()==sede.getIdSede()) {
@@ -184,6 +184,7 @@ public class UsuarioServlet extends HttpServlet  {
         List<Usuario> usuarios = new LinkedList();
         List<UsuarioPrestador> prestadores = new LinkedList();
         List<UsuarioCliente> clientes = new LinkedList();
+        List<Sede> sedes = new LinkedList();
         req.getSession().setAttribute("Exito", true);
         req.getSession().setAttribute("mensajeExito", mensaje);
         
@@ -196,7 +197,10 @@ public class UsuarioServlet extends HttpServlet  {
         for (UsuarioCliente cliente : cliDAO.getAll()) {
             clientes.add(cliente);
         }
-
+        for (Sede sede : sedeDAO.getAll()) {
+            sedes.add(sede);
+        }
+        req.getSession().setAttribute("sedesDelUsuario",sedes);
         req.getSession().setAttribute("usuarios",usuarios);
         req.getSession().setAttribute("prestadores",prestadores);
         req.getSession().setAttribute("clientes",clientes);

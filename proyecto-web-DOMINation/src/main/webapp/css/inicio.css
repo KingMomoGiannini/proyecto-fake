@@ -12,7 +12,7 @@ body{
 }
 
 .elcontainer{ 
-    display: flex;
+    /*display: flex;*/
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -47,13 +47,17 @@ body{
     
 }
 
+.centrarEnPag{
+    text-align: center;
+}
+
 .centrarEnPag button.botoncin {
     font-family: 'Bahiana', cursive;
     font-size: 30px;
     color: white;
     padding: 9px 25px;
     background: #212629;
-    border: none;
+    border: solid 2px white;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
@@ -85,6 +89,8 @@ body{
     border-radius: 5px;
     padding: 20px; /* Espaciado interno del contenedor */
     text-align: center;
+    background-color: #212629; /* Fondo del contenedor */
+    color: white; /* Color del texto dentro del contenedor */
 }
 
 .sede-container:hover {
@@ -94,6 +100,7 @@ body{
 .sedes-row {
     display: flex;
     flex-wrap: wrap; /* Permite que los contenedores se envuelvan en la siguiente línea */
+    justify-content: center; /* Centra los contenedores en la línea */
 }
 
 .elcontainer .seccion h1{
