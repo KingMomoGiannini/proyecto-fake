@@ -8,9 +8,11 @@ import domination.DAO.ClienteDAO;
 import domination.DAO.DAO;
 import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
+import domination.DAO.SalaDAO;
 import domination.DAO.SedeDAO;
 import domination.DAO.UsuarioDAO;
 import domination.mvc.model.Domicilio;
+import domination.mvc.model.SalaEnsayo;
 import domination.mvc.model.Sede;
 import domination.mvc.model.Usuario;
 import domination.mvc.model.UsuarioCliente;
@@ -34,6 +36,7 @@ public class UsuarioServlet extends HttpServlet  {
     private DAO<Usuario,Integer> userDAO;
     private DAO<Sede,Integer> sedeDAO;
     private DAO<Domicilio,Integer> domDAO;
+    private DAO<SalaEnsayo,Integer> salaDAO;
     
     @Override
     public void init() throws ServletException{
@@ -42,6 +45,7 @@ public class UsuarioServlet extends HttpServlet  {
         userDAO = new UsuarioDAO();
         sedeDAO = new SedeDAO();
         domDAO = new DomicilioDAO();
+        salaDAO = new SalaDAO();
     }
     
     @Override
@@ -149,11 +153,17 @@ public class UsuarioServlet extends HttpServlet  {
             Primero hay que borrar los domicilios y luego todas las sedes que el prestador posea*/
             for (Sede sede : sedeDAO.getAll()) {
                 if (sede.getIdPrestador() == idPrestador) {
+                    for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
+                        if (salaEnsayo.getIdSede()==sede.getIdSede()) {
+                            salaDAO.delete(salaEnsayo.getIdSala());
+                        }
+                    }
                     for (Domicilio dom : domDAO.getAll()) {
                         if (dom.getIdSucursal()==sede.getIdSede()) {
                             domDAO.delete(dom.getId());
                         }
                     }
+                    
                     sedeDAO.delete(sede.getIdSede());
                 }
             }

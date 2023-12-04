@@ -7,9 +7,11 @@ package domination.mvc.servlets;
 import domination.DAO.DAO;
 import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
+import domination.DAO.SalaDAO;
 import domination.DAO.SedeDAO;
 import domination.DAO.UsuarioDAO;
 import domination.mvc.model.Domicilio;
+import domination.mvc.model.SalaEnsayo;
 import domination.mvc.model.Sede;
 import domination.mvc.model.Usuario;
 import domination.mvc.model.UsuarioPrestador;
@@ -33,6 +35,7 @@ public class SedeServlet extends HttpServlet {
     //ACA TAMBIEN
     private DAO<Usuario, Integer> userDAO;
     private DAO<UsuarioPrestador, Integer> prestDAO;
+    private DAO<SalaEnsayo,Integer> salaDAO;
 
     @Override
     public void init() throws ServletException {
@@ -41,6 +44,7 @@ public class SedeServlet extends HttpServlet {
          //ACA TAMBIEN
          userDAO = new UsuarioDAO();
          prestDAO = new PrestadorDAO();
+         salaDAO = new SalaDAO();
     }
 
     @Override
@@ -172,6 +176,11 @@ public class SedeServlet extends HttpServlet {
     private void deleteSede(HttpServletRequest req) throws Exception {
         int idSede = Integer.parseInt(req.getParameter("idSede"));//Obtengo el id de la sede en el formulario
         int idDom = Integer.parseInt(req.getParameter("idDom"));//Obtengo el id del domicilio en el formulario
+        for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
+            if (salaEnsayo.getIdSede()==idSede) {
+                salaDAO.delete(salaEnsayo.getIdSala());
+            }
+        }
         elDomDAO.delete(idDom);
         laSedeDAO.delete(idSede);
         setAttributesForSuccess(req, "La sede ha sido eliminada exitosamente", null,null);
