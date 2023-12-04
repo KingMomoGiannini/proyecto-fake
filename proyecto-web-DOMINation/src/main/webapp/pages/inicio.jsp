@@ -5,15 +5,15 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="domination.mvc.model.Domicilio"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/inicio.css">
-    <title>inicio</title>
-</head>
+        <link rel="stylesheet" href="css/inicio.css">
+        <title>inicio</title>
+    </head>
 
 <body>
     <c:import url ="../navbar.jsp" />
@@ -31,53 +31,54 @@
                             <br><br><br>
                         </div>
                     </c:if>
-                        <c:if test = "${not empty sedesDelUsuario}">
-                            <div class="seccion">
-                                <h1 >Sucursales</h1>
-                            </div>
-                            <div class="sedes-row">
-                                <c:forEach items ="${sedesDelUsuario}" var="sede">
-                                   
-                                        
-                                            <div class="sede-container">
-                                                <div style="color:white">
-                                                    <h1 style = "font-size:30px">Sucursal</h1>
-                                                    <h2 style = "color:red;font-size:20px ">${sede.nombre}</h2>
-                                                    <p><strong style = "font-size:14px;text-decoration:underline">ID de Sede:</strong> ${sede.getIdSede()}</p>
-                                                    <p><strong style = "font-size:14px;text-decoration:underline">Cantidad de Salas:</strong> ${sede.cantSalas}</p>
-                                                    <p><strong style = "font-size:14px;text-decoration:underline">Hora de Inicio:</strong> ${sede.horaInicio} hs</p>
-                                                    <p><strong style = "font-size:14px;text-decoration:underline">Hora de Fin:</strong> ${sede.horaFin} hs</p>
-                                                    <p><strong style = "font-size:14px;text-decoration:underline">Teléfono:</strong> ${sede.telefono}</p>
-                                                    <c:set var="elDomPag" value="${null}" />
-                                                    <c:if test = "${not empty domiciliosDeSedes}">
-                                                        <c:forEach items ="${domiciliosDeSedes}" var="dom">
-                                                            <c:choose>
-                                                                <c:when test= "${dom.getIdSucursal() == sede.getIdSede()}">
-                                                                    <div style="color:white">
-                                                                        <h1 style = "font-size:30px">Dirección</h1>
-                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Provincia:</strong> ${dom.provincia}</p>
-                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Localidad:</strong> ${dom.localidad}</p>
-                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Partido:</strong> ${dom.partido}</p>
-                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Calle:</strong> ${dom.calle}</p>
-                                                                        <p><strong style = "font-size:14px;text-decoration:underline">Altura:</strong> ${dom.altura}</p>
-                                                                        <br><br><br>
-                                                                        <c:set var="elDomPag" value="${dom}" />
-                                                                    </div>
-                                                                </c:when>
-                                                            </c:choose>
-                                                        </c:forEach> 
-                                                    </c:if>
-                                                    <a class="botoncin" href="sedes/delete?id=${sede.getIdSede()}&idDom=${elDomPag.getId()}"><button>Eliminar Sede</button></a>
-                                                </div>
+                    <c:if test = "${not empty sedesDelUsuario}">
+                        <div class="seccion">
+                            <h1 >Sucursales</h1>
+                        </div>
+                        <div class="sedes-row">
+                            <c:forEach items ="${sedesDelUsuario}" var="sede">
+
+
+                                        <div class="sede-container">
+                                            <div style="color:white">
+                                                <h1 style = "font-size:30px">Sucursal</h1>
+                                                <h2 style = "color:red;font-size:20px ">${sede.nombre}</h2>
+                                                <p><strong style = "font-size:14px;text-decoration:underline">ID de Sede:</strong> ${sede.getIdSede()}</p>
+                                                <p><strong style = "font-size:14px;text-decoration:underline">Cantidad de Salas:</strong> ${sede.cantSalas}</p>
+                                                <p><strong style = "font-size:14px;text-decoration:underline">Hora de Inicio:</strong> ${sede.horaInicio} hs</p>
+                                                <p><strong style = "font-size:14px;text-decoration:underline">Hora de Fin:</strong> ${sede.horaFin} hs</p>
+                                                <p><strong style = "font-size:14px;text-decoration:underline">Teléfono:</strong> ${sede.telefono}</p>
+                                                <c:set var="elDomPag" value="${null}" />
+                                                <c:if test = "${not empty domiciliosDeSedes}">
+                                                    <c:forEach items ="${domiciliosDeSedes}" var="dom">
+                                                        <c:choose>
+                                                            <c:when test= "${dom.getIdSucursal() == sede.getIdSede()}">
+                                                                <div style="color:white">
+                                                                    <h1 style = "font-size:30px">Dirección</h1>
+                                                                    <p><strong style = "font-size:14px;text-decoration:underline">Provincia:</strong> ${dom.provincia}</p>
+                                                                    <p><strong style = "font-size:14px;text-decoration:underline">Localidad:</strong> ${dom.localidad}</p>
+                                                                    <p><strong style = "font-size:14px;text-decoration:underline">Partido:</strong> ${dom.partido}</p>
+                                                                    <p><strong style = "font-size:14px;text-decoration:underline">Calle:</strong> ${dom.calle}</p>
+                                                                    <p><strong style = "font-size:14px;text-decoration:underline">Altura:</strong> ${dom.altura}</p>
+                                                                    <br><br><br>
+                                                                    <c:set var="elDomPag" value="${dom}" />
+                                                                </div>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </c:forEach> 
+                                                </c:if>
+                                                <a class="botoncin" href="sedes/delete?id=${sede.getIdSede()}&idDom=${elDomPag.getId()}"><button>Eliminar Sede</button></a>
+                                                <a class="botoncin" href="salas/salasDisponibles?idSede=${sede.getIdSede()}"><button>Ver Salas</button></a>
                                             </div>
-                                       
-                                        <c:if test = "${domiciliosDeSedes == null}">
-                                            <p>No hay domicilios disponibles registrados </p>
-                                        </c:if>
-                                </c:forEach> 
-                                <br><br><br>
-                            </div>
-                        </c:if>
+                                        </div>
+
+                                    <c:if test = "${domiciliosDeSedes == null}">
+                                        <p>No hay domicilios disponibles registrados </p>
+                                    </c:if>
+                            </c:forEach> 
+                            <br><br><br>
+                        </div>
+                    </c:if>
                     <c:if test = "${not empty usuarios}">
                         <div class="seccion">
                             <h1 >Usuarios</h1>
@@ -151,13 +152,14 @@
                                                             </c:choose>
                                                         </c:forEach> 
                                                     </c:if>
+                                                    <a class="botoncin" href="salas/salasDisponibles?idSede=${sede.getIdSede()}"><button>Ver Salas</button></a>
                                                     <a class="botoncin" href="sedes/edit?id=${sede.getIdSede()}&idDom=${elDomPag.getId()}"><button>Editar Sede</button></a>
                                                     <a class="botoncin" href="sedes/delete?id=${sede.getIdSede()}&idDom=${elDomPag.getId()}"><button>Eliminar Sede</button></a>
                                                 </div>
                                             </div>
                                         </c:when>
                                     </c:choose>
-                                        <c:if test = "${domiciliosDeSedes == null}">
+                                        <c:if test = "${empty domiciliosDeSedes}">
                                             <p>No hay domicilios disponibles registrados </p>
                                         </c:if>
                                 </c:forEach> 
@@ -209,10 +211,10 @@
                                                     </c:choose>
                                                 </c:forEach> 
                                             </c:if>
-                                            <a class="botoncin" href="#"><button>Alquilar sala</button></a>
+                                            <a class="botoncin" href="salas/salasDisponibles?idSede=${sede.getIdSede()}"><button>Ver Salas</button></a>
                                         </div>
                                     </div>
-                                    <c:if test = "${domiciliosDeSedes == null}">
+                                    <c:if test = "${empty domiciliosDeSedes}">
                                         <p>No hay domicilios disponibles registrados </p>
                                     </c:if>
                                 </c:forEach> 

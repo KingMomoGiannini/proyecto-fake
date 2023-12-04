@@ -43,7 +43,6 @@ body {
 .elcontainer form {
     display: flex;
     background-color: grey;
-    border-style: double grey;
     border-radius: 10px;
     width: 100%;
     max-width: 1000px; /* Cambiado para adaptarse a pantallas más pequeñas */

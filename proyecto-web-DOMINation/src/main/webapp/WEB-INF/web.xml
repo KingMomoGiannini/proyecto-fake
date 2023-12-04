@@ -53,4 +53,12 @@
         <servlet-name>UsuarioServlet</servlet-name>
         <servlet-class>domination.mvc.servlets.UsuarioServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SalaServlet</servlet-name>
+        <servlet-class>domination.mvc.servlets.SalaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SalaServlet</servlet-name>
+        <url-pattern>/salas/*</url-pattern>
+    </servlet-mapping>
 </web-app>

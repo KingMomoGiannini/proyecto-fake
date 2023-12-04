@@ -45,62 +45,62 @@ public class SedeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    try {
-            System.out.println("hola");
-            String destino="/";
-            String pathInfo = req.getPathInfo(); // Obtiene la parte de la URL después de "/sedes"
-            pathInfo = pathInfo == null ? "" : pathInfo;
-            System.out.println("pathinfo: " + pathInfo);
-        switch (pathInfo) {
-            case "/create":
-                req.setAttribute("action", "create");
-                req.setAttribute("laSede", new Sede()); // Crea una nueva instancia de Sede para el formulario de creación
-                destino += "pages/formSedes.jsp";
-                break;
-            case "/edit":
-                int idSedeEdit = Integer.parseInt(req.getParameter("id")); 
-                int idDomEdit =  Integer.parseInt(req.getParameter("idDom"));
-                Sede laSedeEdit = laSedeDAO.getByID(idSedeEdit);
-                Domicilio elDomEdit = elDomDAO.getByID(idDomEdit);
-                req.setAttribute("laSede", laSedeEdit);
-                req.setAttribute("elDom", elDomEdit);
-                req.setAttribute("action", "update");
-                destino += "pages/formSedes.jsp";
-                break;
-            case "/delete":
-                int idSedeDelete = Integer.parseInt(req.getParameter("id")); 
-                int idDomDelete =  Integer.parseInt(req.getParameter("idDom"));
-                Sede laSedeDelete = laSedeDAO.getByID(idSedeDelete);
-                Domicilio elDomDelete = elDomDAO.getByID(idDomDelete);
-                //A PARTIR DE AHORA ARRANCAN LOS CAMBIOS.
-                Usuario elPrestador = null;
-                for (Usuario usuario : userDAO.getAll()) {
-                    for (UsuarioPrestador prestador : prestDAO.getAll()) {
-                        if (prestador.getIdUsuario() == usuario.getIdUsuario()) {
-                            elPrestador = prestador;
+        try {
+
+                String destino="/";
+                String pathInfo = req.getPathInfo(); // Obtiene la parte de la URL después de "/sedes"
+                pathInfo = pathInfo == null ? "" : pathInfo;
+
+            switch (pathInfo) {
+                case "/create":
+                    req.setAttribute("action", "create");
+                    req.setAttribute("laSede", new Sede()); // Crea una nueva instancia de Sede para el formulario de creación
+                    destino += "pages/formSedes.jsp";
+                    break;
+                case "/edit":
+                    int idSedeEdit = Integer.parseInt(req.getParameter("id")); 
+                    int idDomEdit =  Integer.parseInt(req.getParameter("idDom"));
+                    Sede laSedeEdit = laSedeDAO.getByID(idSedeEdit);
+                    Domicilio elDomEdit = elDomDAO.getByID(idDomEdit);
+                    req.setAttribute("laSede", laSedeEdit);
+                    req.setAttribute("elDom", elDomEdit);
+                    req.setAttribute("action", "update");
+                    destino += "pages/formSedes.jsp";
+                    break;
+                case "/delete":
+                    int idSedeDelete = Integer.parseInt(req.getParameter("id")); 
+                    int idDomDelete =  Integer.parseInt(req.getParameter("idDom"));
+                    Sede laSedeDelete = laSedeDAO.getByID(idSedeDelete);
+                    Domicilio elDomDelete = elDomDAO.getByID(idDomDelete);
+                    //A PARTIR DE AHORA ARRANCAN LOS CAMBIOS.
+                    Usuario elPrestador = null;
+                    for (Usuario usuario : userDAO.getAll()) {
+                        for (UsuarioPrestador prestador : prestDAO.getAll()) {
+                            if (prestador.getIdUsuario() == usuario.getIdUsuario()) {
+                                elPrestador = prestador;
+                            }
                         }
                     }
-                }
-                req.setAttribute("elPrestador", elPrestador);
-                //HASTA ACÁ SON LOS CAMBIOS
-                req.setAttribute("laSede", laSedeDelete);
-                req.setAttribute("elDom", elDomDelete);
-                req.setAttribute("action", "delete");
-                destino += "pages/formSedes.jsp"; // Utiliza el mismo formulario que el de creación
-                break;
-            default:
-                List<Sede> sedes = laSedeDAO.getAll();
-                req.setAttribute("sedesDelUsuario", sedes);
-                destino += "pages/inicio.jsp";
-                break;
-        }
+                    req.setAttribute("elPrestador", elPrestador);
+                    //HASTA ACÁ SON LOS CAMBIOS
+                    req.setAttribute("laSede", laSedeDelete);
+                    req.setAttribute("elDom", elDomDelete);
+                    req.setAttribute("action", "delete");
+                    destino += "pages/formSedes.jsp"; // Utiliza el mismo formulario que el de creación
+                    break;
+                default:
+                    List<Sede> sedes = laSedeDAO.getAll();
+                    req.setAttribute("sedesDelUsuario", sedes);
+                    destino += "pages/inicio.jsp";
+                    break;
+            }
 
-        req.getRequestDispatcher(destino).forward(req, resp);
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        resp.sendError(500, ex.getMessage());
+            req.getRequestDispatcher(destino).forward(req, resp);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            resp.sendError(500, ex.getMessage());
+        }
     }
-}
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -108,7 +108,7 @@ public class SedeServlet extends HttpServlet {
         try {
             String cancelar = null;
             String action = req.getParameter("action");
-            System.out.println(action);
+
             switch (action) {
                 case "create":
                     cancelar = req.getParameter("cancelDelete");

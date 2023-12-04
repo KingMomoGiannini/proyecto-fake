@@ -9,10 +9,50 @@ package domination.mvc.model;
  * @author giann
  */
 public class SalaEnsayo implements Alquilable {
+    
+    private int idSala;
+    private int numSala;
+    private double valorHora;
+    private int idSede;
 
+    public SalaEnsayo() {
+    }
+
+    public SalaEnsayo(int numSala, int idSede) {
+        this(0,numSala,6000,idSede);//a futuro se puede empezar a modificar el valor hora de la sala.
+    }
+    
+    public SalaEnsayo(int idSala, int numSala, double valorHora, int idSede) {
+        this.idSala = idSala;
+        this.numSala = numSala;
+        this.valorHora= valorHora;
+        this.idSede = idSede;
+    }
+
+    public int getIdSala() {
+        return idSala;
+    }
+
+    public int getNumSala() {
+        return numSala;
+    }
+
+    public double getValorHora() {
+        return valorHora;
+    }
+    
+    public int getIdSede() {
+        return idSede;
+    }
+
+    public void setIdSala(int idSala) {
+        this.idSala = idSala;
+    }
+    
     @Override
     public void Alquilar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        
     }
     
 }
