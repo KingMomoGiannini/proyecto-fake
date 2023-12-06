@@ -48,7 +48,7 @@
                                         </c:if>
                                         <c:if test="${userLogueado.rol eq 'cliente'}">
                                             <br><br>
-                                            <a class="botoncin" href="${pageContext.request.contextPath}/salas/create"><button>Alquilar sala</button></a>
+                                            <a class="botoncin" href="${pageContext.request.contextPath}/reservas/create?idSala=${sala.getIdSala()}"><button>Alquilar sala</button></a>
                                             <br><br>
                                         </c:if>
                                     </div>

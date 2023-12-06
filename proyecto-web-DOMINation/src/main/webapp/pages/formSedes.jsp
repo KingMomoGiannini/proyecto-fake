@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Registrar/Editar/Eliminar Sede</title>
-        <<link rel="stylesheet" href="../css/formSede.css"/>
+        <link rel="stylesheet" href="../css/formSede.css"/>
     </head>
     <body>
         <c:import url="../navbar.jsp"/>

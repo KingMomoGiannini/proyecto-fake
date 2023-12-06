@@ -156,3 +156,7 @@ img.logo {
     margin-bottom: 10px; /* Espaciado inferior */
     box-sizing: border-box; /* Box-sizing para incluir relleno y borde en el ancho total */
 }
+
+.centrarEnPag input.fuente-mas-grande {
+    font-size: 30px !important; /* Ajusta el tamaño de fuente según tus preferencias */
+}

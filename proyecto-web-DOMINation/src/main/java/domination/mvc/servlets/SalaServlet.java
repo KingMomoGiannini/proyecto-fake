@@ -48,7 +48,7 @@ public class SalaServlet extends HttpServlet{
                     req.setAttribute("action", "create");
                     destino+= "pages/formSalas.jsp";
                     break;
-                case "/salasDisponibles":
+                case "/salasDisponibles"://equivale a el "read" del CRUD, pero de todas las salas
                     idSedeSala = Integer.parseInt(req.getParameter("idSede"));
                     laSede = sedeDAO.getByID(idSedeSala);
                     List<SalaEnsayo> salas = new LinkedList();

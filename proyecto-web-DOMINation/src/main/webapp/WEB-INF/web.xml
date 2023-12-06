@@ -61,4 +61,12 @@
         <servlet-name>SalaServlet</servlet-name>
         <url-pattern>/salas/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ReservaServlet</servlet-name>
+        <servlet-class>domination.mvc.servlets.ReservaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReservaServlet</servlet-name>
+        <url-pattern>/reservas/*</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -4,27 +4,29 @@
  */
 package domination.mvc.model;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Seba
  */
 public class Reserva {
     private int idReserva;
-    private int duracion;
+    private double duracion;
     private int idSala;
     private int idCliente;
-    private int horaInicio;
-    private int horaFin;
+    private LocalDateTime horaInicio;
+    private LocalDateTime horaFin;
     private double monto;
 
     public Reserva() {
     }
 
-    public Reserva(int duracion, int idSala, int idCliente, int horaInicio, int horaFin, double monto) {
+    public Reserva(double duracion, int idSala, int idCliente, LocalDateTime horaInicio, LocalDateTime horaFin, double monto) {
         this(0,duracion,idSala,idCliente,horaInicio,horaFin,monto);
     }
     
-    public Reserva(int idReserva, int duracion, int idSala, int idCliente, int horaInicio, int horaFin, double monto) {
+    public Reserva(int idReserva, double duracion, int idSala, int idCliente, LocalDateTime horaInicio, LocalDateTime horaFin, double monto) {
         this.idReserva = idReserva;
         this.duracion = duracion;
         this.idSala = idSala;
@@ -38,7 +40,7 @@ public class Reserva {
         return idReserva;
     }
 
-    public int getDuracion() {
+    public double getDuracion() {
         return duracion;
     }
 
@@ -50,14 +52,14 @@ public class Reserva {
         return idCliente;
     }
 
-    public int getHoraInicio() {
-        return horaInicio;
-    }
-
-    public int getHoraFin() {
+    public LocalDateTime getHoraFin() {
         return horaFin;
     }
 
+    public LocalDateTime getHoraInicio() {
+        return horaInicio;
+    }
+    
     public double getMonto() {
         return monto;
     }
