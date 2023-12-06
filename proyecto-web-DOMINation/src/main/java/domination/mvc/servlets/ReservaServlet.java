@@ -149,7 +149,9 @@ public class ReservaServlet extends HttpServlet {
     
     private void createReserva(HttpServletRequest req) throws Exception {
         Reserva laReserva = obtenerReservaDesdeRequest(req);
-        if (laReserva.getDuracion() < 0 ) {
+        SalaEnsayo laSalaDeReserva = salaDAO.getByID(laReserva.getIdSala());
+        Sede sede = sedeDAO.getByID(laSalaDeReserva.getIdSede());//para comparar las horas de inicio y fin con las de la reserva.
+        if ((laReserva.getDuracion() < 0)) {
             setAttributesForSuccess(req, "Seleccione un horario valido", null);
             
         }
@@ -157,7 +159,6 @@ public class ReservaServlet extends HttpServlet {
             reservaDAO.create(laReserva);
             setAttributesForSuccess(req, "Su reserva fue realizada exitosamente", laReserva);
         }
-
     }
     
     private Reserva obtenerReservaDesdeRequest(HttpServletRequest req) throws Exception {
