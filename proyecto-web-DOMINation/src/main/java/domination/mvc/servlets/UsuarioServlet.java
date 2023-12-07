@@ -142,8 +142,6 @@ public class UsuarioServlet extends HttpServlet  {
         setAttributesForSuccess(req, "El usuario ha sido editado exitosamente", elUsuario);
     }
 
-    
-    //FALTA CORREGIR BORRADO DE USUARIO PRESTADOR
     private void deleteUsuario(HttpServletRequest req) throws Exception {
         int idUser = Integer.parseInt(req.getParameter("idUser"));//Obtengo el id del usuario
         String rolUser = req.getParameter("rolUser");

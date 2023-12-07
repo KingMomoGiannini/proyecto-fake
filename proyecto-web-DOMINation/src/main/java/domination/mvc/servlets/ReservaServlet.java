@@ -56,24 +56,24 @@ public class ReservaServlet extends HttpServlet {
                 case "/create":
                     int idSala = Integer.parseInt(req.getParameter("idSala"));
                     SalaEnsayo laSala = salaDAO.getByID(idSala);
+                    Sede laSede = sedeDAO.getByID(laSala.getIdSede());
+                    req.setAttribute("laSede", laSede);
                     req.setAttribute("laSala", laSala);
                     req.setAttribute("laReserva", new Reserva());
                     req.setAttribute("action", "create");
                     destino+= "pages/formReservas.jsp";
                     break;
                 case "/misReservas":
-//                    idSedeSala = Integer.parseInt(req.getParameter("idSede"));
-//                    laSede = sedeDAO.getByID(idSedeSala);
-//                    List<SalaEnsayo> salas = new LinkedList();
-//                    for (SalaEnsayo sala : salaDAO.getAll()) {
-//                        if (sala.getIdSede()==laSede.getIdSede()) {
-//                            salas.add(sala);
-//                        }
-//                    }
-//                    req.setAttribute("laSede", laSede);
-//                    req.setAttribute("lasSalas", salas);
-//                    req.setAttribute("action", "read");
-                    destino+= "pages/formReservas.jsp";
+                    int idCliente = Integer.parseInt(req.getParameter("idCliente"));
+                    List<Reserva> reservas = new LinkedList();
+                    for (Reserva reserva : reservaDAO.getAll()) {
+                        if (reserva.getIdCliente() == idCliente) {
+                            reservas.add(reserva);
+                        }
+                    }
+                    req.setAttribute("lasReservas", reservas);
+                    req.setAttribute("action", "read");
+                    destino+= "pages/listaReservas.jsp";
                     break;
                 case "/edit":
 //                    int idSalaEdit = Integer.parseInt(req.getParameter("idSala")); 
@@ -94,6 +94,9 @@ public class ReservaServlet extends HttpServlet {
 //                    req.setAttribute("laSede", laSedeSalaDel);
 //                    req.setAttribute("action", "delete");
                     destino+="pages/formReservas.jsp";
+                    break;
+                case "/listaReservas":
+                    destino+= "pages/listaReservas.jsp";
                     break;
                     
             }
@@ -149,8 +152,8 @@ public class ReservaServlet extends HttpServlet {
     
     private void createReserva(HttpServletRequest req) throws Exception {
         Reserva laReserva = obtenerReservaDesdeRequest(req);
-        SalaEnsayo laSalaDeReserva = salaDAO.getByID(laReserva.getIdSala());
-        Sede sede = sedeDAO.getByID(laSalaDeReserva.getIdSede());//para comparar las horas de inicio y fin con las de la reserva.
+        //SalaEnsayo laSalaDeReserva = salaDAO.getByID(laReserva.getIdSala());
+        //Sede sede = sedeDAO.getByID(laSalaDeReserva.getIdSede());//para comparar las horas de inicio y fin con las de la reserva.
         if ((laReserva.getDuracion() < 0)) {
             setAttributesForSuccess(req, "Seleccione un horario valido", null);
             
@@ -187,14 +190,14 @@ public class ReservaServlet extends HttpServlet {
     }
     
     private void setAttributesForSuccess(HttpServletRequest req, String mensaje, Reserva laReserva) throws Exception {
-        List<SalaEnsayo> lasSalasDeLaSede = new LinkedList();
+        List<Reserva> lasReservasNuevas = new LinkedList();
         
         req.getSession().setAttribute("Exito", true);
         req.getSession().setAttribute("mensajeExito", mensaje);
-        for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
-            lasSalasDeLaSede.add(salaEnsayo);
+        for (Reserva reserva : reservaDAO.getAll()) {
+            lasReservasNuevas.add(reserva);
         }
-        req.getSession().setAttribute("lasSalas",lasSalasDeLaSede);
+        req.getSession().setAttribute("lasReservas",lasReservasNuevas);
         
     }
 }

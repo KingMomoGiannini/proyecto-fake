@@ -31,6 +31,12 @@
                             <br><br><br>
                         </div>
                     </c:if>
+                    <c:if test="${not empty lasReservas}">
+                        <div class="centrarEnPag">
+                            <a class="botoncin" href="reservas/listaReservas"><button>Ver Reservas</button></a>
+                            <br><br><br>
+                        </div>
+                    </c:if>
                     <c:if test = "${not empty sedesDelUsuario}">
                         <div class="seccion">
                             <h1 >Sucursales</h1>
@@ -119,6 +125,12 @@
                                 <br><br><br>
                             </div>
                         </c:if>
+                        <c:if test="${not empty lasReservas}">
+                            <div class="centrarEnPag">
+                                <a class="botoncin" href="reservas/listaReservas"><button>Ver Reservas</button></a>
+                                <br><br><br>
+                            </div>
+                        </c:if>
                         <c:if test = "${not empty sedesDelUsuario}">
                             <div class="sedes-row">
                                 <c:forEach items ="${sedesDelUsuario}" var="sede">
@@ -177,6 +189,12 @@
                         <c:if test = "${Exito==true}">
                             <div class="mensaje">
                                 <h1>${mensajeExito}</h1>
+                                <br><br><br>
+                            </div>
+                        </c:if>
+                        <c:if test="${not empty lasReservas}">
+                            <div class="centrarEnPag">
+                                <a class="botoncin" href="reservas/misReservas?idCliente=${userLogueado.getIdCliente()}"><button>Ver mis Reservas</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>

@@ -10,11 +10,15 @@ import domination.DAO.ClienteDAO;
 import domination.DAO.DAO;
 import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
+import domination.DAO.ReservaDAO;
+import domination.DAO.SalaDAO;
 import domination.DAO.SedeDAO;
 import domination.DAO.UsuarioDAO;
 import domination.mvc.model.Usuario;
 import domination.mvc.model.Administrador;
 import domination.mvc.model.Domicilio;
+import domination.mvc.model.Reserva;
+import domination.mvc.model.SalaEnsayo;
 import domination.mvc.model.Sede;
 import domination.mvc.model.UsuarioCliente;
 import domination.mvc.model.UsuarioPrestador;
@@ -40,6 +44,8 @@ public class LoginServlet extends HttpServlet {
     private DAO<Sede,Integer> sedeDAO;
     private DAO<Domicilio,Integer> domDAO;
     private DAO<Usuario,Integer> userDAO;
+    private DAO<SalaEnsayo,Integer> salaDAO;
+    private DAO<Reserva,Integer> reservaDAO;
     
    
     @Override
@@ -49,6 +55,8 @@ public class LoginServlet extends HttpServlet {
         sedeDAO = new SedeDAO();
         domDAO = new DomicilioDAO();
         userDAO = new UsuarioDAO();
+        salaDAO = new SalaDAO();
+        reservaDAO = new ReservaDAO();
     }
 
     @Override
@@ -105,6 +113,7 @@ public class LoginServlet extends HttpServlet {
             UsuarioPrestador elUserLog = (UsuarioPrestador) elUser;
             List<Sede> lasSedesUsuario = new LinkedList();
             List<Domicilio> domiciliosSedes = new LinkedList();
+            List<Reserva> reservasPrest = new LinkedList();
             Domicilio dom = null;
             Sede laSede = null;
             try {
@@ -117,6 +126,12 @@ public class LoginServlet extends HttpServlet {
                             }
                         }
                     }
+                    for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
+                        for (Reserva reserva : reservaDAO.getAll()) {
+                            if (reserva.getIdSala() == salaEnsayo.getIdSala()) {
+                                reservasPrest.add(reserva);                            }
+                        }
+                    }
                 }
             } catch (Exception ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,6 +140,7 @@ public class LoginServlet extends HttpServlet {
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
             laSesion.setAttribute("sedesDelUsuario", lasSedesUsuario);
             laSesion.setAttribute("domiciliosDeSedes", domiciliosSedes);
+            laSesion.setAttribute("lasReservas", reservasPrest);
             laSesion.setAttribute("userLogueado",elUserLog);//
             laSesion.setAttribute("elDom", dom);
             laSesion.setAttribute("laSede", laSede);
@@ -132,8 +148,10 @@ public class LoginServlet extends HttpServlet {
         }
         
         else if ((elUser != null)&&(elUser instanceof UsuarioCliente)) {//Si el user existe lo ligamos a la sesion
+            UsuarioCliente elUserCli = (UsuarioCliente) elUser;
             List<Sede> lasSedesUsuario = new LinkedList();
             List<Domicilio> domiciliosSedes = new LinkedList();
+            List<Reserva> reservasCliente = new LinkedList();
             Domicilio dom = null;
             Sede laSede = null;
             try {
@@ -143,6 +161,11 @@ public class LoginServlet extends HttpServlet {
                 for (Domicilio domicilioSede : domDAO.getAll()) {
                     domiciliosSedes.add(domicilioSede);
                 }
+                for (Reserva reserva : reservaDAO.getAll()) {
+                    if (reserva.getIdCliente()== elUserCli.getIdCliente()) {
+                        reservasCliente.add(reserva);
+                    }
+                }
             } catch (Exception ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -151,6 +174,7 @@ public class LoginServlet extends HttpServlet {
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
             laSesion.setAttribute("sedesDelUsuario", lasSedesUsuario);
             laSesion.setAttribute("domiciliosDeSedes", domiciliosSedes);
+            laSesion.setAttribute("lasReservas", reservasCliente);
             laSesion.setAttribute("elDom", dom);
             laSesion.setAttribute("laSede", laSede);
             laSesion.setAttribute("userLogueado",elUserLog);//
@@ -160,10 +184,8 @@ public class LoginServlet extends HttpServlet {
         else if (elAdmin != null) {//Si el admin existe
             List<Sede> lasSedesUsuario = new LinkedList();
             List<Domicilio> domiciliosSedes = new LinkedList();
-            
+            List<Reserva> reservasTodas = new LinkedList();
             List<Usuario> usuarios = new LinkedList();
-            List<UsuarioPrestador> prestadores = new LinkedList();
-            List<UsuarioCliente> clientes = new LinkedList();
             Domicilio dom = null;
             Sede laSede = null;
             try {
@@ -185,9 +207,10 @@ public class LoginServlet extends HttpServlet {
                         }
                     }
                 }
-                for (Usuario usuario : usuarios) {
-                    System.out.println(usuario.getRol());
+                for (Reserva reserva : reservaDAO.getAll()) {
+                    reservasTodas.add(reserva);
                 }
+                
             } catch (Exception ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -195,6 +218,7 @@ public class LoginServlet extends HttpServlet {
             laSesion.setMaxInactiveInterval(3600); //Le damos un maximo de tiempo en segundos(1hr)
             laSesion.setAttribute("sedesDelUsuario", lasSedesUsuario);
             laSesion.setAttribute("domiciliosDeSedes", domiciliosSedes);
+            laSesion.setAttribute("lasReservas", reservasTodas);
             laSesion.setAttribute("usuarios", usuarios);
             laSesion.setAttribute("userLogueado",elAdmin);//
             laSesion.setAttribute("elDom", dom);
