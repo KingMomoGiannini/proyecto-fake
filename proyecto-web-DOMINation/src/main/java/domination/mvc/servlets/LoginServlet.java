@@ -125,13 +125,18 @@ public class LoginServlet extends HttpServlet {
                                 domiciliosSedes.add(domicilioSede);
                             }
                         }
-                    }
-                    for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
-                        for (Reserva reserva : reservaDAO.getAll()) {
-                            if (reserva.getIdSala() == salaEnsayo.getIdSala()) {
-                                reservasPrest.add(reserva);                            }
+                        
+                        for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
+                            if (salaEnsayo.getIdSede()==sede.getIdSede()) {
+                                for (Reserva reserva : reservaDAO.getAll()) {
+                                    if (reserva.getIdSala() == salaEnsayo.getIdSala()) {
+                                        reservasPrest.add(reserva);                            }
+                                }
+                            }
+                            
                         }
                     }
+                    
                 }
             } catch (Exception ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
