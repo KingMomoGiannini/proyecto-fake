@@ -132,8 +132,7 @@ public class LoginServlet extends HttpServlet {
                                     if (reserva.getIdSala() == salaEnsayo.getIdSala()) {
                                         reservasPrest.add(reserva);                            }
                                 }
-                            }
-                            
+                            } 
                         }
                     }
                     

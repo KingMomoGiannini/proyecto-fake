@@ -4,7 +4,9 @@
  */
 package domination.mvc.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  *
@@ -68,5 +70,15 @@ public class Reserva {
         this.idReserva = idReserva;
     }
     
+    public LocalTime getHoraMinutoInicio(){
+        return this.horaInicio.toLocalTime();
+    }
     
+    public LocalTime getHoraMinutoFin(){
+        return this.horaFin.toLocalTime();
+    }
+    
+    public LocalDate getSoloFecha(){
+        return this.horaInicio.toLocalDate();
+    }
 }

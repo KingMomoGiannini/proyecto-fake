@@ -23,7 +23,6 @@
             <div class="container-inicial">
                 <h1>Formulario de Reserva</h1>
             </div>
-            <c:if test="${userLogueado.rol eq 'cliente'}">
                 <br><br><br>
                 <form action="reservas" method="post">
                     <input type="hidden" name="action" value="${action}">
@@ -49,9 +48,54 @@
                                 <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
                             </div>
                         </c:when>
+                        <c:when test="${action eq 'delete'}">
+                            <input type="hidden" name="idReserva" value="${laReserva.getIdReserva()}">
+                            <input type="hidden" name="idSala" value="${laSala.getIdSala()}">
+                            <input type="hidden" name="idCliente" value="${elCliente.getIdCliente()}">
+                            <div class="inter-texto">
+                                <label class="fuenteMin" >Reserva a eliminar:</label>
+                                <input class="text-box-ajuste" type="text" value="ID de reserva:  ${laReserva.getIdReserva()}" readonly>
+                                <input class="text-box-ajuste" type="text" name="idSala" value="ID de la sala:  ${laSala.getIdSala()}" readonly>
+                                <input class="text-box-ajuste" type="text" value="Reserva en:  ${laSede.getNombre()}" readonly>
+                                <input class="text-box-ajuste" type="text" value="Fecha :  ${laReserva.getSoloFecha()}" readonly>                                
+                                <input class="text-box-ajuste" type="text" value="Desde las :  ${laReserva.getHoraMinutoInicio()} hs" readonly>
+                                <input class="text-box-ajuste" type="text" value="Hasta las :  ${laReserva.getHoraMinutoFin()} hs" readonly>
+                                <input class="text-box-ajuste" type="text" value="Monto a pagar:  $${laReserva.getMonto()}" readonly>
+                                <input class="text-box-ajuste" type="text" value="Usuario que alquila: ${elCliente.getNombre()} ${elCliente.getApellido()}" readonly>
+
+                                <br>
+                                <h3 class="fuentePrincFondo">¿Está seguro que desea eliminar esta sala?</h3>
+                            </div>
+                            <br><br>
+                            <div class="centrarEnPag">
+                                <button class="botoncin" type="submit" name="confirmDelete" value="true">Eliminar</button>
+                                <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                            </div>
+                        </c:when>
+                        <c:when test="${action eq 'update'}">
+                            <input type="hidden" name="idReserva" value="${laReserva.getIdReserva()}">
+                            <input type="hidden" name="idSala" value="${laSala.getIdSala()}">
+                            <input type="hidden" name="idCliente" value="${elCliente.getIdCliente()}">
+                            <div class="centrarEnPag">
+                                <div class="inter-texto">
+                                    <label class="fuenteMin" for="fecha">Fecha:
+                                    <input type="date" class="form-control fuente-mas-grande" id="fecha" name="fecha" data-provide="datepicker" value="${laReserva.getSoloFecha()}"></label>
+
+                                    <label class="fuenteMin" for="horaInicio">Hora de Inicio:
+                                    <input type="time" class="form-control fuente-mas-grande" id="horaInicio" name="horaInicio" value="${laReserva.getHoraMinutoInicio()}"></label>
+
+                                    <label class="fuenteMin" for="horaFin">Hora de Fin:
+                                    <input type="time" class="form-control fuente-mas-grande" id="horaFin" name="horaFin" value="${laReserva.getHoraMinutoFin()}"></label>
+                                </div>
+                            </div>
+                            <div class="centrarEnPag"><br><br><br>
+                                <button class="botoncin" type="submit" name="confirmDelete" value="true">Editar</button>
+                                <button class="botoncin" type="submit" name="cancelDelete" value="true">Cancelar</button>
+                            </div>
+                        </c:when>
                     </c:choose> 
                 </form>
-            </c:if>
+            
            
         </div>
         <c:import url="../footer.jsp"/>

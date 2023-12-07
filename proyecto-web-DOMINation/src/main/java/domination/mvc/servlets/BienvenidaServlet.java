@@ -56,8 +56,7 @@ public class BienvenidaServlet extends HttpServlet{
             List<Sede> lasSedesUsuario = new LinkedList();
             List<Domicilio> domiciliosSedes = new LinkedList();
             List<Usuario> usuarios = new LinkedList();
-//            Domicilio dom = null;
-//            Sede laSede = null;
+
             try {
                 for (Sede sede : sedeDAO.getAll()) {
                     lasSedesUsuario.add(sede);
@@ -83,8 +82,6 @@ public class BienvenidaServlet extends HttpServlet{
             req.getSession().setAttribute("sedesDelUsuario", lasSedesUsuario);
             req.getSession().setAttribute("domiciliosDeSedes", domiciliosSedes);
             req.getSession().setAttribute("usuarios", usuarios);
-//            req.getSession().setAttribute("elDom", dom);
-//            req.getSession().setAttribute("laSede", laSede);
         }catch(Exception ex){
             resp.sendError(500,"En BienvenidaServlet hay un error");
         }

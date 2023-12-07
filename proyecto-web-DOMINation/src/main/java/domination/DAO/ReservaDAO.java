@@ -68,17 +68,54 @@ public class ReservaDAO implements DAO<Reserva,Integer>{
 
     @Override
     public void update(Reserva laReserva) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "UPDATE reserva SET duracion = ?, sala_idsala = ?, cliente_idcliente = ?, hora_inicio = ?, hora_fin = ?, monto = ?  WHERE idreserva = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setDouble(1,laReserva.getDuracion());
+            preparedStatement.setInt(2,laReserva.getIdSala());
+            preparedStatement.setInt(3,laReserva.getIdCliente());
+            preparedStatement.setTimestamp(4,Timestamp.valueOf(laReserva.getHoraInicio()));
+            preparedStatement.setTimestamp(5,Timestamp.valueOf(laReserva.getHoraFin()));
+            preparedStatement.setDouble(6,laReserva.getMonto());
+            preparedStatement.setInt(7,laReserva.getIdReserva());
+            
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al actualizar la reserva SQL", ex);
+        }
     }
 
     @Override
     public void delete(Integer elId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "DELETE FROM reserva WHERE idreserva = ?";
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new Exception("Error al eliminar una reserva", ex);
+        }
     }
 
     @Override
     public Reserva getByID(Integer elId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "SELECT * FROM reserva WHERE idreserva = ?";
+        Reserva laReserva = null;
+
+        try (Connection con = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            preparedStatement.setInt(1, elId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    laReserva = rsRowToReserva(resultSet);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new Exception("Error al obtener una sala por ID", ex);
+        }
+
+        return laReserva;
     }
 
     private Reserva rsRowToReserva(ResultSet rs) throws SQLException {

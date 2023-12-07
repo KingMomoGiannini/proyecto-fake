@@ -53,8 +53,9 @@
                                         <p><strong style = "font-size:14px;text-decoration:underline">Hora de salida:</strong> ${reserva.getHoraFin()}</p>
                                         <p><strong style = "font-size:14px;text-decoration:underline">Monto a pagar: $</strong> ${reserva.getMonto()}</p>
                                         <p><strong style = "font-size:14px;text-decoration:underline">Duración: </strong> ${reserva.getDuracion()}Hs</p>
-                                        
-                                        
+                                        <br><br>
+                                        <a class="botoncin" href="${pageContext.request.contextPath}/reservas/edit?idReserva=${reserva.getIdReserva()}"><button>Editar Reserva</button></a>
+                                    
                                         <br><br>
                                         <a class="botoncin" href="${pageContext.request.contextPath}/reservas/delete?idReserva=${reserva.getIdReserva()}"><button>Eliminar Reserva</button></a>
                                         <br><br>
@@ -81,7 +82,6 @@
                             <div class="centrarEnPag">
                                 <a class="botoncin" href="${pageContext.request.contextPath}/reservas/create?idSala=${sala.getIdSala()}"><button>Alquilar sala</button></a>
                                 <br><br><br>
-                                
                             </div>
                         </c:if>
                     </c:when>

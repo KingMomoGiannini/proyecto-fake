@@ -76,23 +76,29 @@ public class ReservaServlet extends HttpServlet {
                     destino+= "pages/listaReservas.jsp";
                     break;
                 case "/edit":
-//                    int idSalaEdit = Integer.parseInt(req.getParameter("idSala")); 
-//                    int idSedeSalaEdit = Integer.parseInt(req.getParameter("idSede")); 
-//                    SalaEnsayo laSalaEdit = salaDAO.getByID(idSalaEdit);
-//                    Sede laSedeSalaEdit = sedeDAO.getByID(idSedeSalaEdit);
-//                    req.setAttribute("laSala", laSalaEdit);
-//                    req.setAttribute("laSede", laSedeSalaEdit);
-//                    req.setAttribute("action", "update");
+                    int idReserva = Integer.parseInt(req.getParameter("idReserva")); 
+                    Reserva laReserva = reservaDAO.getByID(idReserva);
+                    laSala = salaDAO.getByID(laReserva.getIdSala());
+                    laSede = sedeDAO.getByID(laSala.getIdSede());
+                    UsuarioCliente elCliente = obtenerUsuarioCliente(laReserva.getIdCliente());
+                    req.setAttribute("laReserva", laReserva);
+                    req.setAttribute("laSala", laSala);
+                    req.setAttribute("laSede", laSede);
+                    req.setAttribute("elCliente", elCliente);
+                    req.setAttribute("action", "update");
                     destino+="pages/formReservas.jsp";
                     break;
                 case "/delete":
-//                    int idSalaDel = Integer.parseInt(req.getParameter("idSala"));
-//                    int idSedeSalaDel = Integer.parseInt(req.getParameter("idSede"));
-//                    SalaEnsayo laSalaDel = salaDAO.getByID(idSalaDel);
-//                    Sede laSedeSalaDel = sedeDAO.getByID(idSedeSalaDel);
-//                    req.setAttribute("laSala", laSalaDel);
-//                    req.setAttribute("laSede", laSedeSalaDel);
-//                    req.setAttribute("action", "delete");
+                    idReserva = Integer.parseInt(req.getParameter("idReserva"));
+                    laReserva = reservaDAO.getByID(idReserva);
+                    laSala = salaDAO.getByID(laReserva.getIdSala());
+                    laSede = sedeDAO.getByID(laSala.getIdSede());
+                    elCliente = obtenerUsuarioCliente(laReserva.getIdCliente());
+                    req.setAttribute("laReserva", laReserva);
+                    req.setAttribute("laSala", laSala);
+                    req.setAttribute("laSede", laSede);
+                    req.setAttribute("elCliente", elCliente);
+                    req.setAttribute("action", "delete");
                     destino+="pages/formReservas.jsp";
                     break;
                 case "/listaReservas":
@@ -129,7 +135,7 @@ public class ReservaServlet extends HttpServlet {
                         break;
                     }
                     else{
-                        //updateSala(req);
+                        updateReserva(req);
                     }
                     break;
                 case "delete":
@@ -139,7 +145,7 @@ public class ReservaServlet extends HttpServlet {
                         break;
                     }
                     else{
-                        //deleteSala(req);                    
+                        deleteReserva(req);                    
                     }
                     break;
             }
@@ -162,6 +168,26 @@ public class ReservaServlet extends HttpServlet {
             reservaDAO.create(laReserva);
             setAttributesForSuccess(req, "Su reserva fue realizada exitosamente", laReserva);
         }
+    }
+    
+    private void updateReserva(HttpServletRequest req) throws Exception{
+        Reserva laReserva = obtenerReservaDesdeRequest(req);
+        int idReserva = Integer.parseInt(req.getParameter("idReserva"));
+        if ((laReserva.getDuracion() < 0)) {
+            setAttributesForSuccess(req, "Seleccione un horario valido", null);
+            
+        }
+        else{
+            laReserva.setIdReserva(idReserva);
+            reservaDAO.update(laReserva);
+            setAttributesForSuccess(req, "Reserva modificada exitosamente", laReserva);
+        }
+    }
+    
+    private void deleteReserva(HttpServletRequest req) throws Exception{
+        int idReserva = Integer.parseInt(req.getParameter("idReserva"));
+        reservaDAO.delete(idReserva);
+        setAttributesForSuccess(req, "Reserva eliminada exitosamente", null);
     }
     
     private Reserva obtenerReservaDesdeRequest(HttpServletRequest req) throws Exception {
@@ -189,6 +215,29 @@ public class ReservaServlet extends HttpServlet {
         return new Reserva(duracion,idSala,idCliente,horaInicio,horaFin,monto);
     }
     
+    private UsuarioCliente obtenerUsuarioCliente(int idCliente) throws Exception{
+        UsuarioCliente elCliente = null;
+        List<UsuarioCliente> listaClientes = new LinkedList();
+//        for (Usuario usuario : userDAO.getAll()) {
+//            if ((usuario instanceof UsuarioCliente)&&(((UsuarioCliente) usuario).getIdCliente() == idCliente)) {
+//                elCliente = (UsuarioCliente) usuario;
+//            }
+//        }
+        for (Usuario usuario : userDAO.getAll()) {
+            for (UsuarioCliente cliente : cliDAO.getAll()) {
+                if (usuario.getIdUsuario()==cliente.getIdUsuario()) {
+                    listaClientes.add(cliente);
+                }
+            }
+        }
+        for (UsuarioCliente cliente : listaClientes) {
+            if (cliente.getIdCliente() == idCliente) {
+                elCliente = cliente;
+            }
+        }
+        return elCliente;
+    }
+
     private void setAttributesForSuccess(HttpServletRequest req, String mensaje, Reserva laReserva) throws Exception {
         List<Reserva> lasReservasNuevas = new LinkedList();
         
