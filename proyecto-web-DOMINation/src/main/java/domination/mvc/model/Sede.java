@@ -4,6 +4,8 @@
  */
 package domination.mvc.model;
 
+import java.time.LocalTime;
+
 /**
  *
  * @author giann
@@ -13,19 +15,19 @@ public class Sede {
     private String nombre;
     private int cantSalas;
     private int idPrestador;
-    private int horaInicio;
-    private int horaFin;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
     private String telefono;
 
 
     public Sede() {
     }
     
-    public Sede(String nombre, int cantSalas, int idPrestador, int horaInicio, int horaFin, String telefono) {
+    public Sede(String nombre, int cantSalas, int idPrestador, LocalTime horaInicio, LocalTime horaFin, String telefono) {
         this(0,nombre,cantSalas, idPrestador, horaInicio, horaFin, telefono);
     }
 
-    public Sede(int idSede, String nombre, int cantSalas, int idPrestador, int horaInicio, int horaFin, String telefono) {
+    public Sede(int idSede, String nombre, int cantSalas, int idPrestador, LocalTime horaInicio, LocalTime horaFin, String telefono) {
         this.idSede = idSede;
         this.nombre = nombre;
         this.cantSalas = cantSalas;
@@ -51,11 +53,11 @@ public class Sede {
         return idPrestador;
     }
 
-    public int getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public int getHoraFin() {
+    public LocalTime getHoraFin() {
         return horaFin;
     }
     

@@ -10,6 +10,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <title>Registrar/Editar/Eliminar Sede</title>
         <link rel="stylesheet" href="../css/formSede.css"/>
     </head>
@@ -60,7 +64,7 @@
                                 <div class="inter-texto">
                                     <label class="fuenteMin" for="nomSede">Nombre del local:</label> <input class="text-box-ajuste" type="text" name="nomSede" id="nombre" value="${laSede.nombre}">
                                     <label class="fuenteMin" for="salas">Cantidad de salas:</label>
-                                        <select name="salas" id="salas" value =value="${laSede.cantSalas}">
+                                        <select name="salas" id="salas" value ="${laSede.cantSalas}">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -73,60 +77,12 @@
                                             <option value="10">10</option>
                                         </select>
                                     <label class="fuenteMin" for="celular">Telefono/Celular:</label> <input class="text-box-ajuste" type="text" id="cel" name="celular" value="${laSede.telefono}">
-                                    <label class="fuenteMin" for="horaInicio">Apertura del local:</label>
-                                        <select name="horaInicio" id="horaInicio" value="${laSede.horaInicio}">
-                                            <option value="1">1hs</option>
-                                            <option value="2">2hs</option>
-                                            <option value="3">3hs</option>
-                                            <option value="4">4hs</option>
-                                            <option value="5">5hs</option>
-                                            <option value="6">6hs</option>
-                                            <option value="7">7hs</option>
-                                            <option value="8">8hs</option>
-                                            <option value="9">9hs</option>
-                                            <option value="10">10hs</option>
-                                            <option value="11">11hs</option>
-                                            <option value="12">12hs</option>
-                                            <option value="13">13hs</option>
-                                            <option value="14">14hs</option>
-                                            <option value="15">15hs</option>
-                                            <option value="16">16hs</option>
-                                            <option value="17">17hs</option>
-                                            <option value="18">18hs</option>
-                                            <option value="19">19hs</option>
-                                            <option value="20">20hs</option>
-                                            <option value="21">21hs</option>
-                                            <option value="22">22hs</option>
-                                            <option value="23">23hs</option>
-                                            <option value="24">24hs</option>
-                                        </select>
-                                    <label class="fuenteMin" for="horaCierre">Cierre del local:</label>
-                                        <select name="horaCierre" id="horaFin" value="${laSede.horaFin}">
-                                            <option value="1">1hs</option>
-                                            <option value="2">2hs</option>
-                                            <option value="3">3hs</option>
-                                            <option value="4">4hs</option>
-                                            <option value="5">5hs</option>
-                                            <option value="6">6hs</option>
-                                            <option value="7">7hs</option>
-                                            <option value="8">8hs</option>
-                                            <option value="9">9hs</option>
-                                            <option value="10">10hs</option>
-                                            <option value="11">11hs</option>
-                                            <option value="12">12hs</option>
-                                            <option value="13">13hs</option>
-                                            <option value="14">14hs</option>
-                                            <option value="15">15hs</option>
-                                            <option value="16">16hs</option>
-                                            <option value="17">17hs</option>
-                                            <option value="18">18hs</option>
-                                            <option value="19">19hs</option>
-                                            <option value="20">20hs</option>
-                                            <option value="21">21hs</option>
-                                            <option value="22">22hs</option>
-                                            <option value="23">23hs</option>
-                                            <option value="24">24hs</option>
-                                        </select>
+                                    <label class="fuenteMin" for="horaInicio">Apertura del local:
+                                    <input type="time" class="form-control fuente-mas-grande" id="horaInicio" name="horaInicio" value="${laSede.getHoraInicio()}"></label>    
+                                    
+                                            
+                                    <label class="fuenteMin" for="horaCierre">Cierre del local:
+                                    <input type="time" class="form-control fuente-mas-grande" id="horaCierre" name="horaCierre" value="${laSede.getHoraFin()}"></label>    
                                 </div>
                                 <br>
 

@@ -20,6 +20,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -187,11 +189,14 @@ public class SedeServlet extends HttpServlet {
     }
 
     private Sede obtenerSedeDesdeRequest(HttpServletRequest req) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String horaInicioString = req.getParameter("horaInicio");
+        String horaCierreString = req.getParameter("horaCierre");
         String nomSede = req.getParameter("nomSede");
         int cantSalas = Integer.parseInt(req.getParameter("salas"));
         String telefono = req.getParameter("celular");
-        int horaInicio = Integer.parseInt(req.getParameter("horaInicio"));
-        int horaCierre = Integer.parseInt(req.getParameter("horaCierre"));
+        LocalTime horaInicio =  LocalTime.parse(horaInicioString, formatter);
+        LocalTime horaCierre = LocalTime.parse(horaCierreString, formatter);
         int idPrestador = Integer.parseInt(req.getParameter("idPrestador"));//Recupero el ID del prestador
 
         return new Sede(nomSede, cantSalas, idPrestador, horaInicio, horaCierre, telefono);

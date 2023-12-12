@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,8 +48,8 @@ public class SedeDAO implements DAO<Sede,Integer>{
             preparedStatement.setString(1,laSede.getNombre());
             preparedStatement.setInt(2,laSede.getCantSalas());
             preparedStatement.setInt(3,laSede.getIdPrestador());
-            preparedStatement.setInt(4,laSede.getHoraInicio());
-            preparedStatement.setInt(5,laSede.getHoraFin());
+            preparedStatement.setTime(4,Time.valueOf(laSede.getHoraInicio()));
+            preparedStatement.setTime(5,Time.valueOf(laSede.getHoraFin()));
             preparedStatement.setString(6,laSede.getTelefono());
             
             preparedStatement.executeUpdate();
@@ -70,8 +73,8 @@ public class SedeDAO implements DAO<Sede,Integer>{
             preparedStatement.setString(1,laSede.getNombre());
             preparedStatement.setInt(2,laSede.getCantSalas());
             preparedStatement.setInt(3,laSede.getIdPrestador());
-            preparedStatement.setInt(4,laSede.getHoraInicio());
-            preparedStatement.setInt(5,laSede.getHoraFin());
+            preparedStatement.setTime(4,Time.valueOf(laSede.getHoraInicio()));
+            preparedStatement.setTime(5,Time.valueOf(laSede.getHoraFin()));
             preparedStatement.setString(6,laSede.getTelefono());
             preparedStatement.setInt(7,laSede.getIdSede());
             preparedStatement.executeUpdate();
@@ -118,8 +121,9 @@ public class SedeDAO implements DAO<Sede,Integer>{
         String nombre = rs.getString("nombre");
         int cantSalas = rs.getInt("cant_salas");
         int idPrestador = rs.getInt("prestador_idprestador");
-        int horaInicio = rs.getInt("hora_inicio");
-        int horaFin = rs.getInt("hora_fin");
+        LocalTime horaInicio = rs.getTime("hora_inicio").toLocalTime();
+        LocalTime horaFin = rs.getTime("hora_fin").toLocalTime();
+
         String telefono = rs.getString("telefono");
 
         return new Sede(idSede, nombre, cantSalas, idPrestador, horaInicio, horaFin, telefono);
