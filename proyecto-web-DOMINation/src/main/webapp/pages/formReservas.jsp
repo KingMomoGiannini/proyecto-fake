@@ -64,7 +64,7 @@
                                 <input class="text-box-ajuste" type="text" value="Usuario que alquila: ${elCliente.getNombre()} ${elCliente.getApellido()}" readonly>
 
                                 <br>
-                                <h3 class="fuentePrincFondo">¿Está seguro que desea eliminar esta sala?</h3>
+                                <h3 class="fuentePrincFondo">¿Está seguro que desea eliminar esta Reserva?</h3>
                             </div>
                             <br><br>
                             <div class="centrarEnPag">
