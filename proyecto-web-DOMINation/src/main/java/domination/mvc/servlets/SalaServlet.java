@@ -172,11 +172,16 @@ public class SalaServlet extends HttpServlet{
     
     private void setAttributesForSuccess(HttpServletRequest req, String mensaje, SalaEnsayo laSala) throws Exception {
         List<SalaEnsayo> lasSalasDeLaSede = new LinkedList();
+        List<Reserva> reservas = new LinkedList();
         req.getSession().setAttribute("Exito", true);
         req.getSession().setAttribute("mensajeExito", mensaje);
         for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
             lasSalasDeLaSede.add(salaEnsayo);
         }
+        for (Reserva reserva : reservaDAO.getAll()) {
+            reservas.add(reserva);
+        }
+        req.getSession().setAttribute("lasReservas",reservas);
         req.getSession().setAttribute("lasSalas",lasSalasDeLaSede);
         
     }
