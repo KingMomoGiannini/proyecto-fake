@@ -7,10 +7,12 @@ package domination.mvc.servlets;
 import domination.DAO.DAO;
 import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
+import domination.DAO.ReservaDAO;
 import domination.DAO.SalaDAO;
 import domination.DAO.SedeDAO;
 import domination.DAO.UsuarioDAO;
 import domination.mvc.model.Domicilio;
+import domination.mvc.model.Reserva;
 import domination.mvc.model.SalaEnsayo;
 import domination.mvc.model.Sede;
 import domination.mvc.model.Usuario;
@@ -38,6 +40,7 @@ public class SedeServlet extends HttpServlet {
     private DAO<Usuario, Integer> userDAO;
     private DAO<UsuarioPrestador, Integer> prestDAO;
     private DAO<SalaEnsayo,Integer> salaDAO;
+    private DAO<Reserva,Integer> reservaDAO;
 
     @Override
     public void init() throws ServletException {
@@ -47,6 +50,7 @@ public class SedeServlet extends HttpServlet {
          userDAO = new UsuarioDAO();
          prestDAO = new PrestadorDAO();
          salaDAO = new SalaDAO();
+         reservaDAO = new ReservaDAO();
     }
 
     @Override
@@ -157,6 +161,7 @@ public class SedeServlet extends HttpServlet {
     
     private void createSede(HttpServletRequest req) throws Exception {
         Sede laSede = obtenerSedeDesdeRequest(req);
+        System.out.println(laSede.getNombre());
         laSedeDAO.create(laSede);
         Domicilio elDom = obtenerDomicilioDesdeRequest(req, laSede.getIdSede());
         elDomDAO.create(elDom);
@@ -180,6 +185,11 @@ public class SedeServlet extends HttpServlet {
         int idDom = Integer.parseInt(req.getParameter("idDom"));//Obtengo el id del domicilio en el formulario
         for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
             if (salaEnsayo.getIdSede()==idSede) {
+                for (Reserva reserva : reservaDAO.getAll()) {
+                    if (salaEnsayo.getIdSala()==reserva.getIdSala()) {
+                        reservaDAO.delete(reserva.getIdReserva());
+                    }
+                }
                 salaDAO.delete(salaEnsayo.getIdSala());
             }
         }
@@ -215,6 +225,7 @@ public class SedeServlet extends HttpServlet {
     private void setAttributesForSuccess(HttpServletRequest req, String mensaje, Sede laSede, Domicilio elDom) throws Exception {
         List<Sede> lasSedesUsuario = new LinkedList();
         List<Domicilio> domiciliosSedes = new LinkedList();
+        List<Reserva> reservas = new LinkedList();
         req.getSession().setAttribute("Exito", true);
         req.getSession().setAttribute("mensajeExito", mensaje);
         req.getSession().setAttribute("HaySede", true);
@@ -226,6 +237,11 @@ public class SedeServlet extends HttpServlet {
         for (Domicilio domicilioSede : elDomDAO.getAll()) {
             domiciliosSedes.add(domicilioSede);
         }
+        for (Reserva reserva : reservaDAO.getAll()) {
+            reservas.add(reserva);
+        }
+        
+        req.getSession().setAttribute("lasReservas",reservas);
         req.getSession().setAttribute("sedesDelUsuario",lasSedesUsuario);
         req.getSession().setAttribute("domiciliosDeSedes",domiciliosSedes);
         

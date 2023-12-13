@@ -34,13 +34,13 @@
                             <div class="centrarEnPag">
                                 <div class="inter-texto">
                                     <label class="fuenteMin" for="fecha">Fecha:
-                                    <input type="date" class="form-control fuente-mas-grande" id="fecha" name="fecha" data-provide="datepicker"></label>
+                                        <input type="date" class="form-control fuente-mas-grande" id="fecha" name="fecha" data-provide="datepicker" required></label>
 
                                     <label class="fuenteMin" for="horaInicio">Hora de Inicio:
-                                    <input type="time" class="form-control fuente-mas-grande" id="horaInicio" name="horaInicio"></label>
+                                        <input type="time" class="form-control fuente-mas-grande" id="horaInicio" name="horaInicio" required></label>
 
                                     <label class="fuenteMin" for="horaFin">Hora de Fin:
-                                    <input type="time" class="form-control fuente-mas-grande" id="horaFin" name="horaFin"></label>
+                                    <input type="time" class="form-control fuente-mas-grande" id="horaFin" name="horaFin" required></label>
                                 </div>
                             </div>
                             <div class="centrarEnPag"><br><br><br>
@@ -79,13 +79,13 @@
                             <div class="centrarEnPag">
                                 <div class="inter-texto">
                                     <label class="fuenteMin" for="fecha">Fecha:
-                                    <input type="date" class="form-control fuente-mas-grande" id="fecha" name="fecha" data-provide="datepicker" value="${laReserva.getSoloFecha()}"></label>
+                                    <input type="date" class="form-control fuente-mas-grande" id="fecha" name="fecha" data-provide="datepicker" value="${laReserva.getSoloFecha()}" required></label>
 
                                     <label class="fuenteMin" for="horaInicio">Hora de Inicio:
-                                    <input type="time" class="form-control fuente-mas-grande" id="horaInicio" name="horaInicio" value="${laReserva.getHoraMinutoInicio()}"></label>
+                                    <input type="time" class="form-control fuente-mas-grande" id="horaInicio" name="horaInicio" value="${laReserva.getHoraMinutoInicio()}" required></label>
 
                                     <label class="fuenteMin" for="horaFin">Hora de Fin:
-                                    <input type="time" class="form-control fuente-mas-grande" id="horaFin" name="horaFin" value="${laReserva.getHoraMinutoFin()}"></label>
+                                    <input type="time" class="form-control fuente-mas-grande" id="horaFin" name="horaFin" value="${laReserva.getHoraMinutoFin()}" required></label>
                                 </div>
                             </div>
                             <div class="centrarEnPag"><br><br><br>

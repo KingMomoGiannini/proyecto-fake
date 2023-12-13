@@ -94,7 +94,7 @@ body{
 }
 
 .sede-container:hover {
-    background-color: #f5f5f5; /* Cambia el fondo al pasar el mouse sobre el contenedor */
+    background-color: black; /* Cambia el fondo al pasar el mouse sobre el contenedor */
 }
 
 .sedes-row {

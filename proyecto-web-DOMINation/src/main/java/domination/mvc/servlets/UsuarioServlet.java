@@ -8,10 +8,12 @@ import domination.DAO.ClienteDAO;
 import domination.DAO.DAO;
 import domination.DAO.DomicilioDAO;
 import domination.DAO.PrestadorDAO;
+import domination.DAO.ReservaDAO;
 import domination.DAO.SalaDAO;
 import domination.DAO.SedeDAO;
 import domination.DAO.UsuarioDAO;
 import domination.mvc.model.Domicilio;
+import domination.mvc.model.Reserva;
 import domination.mvc.model.SalaEnsayo;
 import domination.mvc.model.Sede;
 import domination.mvc.model.Usuario;
@@ -37,6 +39,7 @@ public class UsuarioServlet extends HttpServlet  {
     private DAO<Sede,Integer> sedeDAO;
     private DAO<Domicilio,Integer> domDAO;
     private DAO<SalaEnsayo,Integer> salaDAO;
+    private DAO<Reserva,Integer> reservaDAO;
     
     @Override
     public void init() throws ServletException{
@@ -46,6 +49,8 @@ public class UsuarioServlet extends HttpServlet  {
         sedeDAO = new SedeDAO();
         domDAO = new DomicilioDAO();
         salaDAO = new SalaDAO();
+        reservaDAO = new ReservaDAO();
+        
     }
     
     @Override
@@ -153,6 +158,11 @@ public class UsuarioServlet extends HttpServlet  {
                 if (sede.getIdPrestador() == idPrestador) {
                     for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
                         if (salaEnsayo.getIdSede()==sede.getIdSede()) {
+                            for (Reserva reserva : reservaDAO.getAll()) {
+                                if (reserva.getIdSala()==salaEnsayo.getIdSala()) {
+                                    reservaDAO.delete(reserva.getIdReserva());
+                                }
+                            }
                             salaDAO.delete(salaEnsayo.getIdSala());
                         }
                     }
@@ -169,6 +179,11 @@ public class UsuarioServlet extends HttpServlet  {
         }
         else{
             int idCliente = Integer.parseInt(req.getParameter("idCliente"));// Si el cliente tiene una reserva de sala, primero hay que eliminar la reserva, luego al cliente.
+            for (Reserva reserva : reservaDAO.getAll()) {
+                if (reserva.getIdCliente()==idCliente) {
+                    reservaDAO.delete(reserva.getIdReserva());
+                }
+            }
             cliDAO.delete(idCliente);
         }
         userDAO.delete(idUser);
@@ -192,6 +207,7 @@ public class UsuarioServlet extends HttpServlet  {
         List<Usuario> usuarios = new LinkedList();
         List<UsuarioPrestador> prestadores = new LinkedList();
         List<UsuarioCliente> clientes = new LinkedList();
+        List<Reserva> reservas = new LinkedList();
         List<Sede> sedes = new LinkedList();
         req.getSession().setAttribute("Exito", true);
         req.getSession().setAttribute("mensajeExito", mensaje);
@@ -208,6 +224,11 @@ public class UsuarioServlet extends HttpServlet  {
         for (Sede sede : sedeDAO.getAll()) {
             sedes.add(sede);
         }
+        for (Reserva reserva : reservaDAO.getAll()) {
+            reservas.add(reserva);
+        }
+        
+        req.getSession().setAttribute("lasReservas",reservas);
         req.getSession().setAttribute("sedesDelUsuario",sedes);
         req.getSession().setAttribute("usuarios",usuarios);
         req.getSession().setAttribute("prestadores",prestadores);

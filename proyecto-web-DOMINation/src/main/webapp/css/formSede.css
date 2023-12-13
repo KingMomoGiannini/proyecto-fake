@@ -157,6 +157,10 @@ img.logo {
     box-sizing: border-box; /* Box-sizing para incluir relleno y borde en el ancho total */
 }
 
+.inter-texto input.fuente-mas-grande {
+    font-size: 30px !important; /* Ajusta el tamaño de fuente según tus preferencias */
+}
+
 .centrarEnPag input.fuente-mas-grande {
     font-size: 30px !important; /* Ajusta el tamaño de fuente según tus preferencias */
 }

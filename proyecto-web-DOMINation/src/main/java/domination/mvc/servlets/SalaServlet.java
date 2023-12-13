@@ -5,8 +5,10 @@
 package domination.mvc.servlets;
 
 import domination.DAO.DAO;
+import domination.DAO.ReservaDAO;
 import domination.DAO.SalaDAO;
 import domination.DAO.SedeDAO;
+import domination.mvc.model.Reserva;
 import domination.mvc.model.SalaEnsayo;
 import domination.mvc.model.Sede;
 import jakarta.servlet.ServletException;
@@ -25,11 +27,13 @@ public class SalaServlet extends HttpServlet{
     
     private DAO<SalaEnsayo,Integer> salaDAO;
     private DAO<Sede,Integer> sedeDAO;
+     private DAO<Reserva,Integer> reservaDAO;
 
     @Override
     public void init() throws ServletException {
         salaDAO = new SalaDAO();
         sedeDAO = new SedeDAO();
+        reservaDAO = new ReservaDAO();
     }
     
 
@@ -143,7 +147,6 @@ public class SalaServlet extends HttpServlet{
     
     private void updateSala(HttpServletRequest req) throws Exception {
         int idSala = Integer.parseInt(req.getParameter("idSala"));
-//        int idSede = Integer.parseInt(req.getParameter("idSede"));
         SalaEnsayo laSala = obtenerSalaDesdeRequest(req);
         laSala.setIdSala(idSala);
         salaDAO.update(laSala);
@@ -152,6 +155,11 @@ public class SalaServlet extends HttpServlet{
     
     private void deleteSala(HttpServletRequest req) throws Exception {
         int idSala = Integer.parseInt(req.getParameter("idSala"));//Obtengo el id de la sede en el formulario
+        for (Reserva reserva : reservaDAO.getAll()) {
+            if (reserva.getIdSala()==idSala) {
+                reservaDAO.delete(reserva.getIdReserva());
+            }
+        }
         salaDAO.delete(idSala);
         setAttributesForSuccess(req, "La sala ha sido eliminada exitosamente", null);
     }
@@ -164,7 +172,6 @@ public class SalaServlet extends HttpServlet{
     
     private void setAttributesForSuccess(HttpServletRequest req, String mensaje, SalaEnsayo laSala) throws Exception {
         List<SalaEnsayo> lasSalasDeLaSede = new LinkedList();
-        
         req.getSession().setAttribute("Exito", true);
         req.getSession().setAttribute("mensajeExito", mensaje);
         for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {

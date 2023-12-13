@@ -63,7 +63,7 @@
                             <h3 class="fuentePrincFondo">Datos de la sede</h3>
                                 <div class="inter-texto">
                                     <label class="fuenteMin" for="nomSede">Nombre del local:</label> <input class="text-box-ajuste" type="text" name="nomSede" id="nombre" value="${laSede.nombre}">
-                                    <label class="fuenteMin" for="salas">Cantidad de salas:</label>
+                                    <label class="fuenteMin" for="cantSalas">Cantidad de salas:</label>
                                         <select name="salas" id="salas" value ="${laSede.cantSalas}">
                                             <option value="1">1</option>
                                             <option value="2">2</option>

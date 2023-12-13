@@ -158,29 +158,43 @@ public class ReservaServlet extends HttpServlet {
     
     private void createReserva(HttpServletRequest req) throws Exception {
         Reserva laReserva = obtenerReservaDesdeRequest(req);
-        //SalaEnsayo laSalaDeReserva = salaDAO.getByID(laReserva.getIdSala());
-        //Sede sede = sedeDAO.getByID(laSalaDeReserva.getIdSede());//para comparar las horas de inicio y fin con las de la reserva.
+        SalaEnsayo laSala = salaDAO.getByID(laReserva.getIdSala());
+        Sede laSede = sedeDAO.getByID(laSala.getIdSede());
         if ((laReserva.getDuracion() < 0)) {
             setAttributesForSuccess(req, "Seleccione un horario valido", null);
             
         }
-        else{
+        else if ( (laReserva.getHoraMinutoInicio().isBefore(laSede.getHoraInicio()) ) || (laReserva.getHoraMinutoFin().isAfter(laSede.getHoraFin())) ) {
+            setAttributesForSuccess(req, "Solo se puede reservar dentro del horario de trabajo de la sucursal.", null);
+        }
+        else if (esHorarioDisponible(laReserva)) {
             reservaDAO.create(laReserva);
             setAttributesForSuccess(req, "Su reserva fue realizada exitosamente", laReserva);
+        }
+        else if (!esHorarioDisponible(laReserva)){
+            setAttributesForSuccess(req, "Esa sala ya fue reservada en ese horario. Elige otro horario u otra sala. ", null);
         }
     }
     
     private void updateReserva(HttpServletRequest req) throws Exception{
         Reserva laReserva = obtenerReservaDesdeRequest(req);
         int idReserva = Integer.parseInt(req.getParameter("idReserva"));
+        SalaEnsayo laSala = salaDAO.getByID(laReserva.getIdSala());
+        Sede laSede = sedeDAO.getByID(laSala.getIdSede());
         if ((laReserva.getDuracion() < 0)) {
             setAttributesForSuccess(req, "Seleccione un horario valido", null);
             
         }
-        else{
+        else if ( (laReserva.getHoraMinutoInicio().isBefore(laSede.getHoraInicio()) ) || (laReserva.getHoraMinutoFin().isAfter(laSede.getHoraFin())) ) {
+            setAttributesForSuccess(req, "Solo se puede reservar dentro del horario de trabajo de la sucursal.", null);
+        }
+        else if (esHorarioDisponible(laReserva)) {
             laReserva.setIdReserva(idReserva);
             reservaDAO.update(laReserva);
             setAttributesForSuccess(req, "Reserva modificada exitosamente", laReserva);
+        }
+        else if (!esHorarioDisponible(laReserva)){
+            setAttributesForSuccess(req, "Esa sala ya fue reservada en ese horario. Elige otro horario u otra sala. ", null);
         }
     }
     
@@ -218,11 +232,6 @@ public class ReservaServlet extends HttpServlet {
     private UsuarioCliente obtenerUsuarioCliente(int idCliente) throws Exception{
         UsuarioCliente elCliente = null;
         List<UsuarioCliente> listaClientes = new LinkedList();
-//        for (Usuario usuario : userDAO.getAll()) {
-//            if ((usuario instanceof UsuarioCliente)&&(((UsuarioCliente) usuario).getIdCliente() == idCliente)) {
-//                elCliente = (UsuarioCliente) usuario;
-//            }
-//        }
         for (Usuario usuario : userDAO.getAll()) {
             for (UsuarioCliente cliente : cliDAO.getAll()) {
                 if (usuario.getIdUsuario()==cliente.getIdUsuario()) {
@@ -236,6 +245,34 @@ public class ReservaServlet extends HttpServlet {
             }
         }
         return elCliente;
+    }
+    
+    public boolean esHorarioDisponible(Reserva nuevaReserva) throws Exception {
+        SalaEnsayo laSala = salaDAO.getByID(nuevaReserva.getIdSala());
+        Sede laSede = sedeDAO.getByID(laSala.getIdSede());
+        boolean disponible = true;
+        for (Sede sede : sedeDAO.getAll()) {
+            if (sede.getIdSede()==laSede.getIdSede()) {
+                for (SalaEnsayo salaEnsayo : salaDAO.getAll()) {
+                    if (salaEnsayo.getIdSala()==nuevaReserva.getIdSala()) {
+                        for (Reserva reservaExistente : reservaDAO.getAll()) {
+                            if (salaEnsayo.getIdSala() == reservaExistente.getIdSala()) {
+                                if (nuevaReserva.getHoraInicio().isAfter(reservaExistente.getHoraInicio())
+                                    && nuevaReserva.getHoraInicio().isBefore(reservaExistente.getHoraFin())) {// Verifica si la hora de inicio de la nueva reserva está dentro del rango de la reserva existente
+                                    disponible = false; // Hay superposición de horarios
+                                }
+                                if (nuevaReserva.getHoraFin().isAfter(reservaExistente.getHoraInicio())
+                                        && nuevaReserva.getHoraFin().isBefore(reservaExistente.getHoraFin())) {// si la hora de fin de la nueva reserva está dentro del rango de la reserva existente
+                                    disponible = false; 
+                                }
+                            }  
+                        }
+                    }
+                }
+            }
+ 
+        }
+        return disponible; // No hay superposición de horarios
     }
 
     private void setAttributesForSuccess(HttpServletRequest req, String mensaje, Reserva laReserva) throws Exception {

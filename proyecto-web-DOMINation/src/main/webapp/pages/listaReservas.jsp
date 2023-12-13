@@ -80,7 +80,7 @@
                             </div>
                             <br><br><br>
                             <div class="centrarEnPag">
-                                <a class="botoncin" href="${pageContext.request.contextPath}/reservas/create?idSala=${sala.getIdSala()}"><button>Alquilar sala</button></a>
+                                <a class="botoncin" href="${pageContext.request.contextPath}/inicio"><button>Alquilar sala</button></a>
                                 <br><br><br>
                             </div>
                         </c:if>
