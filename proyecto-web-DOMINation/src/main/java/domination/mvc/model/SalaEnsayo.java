@@ -18,8 +18,8 @@ public class SalaEnsayo implements Alquilable {
     public SalaEnsayo() {
     }
 
-    public SalaEnsayo(int numSala, int idSede) {
-        this(0,numSala,6000,idSede);//a futuro se puede empezar a modificar el valor hora de la sala.
+    public SalaEnsayo(int numSala, double valorHora, int idSede) {
+        this(0,numSala,valorHora,idSede);//a futuro se puede empezar a modificar el valor hora de la sala.
     }
     
     public SalaEnsayo(int idSala, int numSala, double valorHora, int idSede) {

@@ -29,7 +29,9 @@
                         <%-- acá ponemos todo el form de creación --%>
                         <input class="text-box-ajuste" type="text" value="Nombre de la sede:  ${laSede.nombre}" readonly>
                         <input class="text-box-ajuste" type="text" value="ID de la sede:  ${laSede.getIdSede()}" readonly>
-                        <label class="fuenteMin" for="numeroSala">Numero de sala:<input class="text-box-ajuste" type="text" name="numSala"></label>
+                        <label class="fuenteMin" for="numeroSala">Numero de sala:<input class="text-box-ajuste" type="text" name="numSala" required></label>
+                        <label class="fuenteMin" for="numeroSala">Valor por hora:<input class="text-box-ajuste" type="text" name="monto" pattern="^\d+(\.\d+)?$" required></label>
+
                         <input type="hidden" name="idSede" value="${laSede.getIdSede()}">
 
                         <br><br>
@@ -45,7 +47,9 @@
                         <input type="hidden" name="idSede" value="${laSede.getIdSede()}">
                         <input class="text-box-ajuste" type="text" value="ID de la sede:  ${laSede.getIdSede()}" readonly>
                         <input type="hidden" name="idSala" value="${laSala.getIdSala()}">
-                        <label class="fuenteMin" for="numeroSala">Numero de sala:<input class="text-box-ajuste" type="text" name="numSala" value="${laSala.getNumSala()}"></label>
+                        <label class="fuenteMin" for="numeroSala">Numero de sala:<input class="text-box-ajuste" type="text" name="numSala" value="${laSala.getNumSala()}" required></label>
+                        <label class="fuenteMin" for="numeroSala">Valor por hora:<input class="text-box-ajuste" type="text" name="monto" pattern="^\d+(\.\d+)?$" value="${laSala.getValorHora()}"></label>
+
                         <br><br>
                         <div class="centrarEnPag">
                             <button class="botoncin" type="submit" name="confirmDelete" value="true">Editar</button>

@@ -40,6 +40,7 @@
                                         <h2 style = "color:red;font-size:20px ">${laSede.nombre}</h2>
                                         <p><strong style = "font-size:14px;text-decoration:underline">ID de Sala:</strong> ${sala.getIdSala()}</p>
                                         <p><strong style = "font-size:14px;text-decoration:underline">Numero de Sala:</strong> ${sala.getNumSala()}</p>
+                                        <p><strong style = "font-size:14px;text-decoration:underline">Valor por hora:</strong> $ ${sala.getValorHora()}</p>
                                         <c:choose>
                                             <c:when test="${userLogueado.rol eq 'cliente'}">
                                                 <br><br>

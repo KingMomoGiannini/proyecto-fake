@@ -167,7 +167,8 @@ public class SalaServlet extends HttpServlet{
     private SalaEnsayo obtenerSalaDesdeRequest(HttpServletRequest req) {
         int numSala = Integer.parseInt(req.getParameter("numSala"));
         int idSede = Integer.parseInt(req.getParameter("idSede"));
-        return new SalaEnsayo(numSala,idSede);
+        double monto = Double.parseDouble(req.getParameter("monto"));
+        return new SalaEnsayo(numSala,monto,idSede);
     }
     
     private void setAttributesForSuccess(HttpServletRequest req, String mensaje, SalaEnsayo laSala) throws Exception {

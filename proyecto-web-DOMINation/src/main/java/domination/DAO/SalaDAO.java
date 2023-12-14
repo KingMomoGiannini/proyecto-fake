@@ -112,9 +112,10 @@ public class SalaDAO implements DAO<SalaEnsayo,Integer>{
     private SalaEnsayo rsRowToSala(ResultSet rs) throws SQLException {
         int idSala = rs.getInt("idsala");
         int numSala = rs.getInt("num_sala");
+        double monto = rs.getDouble("valor_hora");
         int idSede = rs.getInt("sucursal_idsucursal");
         
-        return new SalaEnsayo(idSala,numSala,6000,idSede);
+        return new SalaEnsayo(idSala,numSala,monto,idSede);
     }
     
 }
