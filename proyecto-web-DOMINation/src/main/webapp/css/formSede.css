@@ -25,7 +25,8 @@ body {
     border-radius: 5px;
 }
 
-.fuentePrinc {
+.elcontainer form .fuentePrinc {
+    font-family: 'Bahiana', cursive;
     color: black;
     font-size: 30px;
     padding: 10px;

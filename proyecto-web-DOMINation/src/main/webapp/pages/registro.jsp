@@ -4,27 +4,24 @@
     Author     : giann
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="css/estiloReg.css">
+        <link rel="stylesheet" href="css/formSede.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registrarse</title>
     </head>
 
     <body>   
-        
+        <c:import url="../navbar.jsp" />
         <div class="elcontainer">
-            <div>
-                <img class="logo" src="img/logo.png" alt="logo">
-                <del class="eltitulo">DO MI</del><b class="eltitulo rojo"> Nation</b>
-            </div><br>
-    
             <div class="form-container"> 
-            <h2 class="fuentePrinc">Registrate completando los datos solicitados</h2>
+            
             <form action="registrarse" method="POST" >
+                <h2 class="fuentePrinc">Registrate completando los datos solicitados</h2>
                 <h3 class="fuentePrincFondo">Datos Personales</h3>
                 <div class="inter-texto">
                     <label class="fuenteMin" for="name">Nombre:</label> <input class="text-box-ajuste" type="text" name="nomCliente" id="nombre">
@@ -38,7 +35,6 @@
                     <br>
                     
                     <label class="fuenteMin" for="pass">Contraseña:</label> <input class="text-box-ajuste" type="password" id="pass" name="pass">
-                    <label class="fuenteMin" for="pass">Confirme contraseña:</label> <input class="text-box-ajuste" type="password" id="pass" name="pass">
                     <br><br>
                     <label class="fuenteMin" for="tipoUsuario">Tipo de usuario:<input type="checkbox" id="tipoUsuario" name="tipoUsuario" value="prestador"> Prestador</label>
                 </div>
@@ -51,6 +47,7 @@
                 </div>  <br>
                 </form> 
             </div>
-        </div>    
+        </div> 
+        <c:import url="../footer.jsp" />
     </body>
 </html>
