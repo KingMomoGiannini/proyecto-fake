@@ -24,17 +24,17 @@
                 <h2 class="fuentePrinc">Registrate completando los datos solicitados</h2>
                 <h3 class="fuentePrincFondo">Datos Personales</h3>
                 <div class="inter-texto">
-                    <label class="fuenteMin" for="name">Nombre:</label> <input class="text-box-ajuste" type="text" name="nomCliente" id="nombre">
-                    <label class="fuenteMin" for="last-name">Apellido:</label> <input class="text-box-ajuste" type="text" id="apellido" name="apeCliente">
+                    <label class="fuenteMin" for="name">Nombre:</label> <input class="text-box-ajuste" type="text" name="nomCliente" id="nombre" required>
+                    <label class="fuenteMin" for="last-name">Apellido:</label> <input class="text-box-ajuste" type="text" id="apellido" name="apeCliente" required>
                     <label class="fuenteMin" for="celular">Celular:</label> <input class="text-box-ajuste" type="text" id="cel" name="celular">
                 </div>
                 <h3 class="fuentePrincFondo">Otros datos</h3>
                 <div class="inter-texto">
-                    <label class="fuenteMin" for="email">Correo Electrónico</label> <input class="text-box-ajuste" type="text" id="email" name="email">        
-                    <label class="fuenteMin" for="user">Nombre de usuario:</label> <input class="text-box-ajuste" type="text" id="user" name="user">
+                    <label class="fuenteMin" for="email">Correo Electrónico</label> <input class="text-box-ajuste" type="text" id="email" name="email" required>        
+                    <label class="fuenteMin" for="user">Nombre de usuario:</label> <input class="text-box-ajuste" type="text" id="user" name="user" required>
                     <br>
                     
-                    <label class="fuenteMin" for="pass">Contraseña:</label> <input class="text-box-ajuste" type="password" id="pass" name="pass">
+                    <label class="fuenteMin" for="pass">Contraseña:</label> <input class="text-box-ajuste" type="password" id="pass" name="pass" required>
                     <br><br>
                     <label class="fuenteMin" for="tipoUsuario">Tipo de usuario:<input type="checkbox" id="tipoUsuario" name="tipoUsuario" value="prestador"> Prestador</label>
                 </div>
