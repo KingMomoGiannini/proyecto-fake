@@ -265,6 +265,10 @@ public class ReservaServlet extends HttpServlet {
                                         && nuevaReserva.getHoraFin().isBefore(reservaExistente.getHoraFin())) {// si la hora de fin de la nueva reserva está dentro del rango de la reserva existente
                                     disponible = false; 
                                 }
+                                else if (nuevaReserva.getHoraInicio().equals(reservaExistente.getHoraInicio())
+                                        && nuevaReserva.getHoraFin().equals(reservaExistente.getHoraFin())) {// si la hora de fin de la nueva reserva está dentro del rango de la reserva existente
+                                    disponible = false; 
+                                }
                             }  
                         }
                     }
